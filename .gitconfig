@@ -13,18 +13,65 @@
 	ui = true
 	interactive = true
 	
+[color "branch"]
+        current = green bold
+        local = green
+        remote = yellow
+
+[color "diff"]
+        frag = magenta
+        meta = yellow
+        new = green
+        old = red
+
+[color "diff-highlight"]
+        oldNormal = red bold
+        oldHighlight = "red bold 52"
+        newNormal = "green bold"
+        newHighlight = "green bold 22"
+
+[color "status"]
+        added = green reverse
+        changed = yellow reverse
+        untracked = red reverse
+
+
 [alias]
 	last = log -1 --stat
 	cp = cherry-pick
 	co = checkout
 	cl = clone
+	sclone = clone --depth=1
+
 	ci = commit
+	ca = commit -a
+	cm = commit -m
+	cam = commit -am
+	amend = commit --amend	
+	
 	st = status -sb
 	br = branch
 	unstage = reset HEAD --
 	dc = diff --cached
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
 	lol = log --graph --decorate=full --format='%Cred%h %Cblue%an %ar %Cgreen%s'
+
+	hist = log --graph --pretty=custom           # Show custom graph
+        l = log --pretty=custom                      # Show custom log
+        ll = log --stat --abbrev-commit
+        lc = shortlog --summary --numbered           # List contributors
+
+	# Reset
+        unstage = reset HEAD --                      # Mixed reset (affects HEAD and Index)
+        undo = reset --soft HEAD~1                   # Undo last commit (affects HEAD only)
+        reset = reset --hard HEAD~1                  # Remove last commit (from HEAD, Index and Working Dir)
+	
+
+	plom = pull origin master
+
+	# Submodules
+        subpl = submodule update --init --recursive
+	
 [http]
 	sslVerify = false
 [rerere]
@@ -34,11 +81,11 @@
 [rebase]
 	autostash = true
 	autosquash = true
-	
+
 [help]
 	autocorrect = 5
 	format = html
-	
+
 
 [diff "astextplain"]
 	textconv = astextplain
@@ -46,4 +93,40 @@
 
 [pack]
 	packSizeLimit = 2g
+
+[pretty]
+        custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(yellow)(%an)"
+        #                     ¦        ¦            ¦            ¦             +- author name
+        #                     ¦        ¦            ¦            +- message
+        #                     ¦        ¦            +- date (relative)
+        #                     ¦        +- decorations (branch, heads or tags)
+        #                     +- hash (abbreviated)
+
+
+# Rewrites of repo paths
+[url "git@github.com:"]
+        insteadOf = "gh:"
+        insteadOf = "git://github.com"
+        pushInsteadOf = "github:"
+        pushInsteadOf = "git://github.com/"
+        pushInsteadOf = "https://github.com/"
+
+[url "git://github.com/"]
+        insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+        insteadOf = "gst:"
+        pushInsteadOf = "gist:"
+        pushInsteadOf = "git://gist.github.com/"
+        pushInsteadOf = "https://gist.github.com/"
+
+[url "git://gist.github.com/"]
+        insteadOf = "gist:"
+
+# Push easily http://stackoverflow.com/a/23918418/89484
+[push]
+        # Make `git push` automatically push relevant
+        # annotated tags when pushing branches out
+        followTags = true
+        default = current
 
