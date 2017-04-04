@@ -1,0 +1,17 @@
+#vim
+*~
+*.sw?
+
+#maven
+target/
+
+#eclipse
+.classpath
+.settings/
+.project
+
+*.merge
+*.orig
+
+#idea
+.idea/
