@@ -1,0 +1,49 @@
+[push]
+	default = current
+[core]
+	autocrlf = true
+	safecrlf = false
+	editor = vim
+	filemode = false
+	trustctime = false
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	ui = true
+	interactive = true
+	
+[alias]
+	last = log -1 --stat
+	cp = cherry-pick
+	co = checkout
+	cl = clone
+	ci = commit
+	st = status -sb
+	br = branch
+	unstage = reset HEAD --
+	dc = diff --cached
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+	lol = log --graph --decorate=full --format='%Cred%h %Cblue%an %ar %Cgreen%s'
+[http]
+	sslVerify = false
+[rerere]
+	enabled = true
+[gui]
+	warndetachedcommit = true
+[rebase]
+	autostash = true
+	autosquash = true
+	
+[help]
+	autocorrect = 5
+	format = html
+	
+
+[diff "astextplain"]
+	textconv = astextplain
+
+
+[pack]
+	packSizeLimit = 2g
+
