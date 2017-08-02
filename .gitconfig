@@ -1,8 +1,6 @@
 [push]
 	default = current
 [core]
-	autocrlf = true
-	safecrlf = false
 	editor = vim
 	filemode = false
 	trustctime = false
@@ -130,3 +128,5 @@
         followTags = true
         default = current
 
+[credential]
+	helper = cache --timeout=86400
