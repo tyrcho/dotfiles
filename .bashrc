@@ -8,4 +8,4 @@
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 
-exec startx
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
