@@ -130,3 +130,6 @@
 
 [credential]
 	helper = cache --timeout=86400
+[user]
+	email = michel@daviot.info
+	name = Michel Daviot
