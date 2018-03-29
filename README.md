@@ -4,6 +4,7 @@ From home folder (windows / linux)
     git init
     git remote add origin  git@github.com:tyrcho/dotfiles.git
     git pull origin master
+    git branch --set-upstream-to=origin/master
     echo * > .git/info/exclude
 
 Why ? 
