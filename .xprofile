@@ -1,0 +1,5 @@
+#!/bin/sh
+
+[[ -f ~/.proxy_env ]] && . ~/.proxy_env
+
+VBoxClient-all
