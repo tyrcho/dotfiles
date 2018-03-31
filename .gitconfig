@@ -4,6 +4,7 @@
 	editor = vim
 	filemode = false
 	trustctime = false
+	excludesfile = ~/.gitignore_global
 [color]
 	diff = auto
 	status = auto
