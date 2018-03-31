@@ -109,6 +109,17 @@
         followTags = true
         default = current
 
+# Rewrites of repo paths
+[url "git@github.com:"]
+        insteadOf = "gh:"
+        insteadOf = "git://github.com"
+        pushInsteadOf = "github:"
+        pushInsteadOf = "git://github.com/"
+        pushInsteadOf = "https://github.com/"
+
+[url "git://github.com/"]
+        insteadOf = "github:"	
+
 [credential]
 	helper = cache --timeout=86400
 [user]
