@@ -125,3 +125,5 @@
 [user]
 	email = michel@daviot.info
 	name = Michel Daviot
+[commit]
+	template = /home/vagrant/.git-commit-template.txt
