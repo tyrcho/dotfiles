@@ -110,6 +110,9 @@
         default = current
 
 # Rewrites of repo paths
+[url "git@gitlab.kazan.priv.atos.fr:"]
+        insteadOf = "kz:"
+
 [url "git@gitlab.com:"]
         insteadOf = "gl:"
         insteadOf = "git://gitlab.com"
