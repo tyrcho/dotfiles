@@ -1,6 +1,3 @@
 [submodule ".vim/bundle/vim-scala"]
 	path = .vim/bundle/vim-scala
 	url = git@github.com:derekwyatt/vim-scala.git
-[submodule ".vim/bundle/ensime-vim"]
-	path = .vim/bundle/ensime-vim
-	url = git@github.com:ensime/ensime-vim.git
