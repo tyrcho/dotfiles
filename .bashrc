@@ -20,7 +20,7 @@ export GIT_PS1_DESCRIBE_STYLE=branch
 
 source ~/.git-prompt.sh
 
-export JAVA_HOME=/usr/lib/jvm/java-8-jdk/
+export JAVA_HOME=/usr/lib/jvm/java-9-jdk/
 
 eval $(thefuck --alias)
 
