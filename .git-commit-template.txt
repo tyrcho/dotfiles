@@ -14,7 +14,7 @@
 # | Adding a test              | :white_check_mark: |
 # | General update             | :zap: |
 # | Improve format/structure   | :art: |
-# | Refactor code              | :hammer: |
+# | Refactor code              | :recycle: |
 # | Removing code/files        | :fire: |
 # | Moving or renaming files.  | :truck: |
 # | Continuous Integration     | :green_heart: |
