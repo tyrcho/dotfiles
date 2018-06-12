@@ -95,10 +95,10 @@
 
 [pretty]
         custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(yellow)(%an)"
-        #                     ¦        ¦            ¦            ¦             +- author name
-        #                     ¦        ¦            ¦            +- message
-        #                     ¦        ¦            +- date (relative)
-        #                     ¦        +- decorations (branch, heads or tags)
+        #                     Â¦        Â¦            Â¦            Â¦             +- author name
+        #                     Â¦        Â¦            Â¦            +- message
+        #                     Â¦        Â¦            +- date (relative)
+        #                     Â¦        +- decorations (branch, heads or tags)
         #                     +- hash (abbreviated)
 
 
@@ -112,20 +112,15 @@
 # Rewrites of repo paths
 [url "git@gitlab.com:"]
   insteadOf = "gl:"
-  insteadOf = "git://gitlab.com"
-  pushInsteadOf = "gitlab:"
-  pushInsteadOf = "git://gitlab.com/"
-  pushInsteadOf = "https://gitlab.com/"
+  insteadOf = "gitlab:"
+  insteadOf = "git://gitlab.com/"
+  insteadOf = "https://gitlab.com/"
 
 [url "git@github.com:"]
   insteadOf = "gh:"
   insteadOf = "git://github.com"
-  pushInsteadOf = "github:"
-  pushInsteadOf = "git://github.com/"
-  pushInsteadOf = "https://github.com/"
-
-[url "git://github.com/"]
-  insteadOf = "github:"	
+  insteadOf = "github:"
+  insteadOf = "https://github.com/"
 
 [credential]
   helper = cache --timeout=86400
