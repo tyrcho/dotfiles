@@ -71,6 +71,14 @@
   # Submodules
   subpl = submodule update --init --recursive
 
+  fixup = !sh -c 'REV=$(git rev-parse $1) \
+    && git commit --fixup $REV \
+    && git rebase -i --autosquash $REV~' -
+
+  dammit = !BRANCH=$(git rev-parse --abbrev-ref HEAD) \
+    && git fetch origin $BRANCH \
+    && git reset --hard origin/$BRANCH
+
 [http]
   sslVerify = false
 [rerere]
