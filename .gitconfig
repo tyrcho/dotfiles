@@ -137,3 +137,5 @@
 	name = Michel Daviot
 [commit]
   template = ~/.git-commit-template.txt
+[merge]
+	tool = kdiff3
