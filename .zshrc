@@ -92,3 +92,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+
+# Appends every command to the history file once it is executed
+setopt inc_append_history
+# Reloads the history whenever you use it
+setopt share_history
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/z.sh ] && source ~/z.sh

@@ -18,3 +18,5 @@ export JAVA_HOME=/usr/lib/jvm/java-9-jdk/
 
 eval $(thefuck --alias)
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
