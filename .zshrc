@@ -59,7 +59,7 @@ ZSH_THEME="bira"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git docker docker-compose thefuck sbt scala kubectl
+  git docker docker-compose thefuck sbt scala kubectl history
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -98,6 +98,15 @@ alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 setopt inc_append_history
 # Reloads the history whenever you use it
 setopt share_history
+
+HISTSIZE=50000               #How many lines of history to keep in memory
+HISTFILE=~/.zsh_history     #Where to save history to disk
+SAVEHIST=50000               #Number of history entries to save to disk
+HISTDUP=erase               #Erase duplicates in the history file
+setopt    appendhistory     #Append history to the history file (no overwriting)
+setopt    sharehistory      #Share history across terminals
+setopt    incappendhistory  #Immediately append to the history file, not just when a term is killed
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/z.sh ] && source ~/z.sh
