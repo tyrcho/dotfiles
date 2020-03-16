@@ -67,6 +67,7 @@ plugins=(
   thefuck
   sbt
   scala
+  ssh-agent
   kubectl
   history
   zsh-autosuggestions
