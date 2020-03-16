@@ -1,6 +1,7 @@
 #vim
 *~
 *.sw?
+.vim/undo
 
 #maven
 target/
@@ -19,3 +20,5 @@ target/
 
 #scala
 .cache*
+
+.secrets-env.sh
