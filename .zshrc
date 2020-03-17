@@ -4,7 +4,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/michel/.oh-my-zsh"
 
-source .secrets-env.sh
+source ~/.secrets-env.sh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -119,4 +119,4 @@ setopt    appendhistory     #Append history to the history file (no overwriting)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/z.sh ] && source ~/z.sh
-source /Users/michel/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
