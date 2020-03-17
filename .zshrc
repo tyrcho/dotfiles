@@ -117,6 +117,11 @@ HISTDUP=erase               #Erase duplicates in the history file
 setopt    appendhistory     #Append history to the history file (no overwriting)
 
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/z.sh ] && source ~/z.sh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/michel/.sdkman"
+[[ -s "/Users/michel/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/michel/.sdkman/bin/sdkman-init.sh"
+
