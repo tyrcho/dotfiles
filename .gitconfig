@@ -94,6 +94,14 @@
   autocorrect = 5
   format = html
 
+[diff]
+  submodule = log
+
+[fetch]
+  recurseSubmodules =  on-demand
+
+[status]
+  submoduleSummary = true
 
 [diff "astextplain"]
   textconv = astextplain
