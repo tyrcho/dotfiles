@@ -26,6 +26,8 @@ keymap.set("n", "<S-Tab>", ":bprevious<CR>", { silent = true })
 -- map <C-j> :cn<CR>
 -- map <C-k> :cp<CR>
 
+-- " Use <leader>qq in normal mode to quit all
+keymap.set("n", "<leader>qq", ":qa<CR>", { silent = true })
 -- " Use qq in normal mode to close current buffer
 keymap.set("n", "qq", ":bp <BAR> bd #<CR>", { silent = true })
 
