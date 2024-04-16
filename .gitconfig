@@ -1,0 +1,115 @@
+[user]
+	name = Michel Daviot
+	email = michel.daviot@datadoghq.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFbW3ZSUv29nsQMxLfG9U31UTsL+a2cm6h4u7HDUvZ/x
+
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+
+[url "git@gitlab.com:"]
+    insteadOf = https://gitlab.com/
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+
+[rerere]
+	enabled = true
+
+[diff]
+  tool = difftastic
+  external = difft
+
+[difftool]
+	prompt = false
+
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+  difftool = true
+
+[help]
+  autocorrect = 5
+  format = html
+
+
+[core]
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	hooksPath = /usr/local/dd/global_hooks
+	fsmonitor = false
+[alias]
+	amend = commit --amend --no-edit
+
+	fixup = !sh -c 'REV=$(git rev-parse $1) \
+	    && git commit --fixup $REV \
+	    && git rebase -i --autosquash $REV~' -
+
+
+    wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
+
+	dammit = !BRANCH=$(git rev-parse --abbrev-ref HEAD) \
+	    && git fetch origin $BRANCH \
+	    && git reset --hard origin/$BRANCH
+
+    fuzzy-switch = "!f() { git branch --sort=-committerdate --format='%(refname:short)' | fzf --query "$1" | xargs git switch; } ; f"
+
+[push]
+	default = current
+
+[merge "git-hires-merge"]
+        name = An interactive merge driver for resolving conflicts on individual or adjacent lines
+        driver = /Users/michel.daviot/git-hires-merge %O %A %B %L %P
+        recursive = binary
+
+[maintenance]
+	repo = /Users/michel.daviot/go/src/github.com/DataDog/dd-source
+	repo = /Users/michel.daviot/go/src/github.com/DataDog/experimental
+	repo = /Users/michel.daviot/go/src/github.com/DataDog/dd-go
+	repo = /Users/michel.daviot/go/src/github.com/DataDog/dogweb
+	repo = /Users/michel.daviot/go/src/github.com/DataDog/datadog-serverless-functions
+
+[init]
+	defaultBranch = main
+
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  ui = true
+  interactive = true
+
+[color "branch"]
+  current = green bold
+  local = green
+  remote = yellow
+
+[color "diff"]
+  frag = magenta
+  meta = yellow
+  new = green
+  old = red
+
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = "red bold 52"
+  newNormal = "green bold"
+  newHighlight = "green bold 22"
+
+[color "status"]
+  added = green reverse
+  changed = yellow reverse
+  untracked = red reverse
+
+
+[pretty]
+        custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(yellow)(%an)"
+        #                     ¦        ¦            ¦            ¦             +- author name
+        #                     ¦        ¦            ¦            +- message
+        #                     ¦        ¦            +- date (relative)
+        #                     ¦        +- decorations (branch, heads or tags)
+        #                     +- hash (abbreviated)
