@@ -1,2 +1,2 @@
 *
-!.config/nvim
+# add files explicitly with git add -f
