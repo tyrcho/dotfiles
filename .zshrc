@@ -79,6 +79,7 @@ export HISTCONTROL=ignoredups:erasedups
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  alias-tips
   aws
   docker
   docker-compose
@@ -209,6 +210,7 @@ source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completi
 
 [ -f ~/z.sh ] && source ~/z.sh
 source ~/F-Sy-H/F-Sy-H.plugin.zsh
+source ~/fzf-git.sh # https://github.com/junegunn/fzf-git.sh
 
 eval $(thefuck --alias)
 
