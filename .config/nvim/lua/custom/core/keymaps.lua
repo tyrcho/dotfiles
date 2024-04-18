@@ -63,7 +63,7 @@ km.set("n", "<leader>sr", "<cmd>Telescope resume<cr>")
 
 local builtin = require("telescope.builtin")
 km.set("n", "<leader>fr", builtin.lsp_references)
-km.set("n", "<leader>jj", builtin.jumplist) -- list jumplist entries
+km.set("n", "<C-h>", builtin.jumplist) -- list jumplist entries
 km.set("n", "<C-p>", builtin.git_files) -- list available help tags
 
 -- telescope git commands (not on youtube nvim video)
@@ -86,4 +86,4 @@ km.set("v", "<leader>s", ":sort<CR>")
 
 -- copy current file name and line number to clipboard
 km.set("n", "<leader>b", "<cmd>let @+ = 'b ' . join([expand('%'),  line('.')], ':')<CR>") -- copy current file name and line number to clipboard
-km.set("n", "<leader>y", "<cmd>let @+ = expand('%')<CR>") -- copy current file name and line number to clipboard
+km.set("n", "<leader>y", "<cmd>let @+ = expand('%:p')<CR><cmd>echo expand('%:p')<CR>") -- copy current file name to clipboard
