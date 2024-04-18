@@ -19,3 +19,4 @@ require("custom.plugins.undo-tree")
 require("custom.plugins.indent-blankline")
 
 require("custom.core.keymaps")
+require("gitlinker").setup()

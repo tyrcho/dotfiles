@@ -140,4 +140,12 @@ return packer.startup(function(use)
     if packer_bootstrap then
         require("packer").sync()
     end
+
+    use({
+        "ruifm/gitlinker.nvim",
+        run = function()
+            local ts_update = require("gitlinker.install").update({ with_sync = true })
+            ts_update()
+        end,
+    })
 end)
