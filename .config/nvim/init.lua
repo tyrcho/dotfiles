@@ -17,6 +17,6 @@ require("custom.plugins.treesitter")
 require("custom.plugins.gitsigns")
 require("custom.plugins.undo-tree")
 require("custom.plugins.indent-blankline")
+require("custom.plugins.gitlinker")
 
 require("custom.core.keymaps")
-require("gitlinker").setup()

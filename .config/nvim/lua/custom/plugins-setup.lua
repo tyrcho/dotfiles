@@ -141,11 +141,5 @@ return packer.startup(function(use)
         require("packer").sync()
     end
 
-    use({
-        "ruifm/gitlinker.nvim",
-        run = function()
-            local ts_update = require("gitlinker.install").update({ with_sync = true })
-            ts_update()
-        end,
-    })
+    use("ruifm/gitlinker.nvim")
 end)
