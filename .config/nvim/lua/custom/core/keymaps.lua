@@ -63,6 +63,8 @@ km.set("n", "<leader>sr", "<cmd>Telescope resume<cr>")
 
 local builtin = require("telescope.builtin")
 km.set("n", "<leader>fr", builtin.lsp_references)
+km.set("n", "<leader>fi", "<cmd>Telescope lsp_incoming_calls<cr>")
+km.set("n", "<leader>fo", "<cmd>Telescope lsp_outgoing_calls<cr>")
 km.set("n", "<C-h>", builtin.jumplist) -- list jumplist entries
 km.set("n", "<C-p>", builtin.git_files) -- list available help tags
 
