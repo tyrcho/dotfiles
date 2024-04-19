@@ -98,16 +98,6 @@ return packer.startup(function(use)
     use("jose-elias-alvarez/null-ls.nvim") -- configure formatters & linters
     use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
 
-    -- refactoring (https://github.com/ThePrimeagen/refactoring.nvim)
-    use({
-        "ThePrimeagen/refactoring.nvim",
-        requires = {
-            { "nvim-lua/plenary.nvim" },
-            { "nvim-treesitter/nvim-treesitter" },
-        },
-    })
-    require("telescope").load_extension("refactoring")
-
     -- treesitter configuration
     use({
         "nvim-treesitter/nvim-treesitter",

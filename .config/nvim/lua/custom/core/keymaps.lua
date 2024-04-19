@@ -56,7 +56,7 @@ km.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in curr
 km.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
 km.set("n", "<leader>l", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 km.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
-km.set("n", "<leader>rf", "<cmd>Telescope refactoring refactors<cr>") -- https://github.com/ThePrimeagen/refactoring.nvim?tab=readme-ov-file#using-telescope
+
 -- temp
 km.set("n", "<leader>s.", "<cmd>Telescope oldfiles<cr>")
 km.set("n", "<leader>sr", "<cmd>Telescope resume<cr>")
@@ -84,8 +84,8 @@ km.set("n", "<C-k>", ":cp<CR>zz")
 -- sort
 km.set("v", "<leader>s", ":sort<CR>")
 
--- km.set("n", "<C-g>", "<cmd>silent !tmux neww tmux-sessionizer<CR>") -- open tmux sessionizer in new tmux window
-
+km.set("n", "<leader><Right>", "<Cmd>Lspsaga goto_definition<CR>")
+km.set("n", "<leader><Left>", "<C-o>")
 -- copy current file name and line number to clipboard
 km.set("n", "<leader>b", "<cmd>let @+ = 'b ' . join([expand('%'),  line('.')], ':')<CR>") -- copy current file name and line number to clipboard
 km.set("n", "<leader>y", "<cmd>let @+ = expand('%:p')<CR><cmd>echo expand('%:p')<CR>") -- copy current file name to clipboard
