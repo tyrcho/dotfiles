@@ -89,3 +89,18 @@ km.set("n", "<leader><Left>", "<C-o>")
 -- copy current file name and line number to clipboard
 km.set("n", "<leader>b", "<cmd>let @+ = 'b ' . join([expand('%'),  line('.')], ':')<CR>") -- copy current file name and line number to clipboard
 km.set("n", "<leader>y", "<cmd>let @+ = expand('%:p')<CR><cmd>echo expand('%:p')<CR>") -- copy current file name to clipboard
+
+-- gitlinker
+km.set(
+    "n",
+    "<leader>gb",
+    '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
+    { silent = true }
+)
+km.set("n", "<leader>gY", '<cmd>lua require"gitlinker".get_repo_url()<cr>', { silent = true })
+km.set(
+    "n",
+    "<leader>gB",
+    '<cmd>lua require"gitlinker".get_repo_url({action_callback = require"gitlinker.actions".open_in_browser})<cr>',
+    { silent = true }
+)
