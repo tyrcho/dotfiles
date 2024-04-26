@@ -86,6 +86,7 @@ plugins=(
   git
   git-auto-fetch
   history
+  jq # https://github.com/reegnz/jq-zsh-plugin?tab=readme-ov-file#usage
   kubectl
   sbt
   scala
