@@ -53,3 +53,9 @@ vim.opt.colorcolumn = "120"
 
 -- for vim-gh-line, for some reason it doesn't work if I put it in the plugin config
 vim.g.gh_open_command = 'fn() { echo "$@" | pbcopy; }; fn '
+
+-- fold
+vim.opt.foldmethod = "indent"
+vim.opt.fillchars = { fold = " " }
+vim.opt.foldenable = true
+vim.opt.foldlevel = 99
