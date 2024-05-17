@@ -86,6 +86,9 @@ km.set("v", "<leader>s", ":sort<CR>")
 
 km.set("n", "<leader><Right>", "<Cmd>Lspsaga goto_definition<CR>")
 km.set("n", "<leader><Left>", "<C-o>")
+
+km.set("n", "<leader>gt", "<cmd>! cd %:h; go test .<CR>")
+
 -- copy current file name and line number to clipboard
 km.set("n", "<leader>b", "<cmd>let @+ = 'b ' . join([expand('%'),  line('.')], ':')<CR>") -- copy current file name and line number to clipboard
 km.set("n", "<leader>y", "<cmd>let @+ = expand('%:p')<CR><cmd>echo expand('%:p')<CR>") -- copy current file name to clipboard
