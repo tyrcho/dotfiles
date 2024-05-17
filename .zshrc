@@ -141,7 +141,11 @@ fi
 alias aws="aws-vault exec sso-sandbox-account-admin -- aws "
 alias vi="nvim"
 alias vim="nvim"
-alias ls='ls --color=auto'
+alias ls='lsd'
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
 
 
 # BEGIN ANSIBLE MANAGED BLOCK
