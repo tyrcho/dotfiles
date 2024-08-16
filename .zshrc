@@ -228,4 +228,6 @@ source ~/.secrets-env.sh
 source "$(brew --prefix)/share/zsh/site-functions/_ddtool"
 
 
+ulimit -n 32768
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
