@@ -41,6 +41,7 @@
 	pager = diff-so-fancy | less --tabs=4 -RFX
     hooksPath = /usr/local/dd/global_hooks
 	fsmonitor = false
+	hooksPath = /usr/local/dd/global_hooks
 [alias]
 	amend = commit --amend --no-edit
 
