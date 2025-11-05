@@ -21,13 +21,10 @@
 
 [diff]
 	tool = vscode
-  external = difft
 
 [difftool]
 	prompt = false
 
-[difftool "difftastic"]
-  cmd = difft "$LOCAL" "$REMOTE"
 
 [pager]
   difftool = true
@@ -39,10 +36,13 @@
 
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
-    hooksPath = /usr/local/dd/global_hooks
 	fsmonitor = false
-	hooksPath = /usr/local/dd/global_hooks
+    untrackedCache = true
+	autocrlf = input
 [alias]
+    fco = "! git switch \"$(git branch -vv --all | fzf --height 20 --ansi --select-1 --reverse --query=\"remotes/${1:-}\" | awk '{printf(\"%s\", $1)}' | sed 's|^remotes/origin/||')\" #"
+
+
 	amend = commit --amend --no-edit
 
 	fixup = !sh -c 'REV=$(git rev-parse $1) \
@@ -61,10 +61,10 @@
 [push]
 	default = current
 
-[merge "git-hires-merge"]
-        name = An interactive merge driver for resolving conflicts on individual or adjacent lines
-        driver = /Users/michel.daviot/git-hires-merge %O %A %B %L %P
-        recursive = binary
+#[merge "git-hires-merge"]
+        #name = An interactive merge driver for resolving conflicts on individual or adjacent lines
+        #driver = /Users/michel.daviot/git-hires-merge %O %A %B %L %P
+        #recursive = binary
 
 [maintenance]
 	repo = /Users/michel.daviot/go/src/github.com/DataDog/dd-source
@@ -114,3 +114,7 @@
         #                     ¦        ¦            +- date (relative)
         #                     ¦        +- decorations (branch, heads or tags)
         #                     +- hash (abbreviated)
+[fetch]
+	prune = true
+[rebase]
+	autostash = true

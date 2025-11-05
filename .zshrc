@@ -93,6 +93,7 @@ plugins=(
   zsh-autosuggestions
 )
 
+
 GIT_AUTO_FETCH_INTERVAL=1800 # in seconds
 
 
@@ -151,6 +152,8 @@ alias lt='ls --tree'
 # BEGIN ANSIBLE MANAGED BLOCK
 # Add homebrew binaries to the path.
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:${PATH?}"
+export PATH="$HOME/.local/bin:$PATH"
+
 
 # Force certain more-secure behaviours from homebrew
 export HOMEBREW_NO_INSECURE_REDIRECT=1
@@ -209,6 +212,10 @@ export GOPROXY="binaries.ddbuild.io,proxy.golang.org,direct"
 export GONOSUMDB="github.com/DataDog,go.ddbuild.io"
 # END ANSIBLE MANAGED BLOCK
 
+
+export OPENAI_API_URL="openai-api-proxy.us1.staging.dog"
+export OPENAI_API_KEY="michel.daviot@datadog.com"
+
 # google-cloud-sdk brew caveat
 source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
@@ -216,8 +223,6 @@ source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completi
 [ -f ~/z.sh ] && source ~/z.sh
 source ~/F-Sy-H/F-Sy-H.plugin.zsh
 source ~/fzf-git.sh # https://github.com/junegunn/fzf-git.sh
-
-eval $(thefuck --alias)
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
@@ -231,3 +236,15 @@ source "$(brew --prefix)/share/zsh/site-functions/_ddtool"
 ulimit -n 32768
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/.zsh-copilot/zsh-copilot.plugin.zsh
+eval "$(zoxide init zsh --cmd cd)"
+eval "$(starship init zsh)"
+
+# BEGIN SCFW MANAGED BLOCK
+alias npm="scfw run npm"
+alias pip="scfw run pip"
+alias poetry="scfw run poetry"
+export SCFW_DD_AGENT_LOG_PORT="10365"
+export SCFW_DD_LOG_LEVEL="ALLOW"
+export SCFW_HOME="/Users/michel.daviot/.scfw"
+# END SCFW MANAGED BLOCK
