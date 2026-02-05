@@ -83,6 +83,7 @@ plugins=(
   aws
   docker
   docker-compose
+  fzf-tab
   git
   git-auto-fetch
   history
@@ -181,6 +182,8 @@ export GOPATH="${HOME?}/go"
 
 # Add binaries that are go install-ed to PATH
 export PATH="${GOPATH?}/bin:${PATH?}"
+
+export PATH="/Applications/Recoll.app/Contents/MacOS:$PATH"
 
 # Point DATADOG_ROOT to ~/dd symlink
 export DATADOG_ROOT="${HOME?}/dd"

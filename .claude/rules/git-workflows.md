@@ -23,11 +23,3 @@
 ### Cleaning Up Branches
 - Use skill: `commit-commands:clean_gone`
 - Removes all [gone] branches and associated worktrees
-
-## Branch Conventions
-
-*(Add project-specific branch naming as learned)*
-
-## Commit Message Patterns
-
-*(Add common commit message templates as observed)*

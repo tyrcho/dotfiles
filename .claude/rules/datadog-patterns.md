@@ -14,11 +14,3 @@
 ### EC2 Auto-muting
 - Constants: `dogweb/integration/amazon_ec2/crawler/automute_constants.py`
 - Documentation: https://docs.datadoghq.com/integrations/amazon_ec2/#monitor-automuting
-
-## Architecture Patterns
-
-*(Add specific patterns as discovered)*
-
-## Testing Conventions
-
-*(Add testing patterns as learned)*
