@@ -69,4 +69,28 @@ Before writing documentation:
 ```
 
 ### GitHub Permalinks
-Use format: `https://github.com/org/repo/blob/branch/path/file.ext#L14-L20`
+
+**Always use commit-based permalinks, not branch-based links.**
+
+Branch-based links change as the branch is updated. Commit-based permalinks are permanent and always point to the exact version of the code.
+
+**How to get a commit-based permalink:**
+1. Navigate to the file on GitHub
+2. Press `y` key to convert the URL to use the commit hash
+3. Or manually replace branch name with commit hash in URL
+
+**Examples:**
+- ❌ Branch-based (changes over time): `https://github.com/org/repo/blob/main/path/file.ext`
+- ✅ Commit-based (permanent): `https://github.com/org/repo/blob/abc123def456/path/file.ext`
+
+**With line numbers:**
+`https://github.com/org/repo/blob/abc123def456/path/file.ext#L14-L20`
+
+**Quick method:**
+```bash
+# Get current commit hash
+git rev-parse HEAD
+
+# Or for a specific file's last commit
+git log -1 --format=%H path/to/file
+```
