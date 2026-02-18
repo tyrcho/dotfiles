@@ -10,6 +10,34 @@ model=$(echo "$input" | jq -r '.model.display_name // empty')
 cost=$(echo "$input" | jq -r '.cost.total_cost_usd // empty')
 ctx_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 
+# --- Parse token metrics ---
+total_in=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
+total_out=$(echo "$input" | jq -r '.context_window.total_output_tokens // empty')
+current_in=$(echo "$input" | jq -r '.context_window.current_usage.input_tokens // empty')
+current_out=$(echo "$input" | jq -r '.context_window.current_usage.output_tokens // empty')
+
+# Format total tokens (session totals)
+total_tokens=""
+if [ -n "$total_in" ] && [ -n "$total_out" ]; then
+    if [ "$total_in" -ge 1000 ]; then
+        total_in_fmt="$(( total_in / 1000 ))k"
+    else
+        total_in_fmt="$total_in"
+    fi
+    if [ "$total_out" -ge 1000 ]; then
+        total_out_fmt="$(( total_out / 1000 ))k"
+    else
+        total_out_fmt="$total_out"
+    fi
+    total_tokens="In:${total_in_fmt} Out:${total_out_fmt}"
+fi
+
+# Format current turn tokens
+current_tokens=""
+if [ -n "$current_in" ] && [ -n "$current_out" ]; then
+    current_tokens="↓${current_in} ↑${current_out}"
+fi
+
 # --- Cache configuration ---
 CACHE_DIR="$HOME/.claude/statusline_cache"
 CACHE_TTL=600 # 10 minutes
@@ -61,16 +89,20 @@ c_git=$(printf '\033[38;5;197m')    # magenta/pink
 c_model=$(printf '\033[38;5;141m')  # purple
 c_cost=$(printf '\033[38;5;114m')   # green
 c_ctx=$(printf '\033[38;5;223m')    # warm yellow
+c_tokens=$(printf '\033[38;5;147m') # light purple for total tokens
+c_current=$(printf '\033[38;5;117m') # light cyan for current turn
 c_sep=$(printf '\033[38;5;243m')    # gray
 reset=$(printf '\033[0m')
 
 # --- Build output ---
 parts=()
-[ -n "$repo_name" ]    && parts+=("$(printf '%b%s%b' "$c_repo" "$repo_name" "$reset")")
-[ -n "$branch_name" ]  && parts+=("$(printf '%b%s%b' "$c_git" "$branch_name" "$reset")")
-[ -n "$model" ]        && parts+=("$(printf '%b%s%b' "$c_model" "$model" "$reset")")
-[ -n "$cost_fmt" ]     && parts+=("$(printf '%b%s%b' "$c_cost" "$cost_fmt" "$reset")")
-[ -n "$ctx_bar" ]      && parts+=("$(printf '%b%s%b' "$c_ctx" "$ctx_bar" "$reset")")
+[ -n "$repo_name" ]      && parts+=("$(printf '%b%s%b' "$c_repo" "$repo_name" "$reset")")
+[ -n "$branch_name" ]    && parts+=("$(printf '%b%s%b' "$c_git" "$branch_name" "$reset")")
+[ -n "$model" ]          && parts+=("$(printf '%b%s%b' "$c_model" "$model" "$reset")")
+[ -n "$cost_fmt" ]       && parts+=("$(printf '%b%s%b' "$c_cost" "$cost_fmt" "$reset")")
+[ -n "$ctx_bar" ]        && parts+=("$(printf '%b%s%b' "$c_ctx" "$ctx_bar" "$reset")")
+[ -n "$total_tokens" ]   && parts+=("$(printf '%b%s%b' "$c_tokens" "$total_tokens" "$reset")")
+[ -n "$current_tokens" ] && parts+=("$(printf '%b%s%b' "$c_current" "$current_tokens" "$reset")")
 
 sep=$(printf ' %b|%b ' "$c_sep" "$reset")
 output=""
