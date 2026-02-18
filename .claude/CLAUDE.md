@@ -11,6 +11,11 @@
 
 For details: See auto memory files below.
 
+## Code Quality
+
+### Coding Style
+- @~/.claude/rules/coding-style.md
+
 ## Tool Guidelines
 
 ### Git & GitHub
