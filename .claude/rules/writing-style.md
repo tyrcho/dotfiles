@@ -1,5 +1,16 @@
 # Writing & Communication Style
 
+## General formating
+
+Do NOT use line breaks (---) in addition to headings.
+
+Prefer short sentences and paragraphs.
+
+Limit the use of emojis, **bold** and *italic* to put emphasis or structure.
+
+Write for colleagues using simple words you'd use with a respected family member. Favor clarity and **being concise** over complexity. Write as a human, for a human reader (not as an agent writing for an agent).
+
+
 ## Datadog Style Guide
 
 ### Words to Avoid - Quick Reference
@@ -45,8 +56,6 @@
 - whitelist/blacklist → allowlist/blocklist
 - master/slave → (use only when referencing unchangeable technical terms)
 
-### Key Principle
-Speak to colleagues using simple words you'd use with a respected family member. Favor clarity over complexity.
 
 ## Documentation Workflow
 

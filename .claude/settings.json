@@ -1,4 +1,7 @@
 {
+  "env": {
+    "EDITOR": "code --wait"
+  },
   "permissions": {
     "allow": [
       "Bash(git:*)",
@@ -91,10 +94,13 @@
     "claude-opus-4-5-migration@claude-code-plugins": true,
     "context7@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
-    "iterm2-notifications@datadog-claude-plugins": true
+    "iterm2-notifications@datadog-claude-plugins": true,
+    "diagrams@datadog-claude-plugins-dev": true,
+    "work-analyzer@datadog-claude-plugins-dev": true
   },
   "alwaysThinkingEnabled": true,
-  "env": {
-    "EDITOR": "code --wait"
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
   }
 }
