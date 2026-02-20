@@ -43,6 +43,7 @@
       "Bash(wc:*)",
       "Bash(which:*)",
       "Bash(xargs:*)",
+      "Bash(* 2>&1)",
       "mcp__atlassian__atlassianUserInfo",
       "mcp__atlassian__fetch",
       "mcp__atlassian__getAccessibleAtlassianResources",
@@ -66,10 +67,7 @@
       "mcp__aws-knowledge__aws___search_documentation",
       "mcp__datadog-mcp__search_datadog_dashboards"
     ],
-    "deny": [
-      "Bash(git push)",
-      "Bash(git push:*)"
-    ],
+    "deny": [],
     "ask": [],
     "defaultMode": "acceptEdits"
   },
@@ -87,6 +85,10 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
   "enabledPlugins": {
     "commit-commands@claude-code-plugins": true,
     "redblue@datadog-claude-plugins": true,
@@ -99,8 +101,5 @@
     "work-analyzer@datadog-claude-plugins-dev": true
   },
   "alwaysThinkingEnabled": true,
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.sh"
-  }
+  "skipDangerousModePermissionPrompt": true
 }
