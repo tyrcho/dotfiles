@@ -231,7 +231,6 @@ source ~/fzf-git.sh # https://github.com/junegunn/fzf-git.sh
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 alias code="/Applications/Visual\ Studio\ Code.app/contents/Resources/app/bin/code"
-export GITLAB_TOKEN=$(security find-generic-password -a ${USER} -s gitlab_token -w)
 source ~/.secrets-env.sh
 source "$(brew --prefix)/share/zsh/site-functions/_ddtool"
 
