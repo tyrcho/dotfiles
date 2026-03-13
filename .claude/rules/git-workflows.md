@@ -15,6 +15,9 @@
 
 ## Common Workflows
 
+### Before Every Commit
+- If a `README.md` exists in the repo, review it and update it to reflect the changes being committed.
+
 ### Creating PRs
 1. Ensure changes are committed
 2. Push to remote: `git push -u origin branch-name`

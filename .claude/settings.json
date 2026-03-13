@@ -82,6 +82,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "/Users/michel.daviot/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
             "command": "python3 \"$HOME/.claude/scripts/common-mistakes.py\"",
             "timeout": 5
           }
@@ -101,8 +110,17 @@
     "context7@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "iterm2-notifications@datadog-claude-plugins": true,
-    "diagrams@datadog-claude-plugins-dev": true,
-    "work-analyzer@datadog-claude-plugins-dev": true
+    "slack@claude-plugins-official": true,
+    "work-analyzer@datadog-claude-plugins-dev": true,
+    "work-analyzer@datadog-claude-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "datadog-claude-plugins-dev": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/michel.daviot/dd/claude-marketplace/dev"
+      }
+    }
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true

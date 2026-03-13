@@ -2,13 +2,23 @@
 
 ## General formating
 
-Do NOT use line breaks (---) in addition to headings.
-
+### DO
 Prefer short sentences and paragraphs.
 
-Limit the use of emojis, **bold** and *italic* to put emphasis or structure.
+Limit the use of emojis.
 
-Write for colleagues using simple words you'd use with a respected family member. Favor clarity and **being concise** over complexity. Write as a human, for a human reader (not as an agent writing for an agent).
+Use **bold** and *italic* to put emphasis or structure.
+
+Write for colleagues using simple words. Favor clarity and **being concise**. Write as a human, for a human reader.
+
+Avoid duplicating information. Each paragraph or concept should appear only in one place. Reorganise and move text as needed.
+
+### DONT
+Do NOT use line breaks (---). Use headings like ## heading 2.
+
+Do NOT use this symbol —. Prefer other ponctuation like parenthesis, columns, dots.
+
+Do NOT write as an agent writing for an agent. Don't be verbose. Don't repeat yourself (DRY).
 
 
 ## Datadog Style Guide
@@ -72,7 +82,7 @@ Before writing documentation:
 [Your answer]
 
 **Sources:**
-- [GitHub permalink with line numbers]
+- [description of the code](GitHub permalink with line numbers)
 - [Web link with title](url)
 - [Confluence/Jira full URL]
 ```
@@ -85,8 +95,7 @@ Branch-based links change as the branch is updated. Commit-based permalinks are 
 
 **How to get a commit-based permalink:**
 1. Navigate to the file on GitHub
-2. Press `y` key to convert the URL to use the commit hash
-3. Or manually replace branch name with commit hash in URL
+2. Manually replace branch name with commit hash in URL
 
 **Examples:**
 - ❌ Branch-based (changes over time): `https://github.com/org/repo/blob/main/path/file.ext`

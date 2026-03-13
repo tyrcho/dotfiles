@@ -36,3 +36,4 @@ For details: See auto memory files below.
 
 ### Datadog Patterns
 - @~/.claude/rules/datadog-patterns.md
+
