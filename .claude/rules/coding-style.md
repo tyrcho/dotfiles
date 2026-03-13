@@ -134,3 +134,21 @@ def validate_data(data):
 def apply_business_logic(data):
     # business logic
 ```
+
+## Python Projects - Hooks
+
+When working in a Python project, suggest adding a `postEdit` hook to auto-check syntax after every file edit:
+
+```json
+// .claude/settings.json
+{
+  "hooks": {
+    "postEdit": {
+      "command": "cd $PROJECT_DIR && python -m py_compile $FILEPATH 2>&1 | head -5",
+      "description": "Syntax check Python files after editing"
+    }
+  }
+}
+```
+
+Suggest this once at the start of a Python session if no hook is already configured.

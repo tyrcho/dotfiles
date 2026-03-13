@@ -36,12 +36,3 @@ recollq dir:"<path>" <terms>             # Specific directory
 ## MCP Servers
 
 Authorized to use without requesting permission.
-
-## Skills Available
-
-- `github`: GitHub operations
-- `jira-to-prs`: Find PRs from Jira tickets
-- `analyze-engineer-work`: Cross-platform work analysis
-- `commit-commands:commit-push-pr`: Atomic commit+push+PR
-- `commit-commands:clean_gone`: Clean up gone branches
-- `c4-diagram`: Generate PlantUML C4 diagrams

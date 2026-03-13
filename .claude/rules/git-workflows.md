@@ -13,6 +13,11 @@
   - `gh issue list`
   - `gh pr create --title "..." --body "..."`
 
+## Git Worktrees
+
+- Always verify the current working directory before making edits when a worktree is active.
+- Never edit files in the main checkout when a worktree is active.
+
 ## Common Workflows
 
 ### Before Every Commit
