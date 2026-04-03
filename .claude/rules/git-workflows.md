@@ -2,6 +2,9 @@
 
 ## Critical Rules
 
+### Branch Naming
+- Branch names must start with `michel.daviot/` (e.g. `michel.daviot/my-feature`)
+
 ### Directory Navigation
 - ✅ **ALWAYS**: `builtin cd /path/to/repo; git status`
 - ❌ **NEVER**: `git -C /path/to/repo status`
@@ -20,8 +23,13 @@
 
 ## Common Workflows
 
-### Before Every Commit
-- If a `README.md` exists in the repo, review it and update it to reflect the changes being committed.
+### README Updates
+
+A `PostToolUse` hook automatically checks for a nearby README.md after each file edit and reminds Claude to review it.
+
+- ✅ Update **existing sections** silently when content is outdated
+- ❌ **Never** create a new `README.md` without asking the user
+- ❌ **Never** add a new section to an existing README without asking the user
 
 ### Creating PRs
 1. Ensure changes are committed

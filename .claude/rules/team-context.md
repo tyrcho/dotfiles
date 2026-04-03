@@ -1,25 +1,5 @@
 # Team Context - AWS Integrations
 
-## Team Members
-
-- **mdelaurentis** (ID: 34311)
-- **klivan** (ID: 143861)
-- **tyrcho** (ID: 700260)
-- **claudiadadamo** (ID: 1701147)
-- **ViBiOh** (ID: 2349470)
-- **dwikle** (ID: 5666450)
-- **maxpyf** (ID: 5673088)
-- **ktmq** (ID: 5915468)
-- **ksirrah13** (ID: 11185294)
-- **jvanbrie** (ID: 14843791)
-- **dylanburati** (ID: 23045743)
-- **ge0Aja** (ID: 28223473)
-- **joaquinrios** (ID: 30807767)
-- **dhan0779** (ID: 45704182)
-- **raymondeah** (ID: 78064236)
-- **Sergio-Na** (ID: 98653927)
-- **RaphaelAllier** (ID: 118757729)
-- **hkrddog** (ID: 249978766)
 
 ## Team Repositories
 

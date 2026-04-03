@@ -50,6 +50,9 @@ For details: See auto memory files below.
 
 ## Team & Codebase Context
 
+### Direct Reports
+- @~/.claude/rules/direct-reports.md
+
 ### AWS Integrations Team
 - @~/.claude/rules/team-context.md
 

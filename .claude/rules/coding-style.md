@@ -135,6 +135,53 @@ def apply_business_logic(data):
     # business logic
 ```
 
+## Script Output - stderr vs stdout
+
+**Log progress to stderr, output data to stdout.**
+
+- `stderr`: progress messages, status updates, warnings, logs
+- `stdout`: structured output (JSON, CSV, results meant for piping)
+
+This allows scripts to be composed with pipes without mixing logs into data.
+
+**Python:** use `logging` (logs to stderr by default), never `print` for progress.
+```python
+import logging, json
+
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+log = logging.getLogger(__name__)
+
+log.info("Fetching records...")
+results = fetch_data()
+log.info(f"Found {len(results)} records")
+
+json.dump(results, sys.stdout)
+```
+
+For same-line progress (e.g. counters), use `\r` with `end=""` and flush:
+```python
+for i, item in enumerate(items):
+    print(f"\rProcessing {i+1}/{len(items)}...", end="", flush=True, file=sys.stderr)
+print(file=sys.stderr)  # newline when done
+```
+
+**Shell:** wrap `echo >&2` in a `log` function.
+```bash
+log() { echo "$*" >&2; }
+
+log "Processing files..."
+find . -name "*.json" | jq '.'  # stdout for data
+log "Done"
+```
+
+For same-line progress in shell, use `\r` with `printf`:
+```bash
+for i in $(seq 1 "$total"); do
+    printf "\rProcessing %d/%d..." "$i" "$total" >&2
+done
+printf "\n" >&2
+```
+
 ## Python Projects - Hooks
 
 When working in a Python project, suggest adding a `postEdit` hook to auto-check syntax after every file edit:

@@ -250,3 +250,12 @@ export SCFW_DD_AGENT_LOG_PORT="10365"
 export SCFW_DD_LOG_LEVEL="ALLOW"
 export SCFW_HOME="/Users/michel.daviot/.scfw"
 # END SCFW MANAGED BLOCK
+
+# bun completions
+[ -s "/Users/michel.daviot/.bun/_bun" ] && source "/Users/michel.daviot/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias claude-mem='/Users/michel.daviot/.bun/bin/bun "/Users/michel.daviot/.claude/plugins/cache/thedotmack-claude-mem/claude-mem/10.6.2/scripts/worker-service.cjs"'
