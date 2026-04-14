@@ -42,18 +42,42 @@ A `PostToolUse` hook automatically checks for a nearby README.md after each file
 **PR body template:**
 
 ```markdown
-## Goals
+# New features
 
-<user-facing bullet points — what changed and why, no technical details>
+## <Feature name>
 
-## Implementation
+### Goal
+<User-facing description — what it does and why, no technical details>
 
-<bullet points for contributors — how it was made, key decisions>
+### Implementation
+- [`filename`](<diff link>): <what changed and key decisions>
 
-## Next steps (optional)
+# Fixes
 
-<todo ideas, rollout plan, or testing instructions>
+## <Bug description>
+
+### Goal
+<What was broken and what the correct behavior is>
+
+### Implementation
+- [`filename`](<diff link>): <what changed>
 ```
+
+**Implementation diff links:** use PR file diff anchors, not blob permalinks.
+
+The anchor hash is `sha256(filepath)` where `filepath` is the path from the repo root. Generate with:
+
+```bash
+python3 -c "import hashlib; print(hashlib.sha256('path/to/file'.encode()).hexdigest())"
+```
+
+Link format: `https://github.com/{owner}/{repo}/pull/{number}/files#diff-{hash}`
+
+**Notes:**
+- Omit `# Fixes` section if there are no bug fixes, and vice versa for features
+- Each feature/fix gets its own `##` subsection
+- `### Goal` is user-facing (no implementation details); `### Implementation` is for contributors
+- **Never** add the `🤖 Generated with Claude Code` footer to PR descriptions
 
 ### Cleaning Up Branches
 - Use skill: `commit-commands:clean_gone`
