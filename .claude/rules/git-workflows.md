@@ -31,10 +31,29 @@ A `PostToolUse` hook automatically checks for a nearby README.md after each file
 - ❌ **Never** create a new `README.md` without asking the user
 - ❌ **Never** add a new section to an existing README without asking the user
 
+### Commit Messages
+- **Never** add `Co-Authored-By` trailers to commit messages
+
 ### Creating PRs
 1. Ensure changes are committed
 2. Push to remote: `git push -u origin branch-name`
-3. Create PR: `gh pr create --title "..." --body "..."`
+3. Create PR using the template below
+
+**PR body template:**
+
+```markdown
+## Goals
+
+<user-facing bullet points — what changed and why, no technical details>
+
+## Implementation
+
+<bullet points for contributors — how it was made, key decisions>
+
+## Next steps (optional)
+
+<todo ideas, rollout plan, or testing instructions>
+```
 
 ### Cleaning Up Branches
 - Use skill: `commit-commands:clean_gone`
