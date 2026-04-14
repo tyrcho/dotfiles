@@ -32,7 +32,7 @@ echo "[$(date)] FOUND_FILES: $FOUND_FILES" >> /tmp/post-push-hook.log
 
 if [ -z "$FOUND_FILES" ]; then exit 0; fi
 
-cat >&2 <<EOF
+cat <<EOF
 [post-push-check] git push detected. The following tracked files exist in the repo:
 $FOUND_FILES
 
