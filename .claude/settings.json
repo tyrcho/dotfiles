@@ -97,7 +97,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/.claude/scripts/common-mistakes.py\"",
+            "command": "python3 \"$HOME/.claude/hooks/common-mistakes.py\"",
             "timeout": 5
           }
         ]
