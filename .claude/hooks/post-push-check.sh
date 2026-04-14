@@ -18,11 +18,8 @@ if [ -z "$REPO_ROOT" ]; then
 fi
 if [ -z "$REPO_ROOT" ]; then exit 0; fi
 
-# Search all subdirs for TODO/CHANGELOG files — silent exit if none found
-FOUND_FILES=$(find "$REPO_ROOT" -type f \( \
-  -iname "TODO" -o -iname "TODO.md" -o -iname "TODO.txt" -o \
-  -iname "CHANGELOG" -o -iname "CHANGELOG.md" -o -iname "CHANGELOG.txt" \
-\) 2>/dev/null)
+# Search tracked files for TODO/CHANGELOG — silent exit if none found
+FOUND_FILES=$(git -C "$REPO_ROOT" ls-files | grep -iE '(^|/)(TODO|CHANGELOG)(\.md|\.txt)?$')
 
 if [ -z "$FOUND_FILES" ]; then exit 0; fi
 
