@@ -6,6 +6,9 @@
 if ! command -v jq &>/dev/null; then exit 0; fi
 
 INPUT=$(cat)
+# Debug: log every invocation with the raw input
+echo "[$(date)] INPUT: $INPUT" >> /tmp/post-push-hook.log
+
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 
 # Only trigger on git push commands
