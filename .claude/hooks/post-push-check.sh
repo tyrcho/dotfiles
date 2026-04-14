@@ -32,7 +32,7 @@ echo "[$(date)] FOUND_FILES: $FOUND_FILES" >> /tmp/post-push-hook.log
 
 if [ -z "$FOUND_FILES" ]; then exit 0; fi
 
-cat <<EOF
+cat >&2 <<EOF
 [post-push-check] git push detected. The following tracked files exist in the repo:
 $FOUND_FILES
 
@@ -43,3 +43,4 @@ Spawn a background subagent (run_in_background: true) to verify:
 2. If any file is outdated, report a concise warning listing what is missing.
 Do NOT block or interrupt the current task — run this check fully in the background.
 EOF
+exit 2
