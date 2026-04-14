@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Fires after Bash tool use — if git push was run and TODO/CHANGELOG exist at
-# the repo root, instructs Claude to spawn a background subagent to verify they
-# are up to date. Silently exits if neither file is present.
+# Fires after Bash tool use — if git push was run and TODO/CHANGELOG exist
+# anywhere in the repo, instructs Claude to spawn a background subagent to
+# verify they are up to date. Silently exits if neither file is present.
 
 if ! command -v jq &>/dev/null; then exit 0; fi
 
@@ -18,25 +18,17 @@ if [ -z "$REPO_ROOT" ]; then
 fi
 if [ -z "$REPO_ROOT" ]; then exit 0; fi
 
-# Find which tracked files exist — silent exit if none
-FOUND_FILES=()
-for NAME in TODO CHANGELOG; do
-  for EXT in "" ".md" ".txt"; do
-    FILE="$REPO_ROOT/$NAME$EXT"
-    if [ -f "$FILE" ]; then
-      FOUND_FILES+=("$FILE")
-      break
-    fi
-  done
-done
+# Search all subdirs for TODO/CHANGELOG files — silent exit if none found
+FOUND_FILES=$(find "$REPO_ROOT" -type f \( \
+  -iname "TODO" -o -iname "TODO.md" -o -iname "TODO.txt" -o \
+  -iname "CHANGELOG" -o -iname "CHANGELOG.md" -o -iname "CHANGELOG.txt" \
+\) 2>/dev/null)
 
-if [ ${#FOUND_FILES[@]} -eq 0 ]; then exit 0; fi
-
-FILES_LIST=$(printf '%s\n' "${FOUND_FILES[@]}")
+if [ -z "$FOUND_FILES" ]; then exit 0; fi
 
 cat >&2 <<EOF
-[post-push-check] git push detected. The following tracked files exist in the repo root:
-$FILES_LIST
+[post-push-check] git push detected. The following tracked files exist in the repo:
+$FOUND_FILES
 
 Spawn a background subagent (run_in_background: true) to verify:
 1. Were these files updated to reflect the code changes included in this push?
