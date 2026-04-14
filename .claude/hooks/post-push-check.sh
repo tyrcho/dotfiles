@@ -6,29 +6,20 @@
 if ! command -v jq &>/dev/null; then exit 0; fi
 
 INPUT=$(cat)
-# Debug: log every invocation with the raw input
-echo "[$(date)] INPUT: $INPUT" >> /tmp/post-push-hook.log
-
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
-echo "[$(date)] COMMAND: $COMMAND" >> /tmp/post-push-hook.log
 
 # Only trigger on git push commands
-if [[ "$COMMAND" != *"git push"* ]]; then
-  echo "[$(date)] no git push, exiting" >> /tmp/post-push-hook.log
-  exit 0
-fi
+if [[ "$COMMAND" != *"git push"* ]]; then exit 0; fi
 
 # Resolve repo root
 REPO_ROOT=$(echo "$INPUT" | jq -r '.cwd // empty')
 if [ -z "$REPO_ROOT" ]; then
   REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
 fi
-echo "[$(date)] REPO_ROOT: $REPO_ROOT" >> /tmp/post-push-hook.log
 if [ -z "$REPO_ROOT" ]; then exit 0; fi
 
 # Search tracked files for TODO/CHANGELOG — silent exit if none found
 FOUND_FILES=$(git -C "$REPO_ROOT" ls-files | grep -iE '(^|/)(TODO|CHANGELOG)(\.md|\.txt)?$')
-echo "[$(date)] FOUND_FILES: $FOUND_FILES" >> /tmp/post-push-hook.log
 
 if [ -z "$FOUND_FILES" ]; then exit 0; fi
 
