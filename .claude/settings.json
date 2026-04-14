@@ -1,150 +1,151 @@
 {
-    "env": {
-        "EDITOR": "code --wait"
-    },
-    "permissions": {
-        "allow": [
-            "Bash(git:*)",
-            "Bash(gh:*)",
-            "Bash(brew:*)",
-            "Bash(ls:*)",
-            "Bash(npm run:*)",
-            "WebSearch",
-            "WebFetch",
-            "Bash(cat:*)",
-            "Bash(curl:*)",
-            "Bash(date:*)",
-            "Bash(dd-auth:*)",
-            "Bash(docker context:*)",
-            "Bash(echo:*)",
-            "Bash(file:*)",
-            "Bash(find:*)",
-            "Bash(head:*)",
-            "Bash(jq:*)",
-            "Bash(ls:*)",
-            "Bash(lsof:*)",
-            "Bash(mkdir:*)",
-            "Bash(node -e:*)",
-            "Bash(npm config:*)",
-            "Bash(npm info:*)",
-            "Bash(npm install:*)",
-            "Bash(npm ls:*)",
-            "Bash(npm search:*)",
-            "Bash(npm test:*)",
-            "Bash(npm uninstall:*)",
-            "Bash(npm view:*)",
-            "Bash(npm whoami:*)",
-            "Bash(npx eslint:*)",
-            "Bash(printf:*)",
-            "Bash(pwd:*)",
-            "Bash(tail:*)",
-            "Bash(test:*)",
-            "Bash(tree:*)",
-            "Bash(unset:*)",
-            "Bash(wc:*)",
-            "Bash(which:*)",
-            "Bash(xargs:*)",
-            "Bash(jira:*)",
-            "Bash(* 2>&1)",
-            "Bash(* > *)",
-            "Bash(* >> *)",
-            "Bash(* < *)",
-            "mcp__atlassian__atlassianUserInfo",
-            "mcp__atlassian__fetch",
-            "mcp__atlassian__getAccessibleAtlassianResources",
-            "mcp__atlassian__getConfluencePage",
-            "mcp__atlassian__getConfluencePageDescendants",
-            "mcp__atlassian__getConfluencePageFooterComments",
-            "mcp__atlassian__getConfluencePageInlineComments",
-            "mcp__atlassian__getConfluenceSpaces",
-            "mcp__atlassian__getJiraIssue",
-            "mcp__atlassian__getJiraIssueRemoteIssueLinks",
-            "mcp__atlassian__getJiraIssueTypeMetaWithFields",
-            "mcp__atlassian__getJiraProjectIssueTypesMetadata",
-            "mcp__atlassian__getPagesInConfluenceSpace",
-            "mcp__atlassian__getTransitionsForJiraIssue",
-            "mcp__atlassian__getVisibleJiraProjects",
-            "mcp__atlassian__lookupJiraAccountId",
-            "mcp__atlassian__search",
-            "mcp__atlassian__searchConfluenceUsingCql",
-            "mcp__atlassian__searchJiraIssuesUsingJql",
-            "mcp__aws-knowledge__aws___read_documentation",
-            "mcp__aws-knowledge__aws___search_documentation",
-            "mcp__datadog-mcp__search_datadog_dashboards"
-        ],
-        "deny": [],
-        "ask": [],
-        "defaultMode": "acceptEdits"
-    },
-    "hooks": {
-        "PostToolUse": [
-            {
-                "matcher": "Edit|Write",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "/Users/michel.daviot/.claude/hooks/readme-check.sh",
-                        "timeout": 5
-                    }
-                ]
-            }
-        ],
-        "PreToolUse": [
-            {
-                "matcher": "Bash",
-                "hooks": []
-            },
-            {
-                "matcher": "Bash",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "python3 \"$HOME/.claude/scripts/common-mistakes.py\"",
-                        "timeout": 5
-                    }
-                ]
-            }
+  "env": {
+    "EDITOR": "code --wait"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(brew:*)",
+      "Bash(jira:*)",
+      "Bash(dd-auth:*)",
+      "Bash(docker context:*)",
+      "Bash(npm run:*)",
+      "Bash(npm config:*)",
+      "Bash(npm info:*)",
+      "Bash(npm install:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm search:*)",
+      "Bash(npm test:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm view:*)",
+      "Bash(npm whoami:*)",
+      "Bash(npx eslint:*)",
+      "Bash(node -e:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(wc:*)",
+      "Bash(file:*)",
+      "Bash(which:*)",
+      "Bash(lsof:*)",
+      "Bash(mkdir:*)",
+      "Bash(echo:*)",
+      "Bash(printf:*)",
+      "Bash(pwd:*)",
+      "Bash(test:*)",
+      "Bash(unset:*)",
+      "Bash(xargs:*)",
+      "Bash(jq:*)",
+      "Bash(curl:*)",
+      "Bash(date:*)",
+      "WebSearch",
+      "WebFetch",
+      "mcp__atlassian__atlassianUserInfo",
+      "mcp__atlassian__fetchAtlassian",
+      "mcp__atlassian__getAccessibleAtlassianResources",
+      "mcp__atlassian__getConfluencePage",
+      "mcp__atlassian__getConfluencePageDescendants",
+      "mcp__atlassian__getConfluencePageFooterComments",
+      "mcp__atlassian__getConfluencePageInlineComments",
+      "mcp__atlassian__getConfluenceSpaces",
+      "mcp__atlassian__getJiraIssue",
+      "mcp__atlassian__getJiraIssueRemoteIssueLinks",
+      "mcp__atlassian__getJiraIssueTypeMetaWithFields",
+      "mcp__atlassian__getJiraProjectIssueTypesMetadata",
+      "mcp__atlassian__getPagesInConfluenceSpace",
+      "mcp__atlassian__getTransitionsForJiraIssue",
+      "mcp__atlassian__getVisibleJiraProjects",
+      "mcp__atlassian__lookupJiraAccountId",
+      "mcp__atlassian__searchAtlassian",
+      "mcp__atlassian__searchConfluenceUsingCql",
+      "mcp__atlassian__searchJiraIssuesUsingJql",
+      "mcp__datadog-mcp__search_datadog_dashboards"
+    ],
+    "deny": [],
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/michel.daviot/.claude/hooks/readme-check.sh",
+            "timeout": 5
+          }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/michel.daviot/.claude/hooks/post-push-check.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/scripts/common-mistakes.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "commit-commands@claude-code-plugins": true,
+    "redblue@datadog-claude-plugins": true,
+    "security-guidance@claude-code-plugins": true,
+    "claude-opus-4-5-migration@claude-code-plugins": true,
+    "context7@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "iterm2-notifications@datadog-claude-plugins": true,
+    "appgate@datadog-claude-plugins": true,
+    "diagrams@datadog-claude-plugins": true,
+    "claude-mem@thedotmack-claude-mem": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "clobs-jira@cloud-observability": true,
+    "work-analyzer@datadog-claude-plugins-dev": true,
+    "work-analyzer@datadog-claude-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "datadog-claude-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "DataDog/claude-marketplace"
+      }
     },
-    "statusLine": {
-        "type": "command",
-        "command": "~/.claude/statusline.sh"
+    "datadog-claude-plugins-dev": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/michel.daviot/dd/claude-marketplace/dev"
+      }
     },
-    "enabledPlugins": {
-        "commit-commands@claude-code-plugins": true,
-        "redblue@datadog-claude-plugins": true,
-        "security-guidance@claude-code-plugins": true,
-        "claude-opus-4-5-migration@claude-code-plugins": true,
-        "context7@claude-plugins-official": true,
-        "typescript-lsp@claude-plugins-official": true,
-        "iterm2-notifications@datadog-claude-plugins": true,
-        "appgate@datadog-claude-plugins": true,
-        "diagrams@datadog-claude-plugins": true,
-        "claude-mem@thedotmack-claude-mem": true,
-        "gopls-lsp@claude-plugins-official": true,
-        "pyright-lsp@claude-plugins-official": true,
-        "clobs-jira@cloud-observability": true
-    },
-    "extraKnownMarketplaces": {
-        "datadog-claude-plugins": {
-            "source": {
-                "source": "github",
-                "repo": "DataDog/claude-marketplace"
-            }
-        },
-        "datadog-claude-plugins-dev": {
-            "source": {
-                "source": "directory",
-                "path": "/Users/michel.daviot/dd/claude-marketplace/dev"
-            }
-        },
-        "cloud-observability": {
-            "source": {
-                "source": "directory",
-                "path": "/tmp/experimental/teams/cloud-observability/claude-plugin-marketplace"
-            }
-        }
-    },
-    "alwaysThinkingEnabled": true,
-    "skipDangerousModePermissionPrompt": true
+    "cloud-observability": {
+      "source": {
+        "source": "directory",
+        "path": "/tmp/experimental/teams/cloud-observability/claude-plugin-marketplace"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true
 }
