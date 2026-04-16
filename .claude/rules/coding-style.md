@@ -28,6 +28,15 @@ If a function exceeds 25 lines, split it into smaller, focused functions.
 - Separate functions with side effects (I/O, API calls, state mutations)
 - Call pure functions from impure ones, not vice versa
 
+## Markdown File Naming
+
+**Use explicit, human-readable names rather than snake_case or kebab-case.**
+
+- Use spaces and Title Case: `Git Workflows.md`, `Coding Style.md`
+- Avoid underscores and hyphens: ~~`git_workflows.md`~~, ~~`coding-style.md`~~
+
+Content should start immediately without repeating the filename as a heading. The filename is the title.
+
 ## Folder Organization - Domain Over Layer
 
 **Organize folders by domain/feature, not by technology or layer.**
