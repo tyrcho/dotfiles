@@ -121,9 +121,10 @@
     "claude-mem@thedotmack-claude-mem": true,
     "gopls-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "clobs-jira@cloud-observability": true,
     "work-analyzer@datadog-claude-plugins-dev": true,
-    "work-analyzer@datadog-claude-plugins": true
+    "work-analyzer@datadog-claude-plugins": true,
+    "faq@cloud-observability": true,
+    "clobs-jira@cloud-observability": true
   },
   "extraKnownMarketplaces": {
     "datadog-claude-plugins": {
@@ -141,7 +142,7 @@
     "cloud-observability": {
       "source": {
         "source": "directory",
-        "path": "/tmp/experimental/teams/cloud-observability/claude-plugin-marketplace"
+        "path": "/Users/michel.daviot/dd/experimental/teams/cloud-observability/claude-plugin-marketplace"
       }
     }
   },

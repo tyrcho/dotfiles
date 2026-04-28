@@ -10,6 +10,9 @@
 
 - @~/.claude/rules/mcp-integrations.md
 
+### Google Workspace MCP
+- @~/.claude/rules/Google Workspace MCP.md
+
 ## Core Principles
 
 1. **Think Before Coding**: State assumptions explicitly, surface tradeoffs, ask when unclear
@@ -39,6 +42,12 @@ For details: See auto memory files below.
 
 ### Datadog Style Guide
 - @~/.claude/rules/writing-style.md
+
+### Confluence Pages
+- @~/.claude/rules/Confluence Writing.md
+
+### Jira Descriptions
+- @~/.claude/rules/Jira Writing.md
 
 ## User Lookup & Identity Resolution
 

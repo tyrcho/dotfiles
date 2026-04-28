@@ -67,6 +67,22 @@ Do NOT write as an agent writing for an agent. Don't be verbose. Don't repeat yo
 - master/slave → (use only when referencing unchangeable technical terms)
 
 
+## Slack Links
+
+Link to the specific thread or message, not the channel, whenever possible.
+
+- Thread link: `https://dd.slack.com/archives/CXXXXXXX/pNNNNNNNNNNNNNN` (preferred)
+- Channel link: `https://dd.slack.com/archives/CXXXXXXX` (only when no specific thread is relevant)
+
+## Datadog Incident References
+
+Always link incidents using the format: `SEV-X [Incident name](https://app.datadoghq.com/incidents/NNNNN)`
+
+Example: SEV-2 [AWS me-south-1 and me-central-1 outages](https://app.datadoghq.com/incidents/50263)
+
+- `IR-NNNNN` references are always Datadog incidents, never Jira tickets
+- Apply this to any mention by incident number, name, or IR prefix
+
 ## Documentation Workflow
 
 Before writing documentation:

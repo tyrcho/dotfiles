@@ -34,25 +34,23 @@ Brief overview of code health (1-2 sentences).
 
 For each violation:
 
-```
-##### [Principle Name] - [Specific Issue]
+    ##### [Principle Name] - [Specific Issue]
 
-**Location**: `file.py:line_number`
+    **Location**: `file.py:line_number`
 
-**Problem**: [Description of what's wrong]
+    **Problem**: [Description of what's wrong]
 
-**Before**:
-```python
-# problematic code
-```
+    **Before**:
+    ```python
+    # problematic code
+    ```
 
-**After**:
-```python
-# improved code
-```
+    **After**:
+    ```python
+    # improved code
+    ```
 
-**Why**: [Brief explanation referencing the principle]
-```
+    **Why**: [Brief explanation referencing the principle]
 
 #### Recommendations
 
