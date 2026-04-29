@@ -112,6 +112,80 @@ internal/                      internal/
                                                helper.py
 ```
 
+## Hexagonal Architecture (Ports & Adapters)
+
+**Separate pure business logic from I/O by defining interfaces (ports) that the core depends on, implemented by adapters.**
+
+### The three layers
+
+- **Core** — pure business logic. No database, no HTTP, no framework. Depends only on ports (interfaces). Fully testable in isolation.
+- **Ports** — interfaces defined *by the core* that describe what it needs from the outside world (`UserRepository`, `NotificationSender`).
+- **Adapters** — concrete implementations of ports that handle actual I/O (`PostgresUserRepository`, `SmtpNotificationAdapter`).
+
+The dependency always points inward: adapters depend on ports, ports belong to the core. The core knows nothing about adapters.
+
+### Folder structure
+
+```
+src/
+  core/
+    models/          # Domain entities
+    services/        # Business logic — no I/O, no frameworks
+    ports/           # Interfaces only (UserRepository, NotificationSender…)
+  adapters/
+    db/              # Implements storage ports (Postgres, Mongo, in-memory)
+    http/            # Inbound: controllers, route handlers
+    messaging/       # Outbound: email, queues, webhooks
+```
+
+### Pattern
+
+```typescript
+// core/ports/UserRepository.ts — interface owned by the core
+export interface UserRepository {
+  save(user: User): Promise<void>;
+  findById(id: string): Promise<User | null>;
+}
+
+// core/services/UserService.ts — depends only on the interface
+export class UserService {
+  constructor(private repo: UserRepository) {}
+
+  async register(email: string): Promise<User> {
+    const user = new User(email);
+    await this.repo.save(user);
+    return user;
+  }
+}
+
+// adapters/db/PostgresUserRepository.ts — implements the interface
+export class PostgresUserRepository implements UserRepository {
+  async save(user: User) { /* SQL */ }
+  async findById(id: string) { /* SQL */ }
+}
+```
+
+### Testing
+
+Swap the adapter for an in-memory fake — no database, no network:
+
+```typescript
+class FakeUserRepository implements UserRepository {
+  private store = new Map<string, User>();
+  async save(u: User) { this.store.set(u.id, u); }
+  async findById(id: string) { return this.store.get(id) ?? null; }
+}
+
+const service = new UserService(new FakeUserRepository());
+```
+
+### Key rules
+
+- The core **never** imports from adapters. Violation: the adapter layer bleeds into domain logic.
+- Ports are named by **capability**, not technology: `ForStoringUsers`, not `ForPostgres`.
+- Pass adapters via **constructor injection** — never instantiate them inside the core.
+- Each external system (DB, cache, queue, HTTP client) gets its own adapter.
+
 ## Code Structure - Top to Bottom
 
 **Files should flow from high-level to low-level.**
