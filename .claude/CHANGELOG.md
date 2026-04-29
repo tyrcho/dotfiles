@@ -2,6 +2,8 @@
 
 ## 2026-04-28
 
+- Updated `rules/Software Architecture.md`: removed "Bad" folder structure columns, keeping only the "Good" examples
+- Updated `rules/Software Architecture.md`: resolved two contradictions — folder structure now shows domain-first hexagonal layout; port naming aligned between key rules and code examples
 - Created `rules/Software Architecture.md`: consolidated "Folder Organization - Domain Over Layer" and "Hexagonal Architecture (Ports & Adapters)" sections moved from `coding-style.md`
 - Updated `rules/coding-style.md`: removed "Folder Organization" and "Hexagonal Architecture" sections (moved to `Software Architecture.md`)
 - Updated `CLAUDE.md`: added `Software Architecture` reference under Code Quality section
