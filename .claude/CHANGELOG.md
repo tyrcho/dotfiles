@@ -2,6 +2,7 @@
 
 ## 2026-04-28
 
+- Created `rules/Claude Plugins.md`: extracted Claude plugins folder organization from `Software Architecture.md` into its own rule; added reference in `CLAUDE.md`
 - Updated `rules/Software Architecture.md`: removed "Bad" folder structure columns, keeping only the "Good" examples
 - Updated `rules/Software Architecture.md`: resolved two contradictions — folder structure now shows domain-first hexagonal layout; port naming aligned between key rules and code examples
 - Created `rules/Software Architecture.md`: consolidated "Folder Organization - Domain Over Layer" and "Hexagonal Architecture (Ports & Adapters)" sections moved from `coding-style.md`
