@@ -27,6 +27,9 @@ For details: See auto memory files below.
 ### Coding Style
 - @~/.claude/rules/coding-style.md
 
+### Software Architecture
+- @~/.claude/rules/Software Architecture.md
+
 ## Tool Guidelines
 
 ### Git & GitHub
