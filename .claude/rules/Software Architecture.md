@@ -6,17 +6,15 @@ Grouping by layer (e.g., `controllers/`, `models/`, `utils/`) scatters related c
 
 **TypeScript:**
 ```
-# Bad                          # Good
-src/                           src/
-  controllers/                   billing/
-    billing.ts                     controller.ts
-    users.ts                       service.ts
-  services/                        model.ts
-    billing.ts                   users/
-    users.ts                       controller.ts
-  models/                          service.ts
-    billing.ts                     model.ts
-    users.ts
+src/
+  billing/
+    controller.ts
+    service.ts
+    model.ts
+  users/
+    controller.ts
+    service.ts
+    model.ts
 ```
 
 **Python / Go:** same principle — domain folder at the top, files inside by responsibility.
@@ -24,15 +22,14 @@ src/                           src/
 This also applies to Claude plugins: skill scripts belong in their skill's subfolder, not in a shared `pluginname/scripts/` folder.
 
 ```
-# Bad                                  # Good
-.claude/                               .claude/
-  scripts/                               skills/
-    analyze-helper.py                      analyze/
-    analyze-examples.md                      scripts/helper.py
-    report-helper.py                         examples.md
-    report-examples.md                   report/
-                                             scripts/helper.py
-                                             examples.md
+.claude/
+  skills/
+    analyze/
+      scripts/helper.py
+      examples.md
+    report/
+      scripts/helper.py
+      examples.md
 ```
 
 ## Hexagonal Architecture (Ports & Adapters)
