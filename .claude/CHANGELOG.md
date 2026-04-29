@@ -2,6 +2,9 @@
 
 ## 2026-04-28
 
+- Created `rules/Software Architecture.md`: consolidated "Folder Organization - Domain Over Layer" and "Hexagonal Architecture (Ports & Adapters)" sections moved from `coding-style.md`
+- Updated `rules/coding-style.md`: removed "Folder Organization" and "Hexagonal Architecture" sections (moved to `Software Architecture.md`)
+- Updated `CLAUDE.md`: added `Software Architecture` reference under Code Quality section
 - Updated `rules/coding-style.md`: added "Hexagonal Architecture (Ports & Adapters)" section covering ports/adapters pattern, folder structure, TypeScript example, and testing with in-memory fakes
 - Updated `rules/git-workflows.md`: added `--draft` flag to all `gh pr create` commands so PRs are always opened as drafts
 - Added `rules/Google Workspace MCP.md`: actionable rule for Docs MCP covering tool selection, known gaps (nested lists, tables, HRs), index stability, and Docs vs. Slides disambiguation

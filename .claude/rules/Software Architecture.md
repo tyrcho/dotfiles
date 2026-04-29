@@ -4,8 +4,6 @@
 
 Grouping by layer (e.g., `controllers/`, `models/`, `utils/`) scatters related code across the codebase. Grouping by domain keeps everything for a feature together.
 
-This also applies to Claude plugins: skill scripts belong in their skill's subfolder, not in a shared `pluginname/scripts/` folder.
-
 **TypeScript:**
 ```
 # Bad                          # Good
@@ -21,56 +19,20 @@ src/                           src/
     users.ts
 ```
 
-**Python:**
-```
-# Bad                          # Good
-app/                           app/
-  routes/                        billing/
-    billing.py                     routes.py
-    users.py                       service.py
-  services/                        models.py
-    billing.py                   users/
-    users.py                       routes.py
-  models/                          service.py
-    billing.py                     models.py
-    users.py
-```
+**Python / Go:** same principle — domain folder at the top, files inside by responsibility.
 
-**Go:**
-```
-# Bad                          # Good
-internal/                      internal/
-  handlers/                      billing/
-    billing.go                     handler.go
-    users.go                       service.go
-  services/                        repository.go
-    billing.go                   users/
-    users.go                       handler.go
-  repositories/                    service.go
-    billing.go                     repository.go
-    users.go
-```
+This also applies to Claude plugins: skill scripts belong in their skill's subfolder, not in a shared `pluginname/scripts/` folder.
 
-**Claude plugins:**
 ```
 # Bad                                  # Good
 .claude/                               .claude/
-  commands/                              commands/
-    analyze.md                             analyze.md
-    report.md                              report.md
   scripts/                               skills/
     analyze-helper.py                      analyze/
-    analyze-reference.md                     SKILL.md        # overview and navigation
-    analyze-examples.md                      reference.md    # detailed docs, loaded when needed
-    report-helper.py                         examples.md     # usage examples, loaded when needed
-    report-reference.md                      scripts/
-    report-examples.md                         helper.py     # executed, not loaded
-                                           report/
-                                             SKILL.md
-                                             reference.md
+    analyze-examples.md                      scripts/helper.py
+    report-helper.py                         examples.md
+    report-examples.md                   report/
+                                             scripts/helper.py
                                              examples.md
-                                             scripts/
-                                               helper.py
 ```
 
 ## Hexagonal Architecture (Ports & Adapters)
@@ -79,36 +41,50 @@ internal/                      internal/
 
 ### The three layers
 
-- **Core** — pure business logic. No database, no HTTP, no framework. Depends only on ports (interfaces). Fully testable in isolation.
-- **Ports** — interfaces defined *by the core* that describe what it needs from the outside world (`UserRepository`, `NotificationSender`).
+- **Core** — pure business logic. No database, no HTTP, no framework. Depends only on ports. Fully testable in isolation.
+- **Ports** — interfaces defined *by the core* describing what it needs from the outside (`UserRepository`, `NotificationSender`).
 - **Adapters** — concrete implementations of ports that handle actual I/O (`PostgresUserRepository`, `SmtpNotificationAdapter`).
 
-The dependency always points inward: adapters depend on ports, ports belong to the core. The core knows nothing about adapters.
+Dependency points inward: adapters depend on ports; the core knows nothing about adapters.
 
 ### Folder structure
 
+Combine with domain-over-layer: domain at the top, then `core/` and `adapters/` inside each domain.
+
 ```
 src/
-  core/
-    models/          # Domain entities
-    services/        # Business logic — no I/O, no frameworks
-    ports/           # Interfaces only (UserRepository, NotificationSender…)
-  adapters/
-    db/              # Implements storage ports (Postgres, Mongo, in-memory)
-    http/            # Inbound: controllers, route handlers
-    messaging/       # Outbound: email, queues, webhooks
+  users/
+    core/
+      UserService.ts         # Business logic — no I/O
+      ports/
+        UserRepository.ts    # Interface owned by the core
+    adapters/
+      db/
+        PostgresUserRepository.ts   # Implements UserRepository
+      http/
+        UserController.ts           # Inbound entry point
+  billing/
+    core/
+      BillingService.ts
+      ports/
+        PaymentGateway.ts
+    adapters/
+      http/
+        BillingController.ts
+      payment/
+        StripePaymentAdapter.ts
 ```
 
 ### Pattern
 
 ```typescript
-// core/ports/UserRepository.ts — interface owned by the core
+// users/core/ports/UserRepository.ts — interface owned by the core
 export interface UserRepository {
   save(user: User): Promise<void>;
   findById(id: string): Promise<User | null>;
 }
 
-// core/services/UserService.ts — depends only on the interface
+// users/core/UserService.ts — depends only on the interface
 export class UserService {
   constructor(private repo: UserRepository) {}
 
@@ -119,7 +95,7 @@ export class UserService {
   }
 }
 
-// adapters/db/PostgresUserRepository.ts — implements the interface
+// users/adapters/db/PostgresUserRepository.ts — implements the interface
 export class PostgresUserRepository implements UserRepository {
   async save(user: User) { /* SQL */ }
   async findById(id: string) { /* SQL */ }
@@ -142,7 +118,7 @@ const service = new UserService(new FakeUserRepository());
 
 ### Key rules
 
-- The core **never** imports from adapters. Violation: the adapter layer bleeds into domain logic.
-- Ports are named by **capability**, not technology: `ForStoringUsers`, not `ForPostgres`.
+- The core **never** imports from adapters.
+- Port names describe the *capability*, not the technology: `UserRepository`, not `PostgresRepository`.
 - Pass adapters via **constructor injection** — never instantiate them inside the core.
 - Each external system (DB, cache, queue, HTTP client) gets its own adapter.
