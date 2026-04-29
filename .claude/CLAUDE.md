@@ -30,6 +30,9 @@ For details: See auto memory files below.
 ### Software Architecture
 - @~/.claude/rules/Software Architecture.md
 
+### Claude Plugins
+- @~/.claude/rules/Claude Plugins.md
+
 ## Tool Guidelines
 
 ### Git & GitHub

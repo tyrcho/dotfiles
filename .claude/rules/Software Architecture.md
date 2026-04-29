@@ -19,19 +19,6 @@ src/
 
 **Python / Go:** same principle — domain folder at the top, files inside by responsibility.
 
-This also applies to Claude plugins: skill scripts belong in their skill's subfolder, not in a shared `pluginname/scripts/` folder.
-
-```
-.claude/
-  skills/
-    analyze/
-      scripts/helper.py
-      examples.md
-    report/
-      scripts/helper.py
-      examples.md
-```
-
 ## Hexagonal Architecture (Ports & Adapters)
 
 **Separate pure business logic from I/O by defining interfaces (ports) that the core depends on, implemented by adapters.**
