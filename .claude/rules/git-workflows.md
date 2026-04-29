@@ -11,10 +11,11 @@
 
 ### GitHub Integration
 - Always use `gh` CLI for GitHub operations
+- Always create PRs as **draft** (`gh pr create --draft`)
 - Examples:
   - `gh pr view 123`
   - `gh issue list`
-  - `gh pr create --title "..." --body "..."`
+  - `gh pr create --draft --title "..." --body "..."`
 
 ## Git Worktrees
 
@@ -37,7 +38,7 @@ A `PostToolUse` hook automatically checks for a nearby README.md after each file
 ### Creating PRs
 1. Ensure changes are committed
 2. Push to remote: `git push -u origin branch-name`
-3. Create PR using the template below
+3. Create PR as **draft** using the template below (`gh pr create --draft ...`)
 
 **PR body template:**
 
