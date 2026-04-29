@@ -2,6 +2,7 @@
 
 ## 2026-04-28
 
+- Updated `rules/coding-style.md`: added "Hexagonal Architecture (Ports & Adapters)" section covering ports/adapters pattern, folder structure, TypeScript example, and testing with in-memory fakes
 - Updated `rules/git-workflows.md`: added `--draft` flag to all `gh pr create` commands so PRs are always opened as drafts
 - Added `rules/Google Workspace MCP.md`: actionable rule for Docs MCP covering tool selection, known gaps (nested lists, tables, HRs), index stability, and Docs vs. Slides disambiguation
 - Updated `CLAUDE.md`: added references to Google Workspace MCP, Confluence Writing, and Jira Writing rules under MCP & Integrations / Writing sections
