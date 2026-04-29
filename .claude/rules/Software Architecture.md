@@ -1,74 +1,56 @@
-## Folder Organization - Domain Over Layer
+## Recommended Folder Structure
 
-**Organize folders by domain/feature, not by technology or layer.**
+Three top-level folders separate concerns clearly:
 
-Grouping by layer (e.g., `controllers/`, `models/`, `utils/`) scatters related code across the codebase. Grouping by domain keeps everything for a feature together.
-
-**TypeScript:**
 ```
 src/
-  billing/
-    controller.ts
-    service.ts
-    model.ts
-  users/
-    controller.ts
-    service.ts
-    model.ts
+  domains/
+    users/
+      user.ts              # Data structures, entities
+      user_service.ts      # Pure business logic — no I/O, no framework
+      user_repository.ts   # Interface (port) owned by the domain
+    billing/
+      billing.ts
+      billing_service.ts
+      payment_gateway.ts   # Interface for payment I/O
+  repositories/
+    users/
+      postgres_user_repo.ts     # Implements UserRepository using SQL
+    billing/
+      stripe_payment_adapter.ts # Implements PaymentGateway
+  main/
+    api/
+      user_controller.ts        # HTTP entry point
+    cli/
+      user_cli.ts
+    functions/
+      gsheet_trigger.ts         # Called by Google Sheets, cron, etc.
 ```
 
-**Python / Go:** same principle — domain folder at the top, files inside by responsibility.
+**Rule:** `domains/` depends on nothing external. `repositories/` and `main/` depend on `domains/`, never on each other.
 
 ## Hexagonal Architecture (Ports & Adapters)
 
-**Separate pure business logic from I/O by defining interfaces (ports) that the core depends on, implemented by adapters.**
+**The domain defines interfaces (ports) for what it needs from the outside. I/O modules implement them.**
 
 ### The three layers
 
-- **Core** — pure business logic. No database, no HTTP, no framework. Depends only on ports. Fully testable in isolation.
-- **Ports** — interfaces defined *by the core* describing what it needs from the outside (`UserRepository`, `NotificationSender`).
-- **Adapters** — concrete implementations of ports that handle actual I/O (`PostgresUserRepository`, `SmtpNotificationAdapter`).
+- **Domain** (`domains/`) — pure business logic and data structures. No database, no HTTP, no framework. Defines the interfaces it needs. Fully testable in isolation.
+- **Repositories** (`repositories/`) — concrete implementations of domain interfaces that handle storage and external services.
+- **Main** (`main/`) — entry points that wire everything together and handle inbound calls (HTTP, CLI, scheduled functions).
 
-Dependency points inward: adapters depend on ports; the core knows nothing about adapters.
-
-### Folder structure
-
-Combine with domain-over-layer: domain at the top, then `core/` and `adapters/` inside each domain.
-
-```
-src/
-  users/
-    core/
-      UserService.ts         # Business logic — no I/O
-      ports/
-        UserRepository.ts    # Interface owned by the core
-    adapters/
-      db/
-        PostgresUserRepository.ts   # Implements UserRepository
-      http/
-        UserController.ts           # Inbound entry point
-  billing/
-    core/
-      BillingService.ts
-      ports/
-        PaymentGateway.ts
-    adapters/
-      http/
-        BillingController.ts
-      payment/
-        StripePaymentAdapter.ts
-```
+Dependency points inward: repositories and main depend on the domain; the domain knows nothing about them.
 
 ### Pattern
 
 ```typescript
-// users/core/ports/UserRepository.ts — interface owned by the core
+// domains/users/user_repository.ts — interface owned by the domain
 export interface UserRepository {
   save(user: User): Promise<void>;
   findById(id: string): Promise<User | null>;
 }
 
-// users/core/UserService.ts — depends only on the interface
+// domains/users/user_service.ts — depends only on the interface
 export class UserService {
   constructor(private repo: UserRepository) {}
 
@@ -79,16 +61,20 @@ export class UserService {
   }
 }
 
-// users/adapters/db/PostgresUserRepository.ts — implements the interface
+// repositories/users/postgres_user_repo.ts — implements the interface
 export class PostgresUserRepository implements UserRepository {
   async save(user: User) { /* SQL */ }
   async findById(id: string) { /* SQL */ }
 }
+
+// main/api/user_controller.ts — wires domain + repository together
+const repo = new PostgresUserRepository(db);
+const service = new UserService(repo);
 ```
 
 ### Testing
 
-Swap the adapter for an in-memory fake — no database, no network:
+Swap the repository for an in-memory fake — no database, no network:
 
 ```typescript
 class FakeUserRepository implements UserRepository {
@@ -102,7 +88,7 @@ const service = new UserService(new FakeUserRepository());
 
 ### Key rules
 
-- The core **never** imports from adapters.
+- `domains/` **never** imports from `repositories/` or `main/`.
 - Port names describe the *capability*, not the technology: `UserRepository`, not `PostgresRepository`.
-- Pass adapters via **constructor injection** — never instantiate them inside the core.
-- Each external system (DB, cache, queue, HTTP client) gets its own adapter.
+- Pass repositories via **constructor injection** — never instantiate them inside the domain.
+- Each external system (DB, cache, queue, HTTP client) gets its own repository/adapter.
