@@ -17,7 +17,7 @@ src/
     users/
       postgres_user_repo.ts     # Implements UserRepository using SQL
     billing/
-      stripe_payment_adapter.ts # Implements PaymentGateway
+      stripe_payment_gateway.ts # Implements PaymentGateway
   main/
     api/
       user_controller.ts        # HTTP entry point
@@ -29,11 +29,11 @@ src/
 
 **Rule:** `domains/` depends on nothing external. `repositories/` and `main/` depend on `domains/`, never on each other.
 
-## Hexagonal Architecture (Ports & Adapters)
+## Hexagonal Architecture
 
-**The domain defines interfaces (ports) for what it needs from the outside. I/O modules implement them.**
+**The domain defines interfaces for what it needs from the outside.**
 
-### The three layers
+### The three folders
 
 - **Domain** (`domains/`) — pure business logic and data structures. No database, no HTTP, no framework. Defines the interfaces it needs. Fully testable in isolation.
 - **Repositories** (`repositories/`) — concrete implementations of domain interfaces that handle storage and external services.
@@ -89,6 +89,5 @@ const service = new UserService(new FakeUserRepository());
 ### Key rules
 
 - `domains/` **never** imports from `repositories/` or `main/`.
-- Port names describe the *capability*, not the technology: `UserRepository`, not `PostgresRepository`.
 - Pass repositories via **constructor injection** — never instantiate them inside the domain.
 - Each external system (DB, cache, queue, HTTP client) gets its own repository/adapter.
