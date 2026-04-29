@@ -2,6 +2,7 @@
 
 ## 2026-04-28
 
+- Updated `rules/Software Architecture.md`: replaced generic hexagonal `core/adapters` folder structure with a concrete three-folder layout — `domains/` (pure logic + interfaces), `repositories/` (DB/service implementations), `main/` (entrypoints such as API, CLI, GSheet functions)
 - Created `rules/Claude Plugins.md`: extracted Claude plugins folder organization from `Software Architecture.md` into its own rule; added reference in `CLAUDE.md`
 - Updated `rules/Software Architecture.md`: removed "Bad" folder structure columns, keeping only the "Good" examples
 - Updated `rules/Software Architecture.md`: resolved two contradictions — folder structure now shows domain-first hexagonal layout; port naming aligned between key rules and code examples
