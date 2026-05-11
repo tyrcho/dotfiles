@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-05-11
+
+- Reorganised `rules/` into topic subfolders: `code/` (coding-style, Software Architecture, Claude Plugins), `tools/` (mcp-integrations, Google Workspace MCP, Jira Writing, dev-tools, user-lookup, visualization), `process/` (git-workflows, dev-process, Confluence Writing), `datadog/` (datadog-patterns, team-context, direct-reports); `writing-style.md` stays at root. Updated all `@~/.claude/rules/...` references in `CLAUDE.md` and feature agents
+- Added language-specific code-review principles under `commands/code-review/Languages/`: 5 files each for Python (Pythonic Idioms, Style and Naming, Type Hints, Error Handling and Resources, Data Structures), TypeScript (Strict Mode and Compiler Flags, Type System Discipline, Modern Syntax and Async, Type Definitions, Naming and Style), and Go (Code Style and Formatting, Error Handling, Interfaces and APIs, Concurrency, Testing). Sources: PEP 8/20/484, TypeScript Handbook, Effective Go, Go Code Review Comments, Datadog Cloud Platform Golang wiki, internal PR-review patterns
+- Updated `commands/code-review.md`: added language-detection step (file extensions + config files), on-demand `Read` of the matching `Languages/<lang>/` folder, new "Part IV: Language-Specific Practices" section, and a Language-Specific Diagnostics table
+- Added `commands/code-review/Reliability/Maintainability and Operations/Alphabetical Ordering.md`: general (language-agnostic) principle covering const blocks, registries, switch cases, dependency lists; where it does NOT apply (pipelines, precedence, external schemas); how to mechanize with `goimports`/`isort`/ESLint
+- Added `commands/code-review/Languages/Go/Logging and Observability.md`: structured logging rules — static message + variable data in fields (never `Warnf`-style interpolation), context-attached logger so request-scoped fields propagate, typed field values, error helpers, wrap-and-return over log-and-return, levels, no-secrets rule
+- Activated `compile-check.sh` in PostToolUse hooks (`settings.json`) so Python and TypeScript files are syntax/compile-checked after every Edit/Write. Removed the now-redundant "Python Projects - Hooks" section from `coding-style.md`
+- Updated `rules/process/git-workflows.md`: added README structure convention — only `## Usage` and `## Implementation details / Architecture` top-level sections for code-project READMEs
+
 ## 2026-04-28
 
 - Updated `rules/Software Architecture.md`: replaced generic hexagonal `core/adapters` folder structure with a concrete three-folder layout — `domains/` (pure logic + interfaces), `repositories/` (DB/service implementations), `main/` (entrypoints such as API, CLI, GSheet functions)
