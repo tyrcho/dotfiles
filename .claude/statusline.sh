@@ -64,9 +64,10 @@ if cd "$cwd" 2>/dev/null && git rev-parse --is-inside-work-tree >/dev/null 2>&1;
 fi
 
 # --- Format cost ---
-cost_fmt=""
 if [ -n "$cost" ]; then
     cost_fmt=$(printf '$%.2f' "$cost")
+else
+    cost_fmt='$0.00'
 fi
 
 # --- Context percentage bar ---
