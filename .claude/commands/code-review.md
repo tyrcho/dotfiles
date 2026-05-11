@@ -19,10 +19,12 @@ If no argument provided, operate on the current folder or current code base.
 ### Process
 
 1. **Read all coding principles** from this document to understand what good code looks like.
-2. **Read the target file(s)** using the Read tool
-3. **Reread relevant coding principles** based on what violations you observe
-4. **Identify violations** organized by principle
-5. **Suggest concrete fixes** with before/after examples
+2. **Detect language(s) in the target.** Inspect file extensions (`.py`, `.ts`/`.tsx`/`.mts`/`.cts`, `.go`) and config files (`pyproject.toml`, `requirements.txt`, `setup.py`, `tsconfig.json`, `package.json`, `go.mod`). A project may use more than one — include every detected language.
+3. **Read the language-specific principles.** For each detected language, `Read` every `.md` file under `~/.claude/commands/code-review/Languages/<Language>/`. Apply them **in addition to** the general principles, not as a replacement. Skip languages that are not present in the target — don't waste context loading them.
+4. **Read the target file(s)** using the Read tool.
+5. **Reread relevant coding principles** (general and language-specific) based on what violations you observe.
+6. **Identify violations** organized by principle. Tag each violation as general or language-specific so the user knows which is which.
+7. **Suggest concrete fixes** with before/after examples in the target language.
 
 ### Output Format
 
@@ -112,6 +114,27 @@ If they affirm, then implement them next. When implementing them, consider if so
 | Inconsistent error handling | Fail-Fast | Validate at entry |
 | Silent failures | Fail-Fast, Observability | Fail loudly, log |
 | Getters exposing internals | Encapsulation | Tell, don't ask |
+
+### Language-Specific Diagnostics
+
+*Surface for the language(s) detected in step 2. Full guidance lives in the per-language files under `Languages/`.*
+
+| Language | Symptom | Likely File |
+|----------|---------|-------------|
+| Python | `except:` or `except Exception:` swallowing all errors | `Python/Error Handling and Resources` |
+| Python | `for i in range(len(xs))` / `if len(xs) > 0` | `Python/Pythonic Idioms` |
+| Python | `def f(items=[])` mutable default | `Python/Data Structures` |
+| Python | `List[int]` / `Optional[X]` on Python 3.10+ | `Python/Type Hints` |
+| TypeScript | `: any` or `as any` outside narrow shims | `TypeScript/Type System Discipline` |
+| TypeScript | Promise chain that could be `await` | `TypeScript/Modern Syntax and Async` |
+| TypeScript | `\|\|` used for defaults (loses `0`, `""`, `false`) | `TypeScript/Modern Syntax and Async` |
+| TypeScript | `IUser` / `IRepository` interface naming | `TypeScript/Naming and Style` |
+| Go | `fmt.Errorf("...: %v", err)` losing the chain | `Go/Error Handling` |
+| Go | `panic` in library / handler code | `Go/Error Handling` |
+| Go | >3 params, especially same-typed booleans | `Go/Interfaces and APIs` |
+| Go | Returning an interface from a constructor | `Go/Interfaces and APIs` |
+| Go | `mu.Lock()` without immediate `defer mu.Unlock()` | `Go/Concurrency` |
+| Go | Test without `t.Parallel()` or as `testify.Suite` | `Go/Testing` |
 
 ### Principle Tensions
 
@@ -256,6 +279,34 @@ If they affirm, then implement them next. When implementing them, consider if so
 
 @~/.claude/commands/code-review/Reliability/Maintainability and Operations/Boy Scout Rule.md
 @~/.claude/commands/code-review/Reliability/Maintainability and Operations/Observability.md
+
+### Part IV: Language-Specific Practices
+
+*Loaded on demand by `/code-review` after the language-detection step. Not inlined with `@` — `Read` only the subfolders that match languages detected in the target.*
+
+#### Python
+
+- [Pythonic Idioms](./code-review/Languages/Python/Pythonic%20Idioms.md)
+- [Style and Naming](./code-review/Languages/Python/Style%20and%20Naming.md)
+- [Type Hints](./code-review/Languages/Python/Type%20Hints.md)
+- [Error Handling and Resources](./code-review/Languages/Python/Error%20Handling%20and%20Resources.md)
+- [Data Structures](./code-review/Languages/Python/Data%20Structures.md)
+
+#### TypeScript
+
+- [Strict Mode and Compiler Flags](./code-review/Languages/TypeScript/Strict%20Mode%20and%20Compiler%20Flags.md)
+- [Type System Discipline](./code-review/Languages/TypeScript/Type%20System%20Discipline.md)
+- [Modern Syntax and Async](./code-review/Languages/TypeScript/Modern%20Syntax%20and%20Async.md)
+- [Type Definitions](./code-review/Languages/TypeScript/Type%20Definitions.md)
+- [Naming and Style](./code-review/Languages/TypeScript/Naming%20and%20Style.md)
+
+#### Go
+
+- [Code Style and Formatting](./code-review/Languages/Go/Code%20Style%20and%20Formatting.md)
+- [Error Handling](./code-review/Languages/Go/Error%20Handling.md)
+- [Interfaces and APIs](./code-review/Languages/Go/Interfaces%20and%20APIs.md)
+- [Concurrency](./code-review/Languages/Go/Concurrency.md)
+- [Testing](./code-review/Languages/Go/Testing.md)
 
 ---
 
