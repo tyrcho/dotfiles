@@ -8,10 +8,10 @@
 
 ## MCP & Integrations
 
-- @~/.claude/rules/mcp-integrations.md
+- @~/.claude/rules/tools/mcp-integrations.md
 
 ### Google Workspace MCP
-- @~/.claude/rules/Google Workspace MCP.md
+- @~/.claude/rules/tools/Google Workspace MCP.md
 
 ## Core Principles
 
@@ -25,24 +25,24 @@ For details: See auto memory files below.
 ## Code Quality
 
 ### Coding Style
-- @~/.claude/rules/coding-style.md
+- @~/.claude/rules/code/coding-style.md
 
 ### Software Architecture
-- @~/.claude/rules/Software Architecture.md
+- @~/.claude/rules/code/Software Architecture.md
 
 ### Claude Plugins
-- @~/.claude/rules/Claude Plugins.md
+- @~/.claude/rules/code/Claude Plugins.md
 
 ## Tool Guidelines
 
 ### Git & GitHub
-- @~/.claude/rules/git-workflows.md
+- @~/.claude/rules/process/git-workflows.md
 
 ### Development Tools
-- @~/.claude/rules/dev-tools.md
+- @~/.claude/rules/tools/dev-tools.md
 
 ### Development Process
-- @~/.claude/rules/dev-process.md
+- @~/.claude/rules/process/dev-process.md
 
 ## Writing & Communication
 
@@ -50,27 +50,27 @@ For details: See auto memory files below.
 - @~/.claude/rules/writing-style.md
 
 ### Confluence Pages
-- @~/.claude/rules/Confluence Writing.md
+- @~/.claude/rules/process/Confluence Writing.md
 
 ### Jira Descriptions
-- @~/.claude/rules/Jira Writing.md
+- @~/.claude/rules/tools/Jira Writing.md
 
 ## User Lookup & Identity Resolution
 
-- @~/.claude/rules/user-lookup.md
+- @~/.claude/rules/tools/user-lookup.md
 
 ## Visualization & Plotly
 
-- @~/.claude/rules/visualization.md
+- @~/.claude/rules/tools/visualization.md
 
 ## Team & Codebase Context
 
 ### Direct Reports
-- @~/.claude/rules/direct-reports.md
+- @~/.claude/rules/datadog/direct-reports.md
 
 ### AWS Integrations Team
-- @~/.claude/rules/team-context.md
+- @~/.claude/rules/datadog/team-context.md
 
 ### Datadog Patterns
-- @~/.claude/rules/datadog-patterns.md
+- @~/.claude/rules/datadog/datadog-patterns.md
 
