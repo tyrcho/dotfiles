@@ -153,5 +153,8 @@
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "theme": "dark-daltonized",
+  "verbose": true,
+  "preferredNotifChannel": "iterm2"
 }
