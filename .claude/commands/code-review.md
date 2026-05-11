@@ -137,6 +137,8 @@ If they affirm, then implement them next. When implementing them, consider if so
 | Go | Returning an interface from a constructor | `Go/Interfaces and APIs` |
 | Go | `mu.Lock()` without immediate `defer mu.Unlock()` | `Go/Concurrency` |
 | Go | Test without `t.Parallel()` or as `testify.Suite` | `Go/Testing` |
+| Go | `log.Warnf("... %s ...", x)` / package-level logger when ctx present | `Go/Logging and Observability` |
+| Go | Pre-stringified field values (`strconv.Itoa(n)` in a log call) | `Go/Logging and Observability` |
 
 ### Principle Tensions
 
@@ -311,6 +313,7 @@ If they affirm, then implement them next. When implementing them, consider if so
 - [Interfaces and APIs](./code-review/Languages/Go/Interfaces%20and%20APIs.md)
 - [Concurrency](./code-review/Languages/Go/Concurrency.md)
 - [Testing](./code-review/Languages/Go/Testing.md)
+- [Logging and Observability](./code-review/Languages/Go/Logging%20and%20Observability.md)
 
 ---
 
