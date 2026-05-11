@@ -39,6 +39,7 @@
 	fsmonitor = false
     untrackedCache = true
 	autocrlf = input
+	hooksPath = /usr/local/dd/global_hooks
 [alias]
     fco = "! git switch \"$(git branch -vv --all | fzf --height 20 --ansi --select-1 --reverse --query=\"remotes/${1:-}\" | awk '{printf(\"%s\", $1)}' | sed 's|^remotes/origin/||')\" #"
 
