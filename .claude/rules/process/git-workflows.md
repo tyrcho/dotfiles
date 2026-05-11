@@ -32,6 +32,18 @@ A `PostToolUse` hook automatically checks for a nearby README.md after each file
 - ❌ **Never** create a new `README.md` without asking the user
 - ❌ **Never** add a new section to an existing README without asking the user
 
+**Structure for code project READMEs:**
+
+```markdown
+## Usage
+<how to install, configure, and run the project>
+
+## Implementation details / Architecture
+<design decisions, key components, how it works internally>
+```
+
+Only these two top-level sections. No intro blurb, no badges section, no contributing section unless explicitly requested.
+
 ### Commit Messages
 - **Never** add `Co-Authored-By` trailers to commit messages
 
