@@ -115,21 +115,3 @@ for i in $(seq 1 "$total"); do
 done
 printf "\n" >&2
 ```
-
-## Python Projects - Hooks
-
-When working in a Python project, suggest adding a `postEdit` hook to auto-check syntax after every file edit:
-
-```json
-// .claude/settings.json
-{
-  "hooks": {
-    "postEdit": {
-      "command": "cd $PROJECT_DIR && python -m py_compile $FILEPATH 2>&1 | head -5",
-      "description": "Syntax check Python files after editing"
-    }
-  }
-}
-```
-
-Suggest this once at the start of a Python session if no hook is already configured.
