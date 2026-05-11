@@ -114,6 +114,8 @@ If they affirm, then implement them next. When implementing them, consider if so
 | Inconsistent error handling | Fail-Fast | Validate at entry |
 | Silent failures | Fail-Fast, Observability | Fail loudly, log |
 | Getters exposing internals | Encapsulation | Tell, don't ask |
+| Enumerable list in arbitrary order | Alphabetical Ordering | Sort it; let tooling enforce |
+| Duplicates hidden in a long list | Alphabetical Ordering | Sort — duplicates become visually adjacent |
 
 ### Language-Specific Diagnostics
 
@@ -276,9 +278,11 @@ If they affirm, then implement them next. When implementing them, consider if so
 
 - [Boy Scout Rule](./code-review/Reliability/Maintainability%20and%20Operations/Boy%20Scout%20Rule.md)
 - [Observability](./code-review/Reliability/Maintainability%20and%20Operations/Observability.md)
+- [Alphabetical Ordering](./code-review/Reliability/Maintainability%20and%20Operations/Alphabetical%20Ordering.md)
 
 @~/.claude/commands/code-review/Reliability/Maintainability and Operations/Boy Scout Rule.md
 @~/.claude/commands/code-review/Reliability/Maintainability and Operations/Observability.md
+@~/.claude/commands/code-review/Reliability/Maintainability and Operations/Alphabetical Ordering.md
 
 ### Part IV: Language-Specific Practices
 

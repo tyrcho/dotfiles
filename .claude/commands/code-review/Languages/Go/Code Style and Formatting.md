@@ -86,7 +86,7 @@ if user.Scope == authScopeCloudPlatform { ... }
 
 Prefer string-typed constants over `iota` when the value appears in logs or errors — a string prints its name, an int prints a number that requires a lookup.
 
-**Sort `const` and `var` blocks alphabetically.** It makes duplicates obvious and keeps diffs minimal. This is especially important after AI-generated code, which often inserts in arbitrary order.
+Sort `const` and `var` blocks alphabetically — see the general principle [Alphabetical Ordering](../../Reliability/Maintainability%20and%20Operations/Alphabetical%20Ordering.md).
 
 ### File layout
 
@@ -151,7 +151,7 @@ Unexported names get comments when their purpose isn't obvious from the signatur
 1. **`gofumpt` + `goimports` on save** — style is not a review topic.
 2. **`var` for zero values, `:=` for initialization** — don't mix the two.
 3. **`make([]T, 0, n)` when length known**; `var s []T` when unknown.
-4. **Domain strings → named constants**; alphabetical `const`/`var` blocks.
+4. **Domain strings → named constants**; sort `const`/`var` blocks alphabetically (general principle).
 5. **Acronyms stay one case**: `userID`, `parseHTTPRequest`.
 6. **Receivers: 1–2 letters, consistent across methods.**
 7. **Doc comments start with the identifier**, full sentence.
