@@ -18,13 +18,72 @@ If no argument provided, operate on the current folder or current code base.
 
 ### Process
 
-1. **Read all coding principles** from this document to understand what good code looks like.
+1. **All general principles are already loaded into your context** via the `@~/.claude/commands/code-review/...` directives in the *Coding Principles Reference* section below. Treat every general principle as *in-scope by default*. Do **not** rely on the `code-review:...` Skill tool entries — those are progressive disclosure and selectively loading a subset will cause you to miss violations.
 2. **Detect language(s) in the target.** Inspect file extensions (`.py`, `.ts`/`.tsx`/`.mts`/`.cts`, `.go`) and config files (`pyproject.toml`, `requirements.txt`, `setup.py`, `tsconfig.json`, `package.json`, `go.mod`). A project may use more than one — include every detected language.
 3. **Read the language-specific principles.** For each detected language, `Read` every `.md` file under `~/.claude/commands/code-review/Languages/<Language>/`. Apply them **in addition to** the general principles, not as a replacement. Skip languages that are not present in the target — don't waste context loading them.
-4. **Read the target file(s)** using the Read tool.
-5. **Reread relevant coding principles** (general and language-specific) based on what violations you observe.
-6. **Identify violations** organized by principle. Tag each violation as general or language-specific so the user knows which is which.
+4. **Read the target file(s)** using the Read tool. For a non-trivial codebase, read enough files to cover the main entry points, every package's primary file, and at least one test file per package.
+5. **Run the Principle Coverage Checklist** (see section below) before drafting the report. Walk through **every** general principle and every loaded language principle and ask "does the target violate this?" — even principles that don't seem obviously relevant. Selective application is the failure mode this checklist exists to prevent.
+6. **Identify violations** organized by principle. Tag each violation `[GEN]` (general) or `[<LANG>]` (language-specific) so the user knows which is which.
 7. **Suggest concrete fixes** with before/after examples in the target language.
+
+### Principle Coverage Checklist
+
+Before writing the report, confirm each row below has been considered against the target. Mark ✅ (no violation) or list violations found. Do not skip rows — a row you can't justify skipping means you haven't checked it yet.
+
+**Clean Code — Simplicity & Minimalism**
+- [ ] KISS — needless complexity or cleverness
+- [ ] YAGNI — speculative features, unused extension points
+- [ ] Small Functions — anything > ~50 lines, mixed-level functions
+- [ ] Guard Clauses — nested `if` pyramids that could be early returns
+
+**Clean Code — Clarity & Readability**
+- [ ] Cognitive Load — nesting > 3 levels, dense type-switches, long parameter lists
+- [ ] SLAP (Single Level of Abstraction) — functions mixing framework calls with domain logic
+- [ ] Self-Documenting Code — magic numbers, opaque names, naked-return error swallowing
+- [ ] Documentation Discipline — missing doc comments on exported APIs, rotting/parrot comments, untracked TODOs
+- [ ] Elegance — overall flow and naming feel
+- [ ] Least Surprise — APIs behaving differently from language conventions (e.g. nil-safe receivers in Go)
+
+**Architecture — Organization & Structure**
+- [ ] DRY — knowledge duplicated 3+ times (apply Rule of Three)
+- [ ] Single Source of Truth — same constant/enum/string defined in multiple packages
+- [ ] Separation of Concerns — one function/package doing N unrelated jobs
+- [ ] Modularity — package boundaries match concern boundaries
+
+**Architecture — Coupling & Dependencies**
+- [ ] Encapsulation — exported mutable package-level state, getters/setters on plain data
+- [ ] Law of Demeter — `a.b.c.d` chains across module boundaries
+- [ ] Orthogonality — one change requiring edits in many unrelated files (shotgun surgery)
+- [ ] Dependency Injection — globals (`os.Getenv`, lambdacontext, package-level clients) accessed from deep code
+- [ ] Composition Over Inheritance — type conversions used to share behaviour, deep inheritance trees
+
+**Architecture — Design Patterns & Conventions**
+- [ ] SOLID — SRP (Config/Handler doing too much), Open/Closed (switch must change per new case), Liskov, Interface Segregation, Dependency Inversion
+- [ ] Convention Over Configuration — codebase fights its language/framework conventions
+- [ ] Command-Query Separation — query functions that mutate, or vice versa
+- [ ] Code Reusability — shared helpers in private packages that should be exported (or vice versa)
+
+**Architecture — Data & State**
+- [ ] Parse, Don't Validate — `Validate(x)` returning bool/error instead of parsing into a stricter type; downstream re-parsing the same payload
+- [ ] Immutability — shared mutable structs passed by pointer where a copy would be safer
+- [ ] Idempotency — retry-unsafe endpoints, missing request IDs on writes
+
+**Reliability — Robustness & Safety**
+- [ ] Fail-Fast — silent swallows, log-and-continue on critical errors
+- [ ] Design by Contract — undocumented preconditions on exported APIs
+- [ ] Postel's Law — strict where it should be liberal (or vice versa)
+- [ ] Resilience — no retries / backoff / circuit breaker on critical external calls
+- [ ] Least Privilege — over-broad credentials, default-allow patterns
+
+**Reliability — Maintainability & Operations**
+- [ ] Boy Scout Rule — obvious cleanups untouched (typos, dead code, tiny scattered files)
+- [ ] Observability — silent drops, no metrics for failure paths, package-level logger when ctx is available
+- [ ] Alphabetical Ordering — long enumerable lists in random order
+
+**Language-Specific** (apply for each detected language)
+- [ ] Every file under `Languages/<Language>/` has been considered against the target.
+
+If, after the checklist, the report has **zero** violations in any major category (Clean Code, Architecture, Reliability), reread the target — the most likely cause is selective checking, not a flawless codebase.
 
 ### Output Format
 
@@ -64,11 +123,13 @@ If they affirm, then implement them next. When implementing them, consider if so
 
 ### Important Notes
 
-- **Don't over-engineer**: Suggesting abstractions for single-use code violates YAGNI/KISS
-- **Context matters**: Test code has different standards (DAMP over DRY)
-- **Rule of Three**: Don't suggest abstracting until pattern proven with 3+ occurrences
-- **Incidental similarity is not duplication**: Don't merge code that happens to look similar but represents different concepts
-- **Be specific**: Reference exact line numbers and provide concrete before/after code
+- **Coverage before depth**: Every general principle in the checklist must be considered. A short list of findings from many categories beats a deep list from one or two.
+- **Don't over-engineer**: Suggesting abstractions for single-use code violates YAGNI/KISS.
+- **Context matters**: Test code has different standards (DAMP over DRY).
+- **Rule of Three**: Don't suggest abstracting until pattern proven with 3+ occurrences.
+- **Incidental similarity is not duplication**: Don't merge code that happens to look similar but represents different concepts.
+- **Be specific**: Reference exact line numbers and provide concrete before/after code.
+- **Tag every finding**: Each violation must carry `[GEN]` or `[<LANG>]` so the user can audit principle coverage at a glance.
 
 ### Priority Matrix
 
