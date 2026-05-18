@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-05-18
+
+- Updated `commands/code-review.md`: replaced the vague "reread relevant principles" step with an explicit **Principle Coverage Checklist** that walks every general principle by category (Clean Code, Architecture, Reliability, language-specific). Reworded step 1 to make clear that all general principles are already loaded via `@`-directives and the `code-review:...` Skill entries are progressive disclosure (selective loading was the failure mode that caused entire categories — SOLID, Parse-Don't-Validate, Separation of Concerns, Idempotency, Resilience, Observability — to be skipped). Require every finding to carry a `[GEN]` / `[<LANG>]` tag
+- Added tracked `.finicky.js` (force-added past the home-repo `*` gitignore): routes `docs.google.com`, `drive.google.com`, `sheets.google.com`, `slides.google.com`, `mail.google.com`, `gmail.com`, `*.new`, `login.microsoftonline.com`, and `portal.azure.com` to the Datadog Chrome profile. These hostnames were previously declared but never referenced, so Google Docs links fell through to `defaultBrowser` with no profile and opened in whichever Chrome instance was focused — including test-automation profiles. Dropped unused govcloud + ninja config (`ChromeProfiles.DatadogGov`/`DatadogNinja`, `GoogleIdp.DdGov`/`DdGovVault`/`DdNinja`, `AWSFedDirectoryId`, gov-routing handlers) and salesforce config. Switched to ESM `export default` per Finicky's v4 deprecation warning, used profile names (`Datadog`, `Michel`) instead of paths (`Default`, `Profile 1`), converted top-level identifiers to `const`
+
 ## 2026-05-11
 
 - Reorganised `rules/` into topic subfolders: `code/` (coding-style, Software Architecture, Claude Plugins), `tools/` (mcp-integrations, Google Workspace MCP, Jira Writing, dev-tools, user-lookup, visualization), `process/` (git-workflows, dev-process, Confluence Writing), `datadog/` (datadog-patterns, team-context, direct-reports); `writing-style.md` stays at root. Updated all `@~/.claude/rules/...` references in `CLAUDE.md` and feature agents
