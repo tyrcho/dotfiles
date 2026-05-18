@@ -7,7 +7,7 @@ A launchd-scheduled job that runs Claude Code headlessly each weekday morning to
 Every weekday at 10:03 AM local time, launchd runs `daily-work-analyzer.sh`, which:
 
 1. Sources `~/.zprofile` and `~/.zshrc` so the Claude binary inherits `$PATH` and API tokens (`JIRA_API_TOKEN`, `CONFLUENCE_API_TOKEN`, etc.).
-2. Invokes `~/.local/bin/claude --print` (the real Anthropic CLI, bypassing the cmux wrapper which has no socket in a launchd context) with the contents of `prompt.txt`.
+2. Invokes `~/.local/bin/claude --print` (the real Anthropic CLI, bypassing the cmux wrapper which has no socket in a launchd context) with the contents of `prompt.md`.
 3. The prompt tells Claude to:
    - List calendar events between now and end-of-tomorrow via `mcp__datadog-google-calendar__list_events`.
    - Filter to 1:1s (events with exactly 2 attendees).
@@ -24,7 +24,7 @@ Logs land at `/tmp/work-analyzer-daily.log` (stdout) and `/tmp/work-analyzer-dai
 ~/.claude/scripts/daily-work-analyzer/
 ├── README.md                 — this file
 ├── daily-work-analyzer.sh    — entry point invoked by launchd
-└── prompt.txt                — the Claude prompt; edit to change behavior
+└── prompt.md                — the Claude prompt; edit to change behavior
 ~/Library/LaunchAgents/
 └── com.michel.daviot.work-analyzer-daily.plist  — launchd schedule (Mon-Fri 10:03 AM)
 ```
@@ -74,7 +74,7 @@ For the headless run to invoke tools without TTY-bound permission prompts, the u
    chmod +x ~/.claude/scripts/daily-work-analyzer/daily-work-analyzer.sh
    ```
 
-3. **Adjust paths in `prompt.txt`** if the Management/People vault lives at a different absolute path on the new machine.
+3. **Adjust paths in `prompt.md`** if the Management/People vault lives at a different absolute path on the new machine.
 
 4. **Copy the launchd plist**:
    ```bash
@@ -106,7 +106,7 @@ For the headless run to invoke tools without TTY-bound permission prompts, the u
 | Force-fire now | `launchctl kickstart -k gui/$(id -u)/com.michel.daviot.work-analyzer-daily` |
 | Unload | `launchctl bootout gui/$(id -u)/com.michel.daviot.work-analyzer-daily` |
 | Reload after editing the plist | `launchctl bootout … ; launchctl bootstrap …` (in sequence) |
-| Edit the prompt | edit `prompt.txt` — picked up on next run (no reload needed) |
+| Edit the prompt | edit `prompt.md` — picked up on next run (no reload needed) |
 
 ## Why `~/.local/bin/claude` and not the cmux wrapper
 

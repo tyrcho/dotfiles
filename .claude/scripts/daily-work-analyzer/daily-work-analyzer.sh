@@ -10,7 +10,7 @@
 [[ -f "${HOME}/.zprofile" ]] && source "${HOME}/.zprofile" 2>/dev/null || true
 [[ -f "${HOME}/.zshrc"    ]] && source "${HOME}/.zshrc"    2>/dev/null || true
 
-PROMPT_FILE="${HOME}/.claude/scripts/daily-work-analyzer/prompt.txt"
+PROMPT_FILE="${HOME}/.claude/scripts/daily-work-analyzer/prompt.md"
 # Real Anthropic Claude CLI — bypass the cmux wrapper which hangs without a
 # live cmux socket (launchd has no cmux integration).
 CLAUDE_BIN="${HOME}/.local/bin/claude"
