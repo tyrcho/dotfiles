@@ -42,6 +42,30 @@
       "Bash(jq:*)",
       "Bash(curl:*)",
       "Bash(date:*)",
+      "Bash(grep:*)",
+      "Bash(mv:*)",
+      "Bash(rmdir:*)",
+      "Bash(rm:*)",
+      "Bash(python3:*)",
+      "Bash(touch:*)",
+      "Bash(chmod:*)",
+      "Bash(builtin cd:*)",
+      "Bash(./*)",
+      "Bash($CLAUDE_PLUGIN_ROOT/*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Agent",
+      "mcp__datadog-google-calendar__*",
+      "mcp__datadog-google-workspace__*",
+      "mcp__google-workspace__*",
+      "mcp__datadog-mcp__*",
+      "mcp__slack__*",
+      "mcp__atlassian__*",
+      "mcp__snowflake__*",
+      "mcp__plugin_claude-mem_mcp-search__*",
       "WebSearch",
       "WebFetch",
       "mcp__atlassian__atlassianUserInfo",
@@ -129,7 +153,8 @@
     "work-analyzer@datadog-claude-plugins-dev": true,
     "work-analyzer@datadog-claude-plugins": true,
     "faq@cloud-observability": true,
-    "clobs-jira@cloud-observability": true
+    "clobs-jira@cloud-observability": true,
+    "snapshot@local": true
   },
   "extraKnownMarketplaces": {
     "datadog-claude-plugins": {
@@ -149,12 +174,18 @@
         "source": "directory",
         "path": "/Users/michel.daviot/dd/experimental/teams/cloud-observability/claude-plugin-marketplace"
       }
+    },
+    "local": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/michel.daviot/.claude/local-plugins"
+      }
     }
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true,
   "theme": "dark-daltonized",
   "verbose": true,
-  "preferredNotifChannel": "iterm2"
+  "preferredNotifChannel": "iterm2",
+  "skipAutoPermissionPrompt": true
 }
