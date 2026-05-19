@@ -28,7 +28,10 @@ const GoogleIdp = {
 };
 
 export default {
-    defaultBrowser: "Google Chrome",
+    defaultBrowser: {
+        name: "Google Chrome",
+        profile: ChromeProfiles.Datadog,
+    },
     handlers: [
         {
             match: finicky.matchHostnames(["accounts.google.com"]),
@@ -47,6 +50,7 @@ export default {
                 "app.datadoghq.com",
                 "ddstaging.datadoghq.com",
                 "datadoghq.atlassian.net",
+                "mcp.atlassian.com",
                 "sdp.ddbuild.io",
                 "datadog.zoom.us",
                 "dd.datad0g.com",
