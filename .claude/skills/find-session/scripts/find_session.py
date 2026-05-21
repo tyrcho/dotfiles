@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Search past Claude Code sessions and print `claude --resume` commands.
 
-Walks ~/.claude/projects/*/*.jsonl. No external dependencies.
+Scans a static allowlist of project folders under ~/.claude/projects/. No external dependencies.
 """
 
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import json
 import logging
 import math
@@ -17,22 +18,26 @@ from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, NamedTuple
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger("find-session")
 
 PROJECTS_DIR = Path.home() / ".claude" / "projects"
-FILE_PATH_KEYS = ("file_path", "filePath", "path", "notebook_path")
-OBSERVER_SUBSTR = "claude-mem-observer-sessions"
+FILE_PATH_KEYS = ("filePath", "file_path", "notebook_path", "path")
+# Static allowlist: scan only projects launched from ~ (encoded `-Users-michel-daviot*`),
+# excluding claude-mem's observer-sessions (its transcripts ingest every other session
+# and swamp searches). Drops ephemeral cwds like `-private-tmp*` and the bare `-` (root).
+PROJECT_INCLUDE_GLOB = "-Users-michel-daviot*"
+PROJECT_EXCLUDE_GLOB = "*--claude-mem-*"
 
 
 def main() -> int:
     args = parse_args()
     since, until = parse_date_window(args.since, args.until)
     candidates = collect_candidates(args, since, until)
-    tokens = [t for t in args.query.lower().split() if t] if args.query else []
-    scanned = [m for m in (search_session(p, args, tokens) for p in candidates) if m]
+    tokens = [t for t in args.query.lower().split() if t]
+    scanned = [m for m in (search_session(p, tokens) for p in candidates) if m]
     matches = rank_matches(scanned, tokens, corpus_size=len(candidates))
     matches = matches[: args.limit]
     if not matches:
@@ -43,38 +48,33 @@ def main() -> int:
 
 
 def rank_matches(scanned: list["SessionMatch"], tokens: list[str], corpus_size: int) -> list["SessionMatch"]:
-    if not tokens:
-        scanned.sort(key=lambda m: (m.path_hits, m.total_hits, m.mtime), reverse=True)
-        return scanned
     df: Counter = Counter()
     for m in scanned:
         for t in m.token_freq:
             df[t] += 1
     matches = [m for m in scanned if all(m.token_freq.get(t, 0) > 0 for t in tokens)]
-    for m in matches:
-        m.score = sum(
-            (1 + math.log(m.token_freq[t])) * math.log(corpus_size / df[t])
-            for t in tokens
-            if df[t] > 0
-        )
-    matches.sort(key=lambda m: (m.score, m.path_hits, m.total_hits, m.mtime), reverse=True)
+    scores = {id(m): _tf_idf_score(m, tokens, df, corpus_size) for m in matches}
+    matches.sort(key=lambda m: (scores[id(m)], m.entry_hits, m.mtime), reverse=True)
     return matches
+
+
+def _tf_idf_score(m: "SessionMatch", tokens: list[str], df: Counter, corpus_size: int) -> float:
+    return sum(
+        (1 + math.log(m.token_freq[t])) * math.log(corpus_size / df[t])
+        for t in tokens
+        if df[t] > 0
+    )
 
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("query", nargs="?", help="case-insensitive substring (any message)")
-    p.add_argument("--path", help="substring to match against tool-call file paths")
+    p.add_argument("query", help="space-separated tokens; all must appear (in any order)")
     p.add_argument("--since", help="ISO date, 'yesterday', 'today', or 'Nd'")
     p.add_argument("--until", help="ISO date, 'yesterday', 'today', or 'Nd'")
     p.add_argument("--project", help="substring filter on decoded project name")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--include-active", action="store_true", help="don't skip the current $CLAUDE_CODE_SESSION_ID")
-    p.add_argument("--include-observer", action="store_true", help="don't skip claude-mem observer-sessions")
-    args = p.parse_args()
-    if not args.query and not args.path:
-        p.error("provide a QUERY, --path, or both")
-    return args
+    return p.parse_args()
 
 
 def parse_date_window(since: str | None, until: str | None) -> tuple[datetime | None, datetime | None]:
@@ -107,10 +107,10 @@ def collect_candidates(args: argparse.Namespace, since: datetime | None, until: 
         raise SystemExit(f"no projects dir at {PROJECTS_DIR}")
     active = None if args.include_active else os.environ.get("CLAUDE_CODE_SESSION_ID")
     found: list[Path] = []
-    for project_dir in PROJECTS_DIR.iterdir():
+    for project_dir in PROJECTS_DIR.glob(PROJECT_INCLUDE_GLOB):
         if not project_dir.is_dir():
             continue
-        if not args.include_observer and OBSERVER_SUBSTR in project_dir.name:
+        if fnmatch.fnmatch(project_dir.name, PROJECT_EXCLUDE_GLOB):
             continue
         if args.project and not project_matches(project_dir.name, args.project):
             continue
@@ -138,81 +138,90 @@ def project_matches(folder_name: str, needle: str) -> bool:
     return needle in folder_name.lower() or needle in decode_project(folder_name).lower()
 
 
-@dataclass
+@dataclass(frozen=True)
 class SessionMatch:
     session_id: str
     project_folder: str
     cwd: str | None
     start_ts: str | None
     mtime: float
-    path_hits: int
-    total_hits: int
+    entry_hits: int
+    total_entries: int
     file_counts: Counter = field(default_factory=Counter)
     topic: str | None = None
     snippet: str | None = None
     token_freq: Counter = field(default_factory=Counter)
-    score: float = 0.0
 
 
-def search_session(jsonl: Path, args: argparse.Namespace, tokens: list[str]) -> SessionMatch | None:
-    path_query = args.path.lower() if args.path else None
-    total = 0
-    path_hits = 0
-    file_counts: Counter = Counter()
-    token_freq: Counter = Counter()
+def search_session(jsonl: Path, tokens: list[str]) -> SessionMatch | None:
+    scanner = _SessionScanner(tokens=tokens)
+    for entry in iter_entries(jsonl):
+        scanner.scan(entry)
+    if scanner.entry_hits == 0:
+        return None
+    snippet = make_cluster_snippet(scanner.best_text, scanner.best_hits) if scanner.best_text else None
+    return SessionMatch(
+        session_id=jsonl.stem,
+        project_folder=jsonl.parent.name,
+        cwd=scanner.cwd,
+        start_ts=scanner.start_ts,
+        mtime=jsonl.stat().st_mtime,
+        entry_hits=scanner.entry_hits,
+        total_entries=scanner.total_entries,
+        file_counts=scanner.file_counts,
+        topic=scanner.topic,
+        snippet=snippet,
+        token_freq=scanner.token_freq,
+    )
+
+
+@dataclass
+class _SessionScanner:
+    tokens: list[str]
+    total_entries: int = 0
+    entry_hits: int = 0
+    file_counts: Counter = field(default_factory=Counter)
+    token_freq: Counter = field(default_factory=Counter)
     cwd: str | None = None
     start_ts: str | None = None
     topic: str | None = None
     best_text: str | None = None
-    best_hits: list[str] = []
-    best_score = (0, 0)
-    for entry in iter_entries(jsonl):
-        if cwd is None and isinstance(entry.get("cwd"), str):
-            cwd = entry["cwd"]
-        if start_ts is None and entry.get("type") == "user":
-            start_ts = entry.get("timestamp")
+    best_hits: list[str] = field(default_factory=list)
+    best_score: tuple[int, int] = (0, 0)
+
+    def scan(self, entry: dict) -> None:
+        self.total_entries += 1
+        self._observe_metadata(entry)
         text, paths = extract_searchable(entry)
-        if topic is None and entry.get("type") == "user":
-            topic = extract_topic(text)
-        if tokens:
-            text_lower = text.lower()
-            entry_hits = {t: text_lower.count(t) for t in tokens}
-            entry_hits = {t: c for t, c in entry_hits.items() if c > 0}
-            if entry_hits:
-                total += 1
-                token_freq.update(entry_hits)
-                score = (len(entry_hits), sum(entry_hits.values()))
-                if score > best_score:
-                    best_score = score
-                    best_text = text
-                    best_hits = list(entry_hits.keys())
+        if self.topic is None and entry.get("type") == "user":
+            self.topic = extract_topic(text)
+        self._score_text(text)
+        self._count_paths(paths)
+
+    def _observe_metadata(self, entry: dict) -> None:
+        if self.cwd is None and isinstance(entry.get("cwd"), str):
+            self.cwd = entry["cwd"]
+        if self.start_ts is None and entry.get("type") == "user":
+            self.start_ts = entry.get("timestamp")
+
+    def _score_text(self, text: str) -> None:
+        text_lower = text.lower()
+        hits = {t: text_lower.count(t) for t in self.tokens}
+        hits = {t: c for t, c in hits.items() if c > 0}
+        if not hits:
+            return
+        self.entry_hits += 1
+        self.token_freq.update(hits)
+        score = (len(hits), sum(hits.values()))
+        if score > self.best_score:
+            self.best_score = score
+            self.best_text = text
+            self.best_hits = list(hits.keys())
+
+    def _count_paths(self, paths: list[str]) -> None:
         for p in paths:
-            p_lower = p.lower()
-            if path_query and path_query in p_lower:
-                path_hits += 1
-                file_counts[p] += 1
-            if tokens and not path_query:
-                p_hits = {t: p_lower.count(t) for t in tokens}
-                p_hits = {t: c for t, c in p_hits.items() if c > 0}
-                if p_hits:
-                    total += 1
-                    token_freq.update(p_hits)
-    if path_hits == 0 and total == 0:
-        return None
-    snippet = make_cluster_snippet(best_text, best_hits) if best_text else None
-    return SessionMatch(
-        session_id=jsonl.stem,
-        project_folder=jsonl.parent.name,
-        cwd=cwd,
-        start_ts=start_ts,
-        mtime=jsonl.stat().st_mtime,
-        path_hits=path_hits,
-        total_hits=total + path_hits,
-        file_counts=file_counts,
-        topic=topic,
-        snippet=snippet,
-        token_freq=token_freq,
-    )
+            if any(t in p.lower() for t in self.tokens):
+                self.file_counts[p] += 1
 
 
 def extract_topic(text: str) -> str | None:
@@ -231,50 +240,63 @@ def extract_topic(text: str) -> str | None:
     return clip(stripped, 120) if stripped else None
 
 
-def make_snippet(text: str, query: str, width: int = 40) -> str | None:
-    idx = text.lower().find(query.lower())
-    if idx < 0:
-        return None
-    return snippet_window(text, idx, idx + len(query), pad=width)
+class _Pos(NamedTuple):
+    start: int
+    end: int
+    token: str
+
+
+class _Window(NamedTuple):
+    length: int
+    start: int
+    end: int
 
 
 def make_cluster_snippet(text: str, tokens: list[str], pad: int = 25, max_width: int = 200) -> str | None:
     """Pick the tightest window covering all listed tokens; fall back to first occurrence."""
     if not text or not tokens:
         return None
-    text_lower = text.lower()
-    positions: list[tuple[int, int, str]] = []
+    positions = _all_token_positions(text.lower(), tokens)
+    if not positions:
+        return None
+    best = _tightest_cover(positions, max_width)
+    if best is None:
+        first = positions[0]
+        return snippet_window(text, first.start, first.end, pad=pad)
+    return snippet_window(text, best.start, best.end, pad=pad)
+
+
+def _all_token_positions(text_lower: str, tokens: list[str]) -> list[_Pos]:
+    positions: list[_Pos] = []
     for t in tokens:
         i = 0
         while True:
             j = text_lower.find(t, i)
             if j < 0:
                 break
-            positions.append((j, j + len(t), t))
+            positions.append(_Pos(j, j + len(t), t))
             i = j + 1
-    if not positions:
-        return None
     positions.sort()
-    present = {t for _, _, t in positions}
-    best: tuple[int, int, int] | None = None  # (length, start, end)
+    return positions
+
+
+def _tightest_cover(positions: list[_Pos], max_width: int) -> _Window | None:
+    present = {p.token for p in positions}
+    best: _Window | None = None
     counts: Counter = Counter()
     left = 0
-    for right, (_, _, tok_r) in enumerate(positions):
-        counts[tok_r] += 1
-        while len(counts) == len(present) and counts[positions[left][2]] > 1:
-            counts[positions[left][2]] -= 1
+    for right, p in enumerate(positions):
+        counts[p.token] += 1
+        while len(counts) == len(present) and counts[positions[left].token] > 1:
+            counts[positions[left].token] -= 1
             left += 1
         if len(counts) == len(present):
-            start_pos = positions[left][0]
-            end_pos = positions[right][1]
-            window = end_pos - start_pos
-            if window <= max_width and (best is None or window < best[0]):
-                best = (window, start_pos, end_pos)
-    if best is None:
-        start_pos, end_pos, _ = positions[0]
-        return snippet_window(text, start_pos, end_pos, pad=pad)
-    _, start_pos, end_pos = best
-    return snippet_window(text, start_pos, end_pos, pad=pad)
+            start = positions[left].start
+            end = positions[right].end
+            length = end - start
+            if length <= max_width and (best is None or length < best.length):
+                best = _Window(length, start, end)
+    return best
 
 
 def snippet_window(text: str, start: int, end: int, pad: int) -> str:
@@ -361,11 +383,7 @@ def format_report(matches: list[SessionMatch], args: argparse.Namespace) -> str:
 
 
 def describe_query(args: argparse.Namespace, n: int) -> str:
-    bits = []
-    if args.query:
-        bits.append(f'"{args.query}"')
-    if args.path:
-        bits.append(f"path~{args.path}")
+    bits = [f'"{args.query}"']
     if args.since:
         bits.append(f"since {args.since}")
     if args.until:
@@ -376,10 +394,10 @@ def describe_query(args: argparse.Namespace, n: int) -> str:
 def render_match(rank: int, m: SessionMatch) -> str:
     cwd = m.cwd or decode_project(m.project_folder)
     timespan = format_timespan(parse_iso(m.start_ts), datetime.fromtimestamp(m.mtime).astimezone())
-    hits = format_hits(m)
+    hits = f"{m.entry_hits}/{m.total_entries} entr{'ies' if m.total_entries != 1 else 'y'}"
     top = ", ".join(f"{p} ({c})" for p, c in m.file_counts.most_common(3))
     resume = f'cd "{cwd}" && claude --resume {m.session_id}'
-    lines = [f"{rank}. {timespan} · {hits}"]
+    lines = [f"{rank}. {timespan} · matched {hits}"]
     if m.topic:
         lines.append(f"   Topic: {m.topic}")
     if m.snippet:
@@ -407,16 +425,6 @@ def format_timespan(start: datetime | None, last: datetime) -> str:
     if start.date() == last.date():
         return f"{start_str} → {last.strftime('%H:%M')}"
     return f"{start_str} → {last_str}"
-
-
-def format_hits(m: SessionMatch) -> str:
-    body = m.total_hits - m.path_hits
-    parts = []
-    if m.path_hits:
-        parts.append(f"matched {m.path_hits} file path{'s' if m.path_hits != 1 else ''}")
-    if body:
-        parts.append(f"matched {body} message{'s' if body != 1 else ''}")
-    return " · ".join(parts) if parts else f"{m.total_hits} hits"
 
 
 if __name__ == "__main__":
