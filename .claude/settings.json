@@ -130,6 +130,26 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "mcp__chrome-devtools__take_screenshot",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/screenshot-filepath-check.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__chrome-devtools__take_snapshot",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/snapshot-filepath-check.py\"",
+            "timeout": 5
+          }
+        ]
       }
     ]
   },
@@ -154,7 +174,8 @@
     "work-analyzer@datadog-claude-plugins": true,
     "faq@cloud-observability": true,
     "clobs-jira@cloud-observability": true,
-    "snapshot@local": true
+    "snapshot@local": true,
+    "clobs-review@cloud-observability": true
   },
   "extraKnownMarketplaces": {
     "datadog-claude-plugins": {

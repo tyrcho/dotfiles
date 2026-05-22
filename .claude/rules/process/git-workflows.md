@@ -5,10 +5,6 @@
 ### Branch Naming
 - Branch names must start with `michel.daviot/` (e.g. `michel.daviot/my-feature`)
 
-### Directory Navigation
-- ✅ **ALWAYS**: `builtin cd /path/to/repo; git status`
-- ❌ **NEVER**: `git -C /path/to/repo status`
-
 ### GitHub Integration
 - Always use `gh` CLI for GitHub operations
 - Always create PRs as **draft** (`gh pr create --draft`)

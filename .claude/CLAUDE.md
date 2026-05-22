@@ -44,6 +44,9 @@ For details: See auto memory files below.
 ### Development Process
 - @~/.claude/rules/process/dev-process.md
 
+### Observer & Memory Writing
+- @~/.claude/rules/process/Observer Memory.md
+
 ## Writing & Communication
 
 ### Datadog Style Guide
