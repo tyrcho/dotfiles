@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-05-22
+
+- Updated `skills/find-session/scripts/find_session.py` and `skills/find-session/SKILL.md`: flipped the active-session filter so past sessions now include the running session by default; opt-out via `--exclude-active` (the skill itself always passes the flag, since you almost never want the running session back). Default `--limit` lowered from 10 → 3. Match snippet preserves newlines and shows up to 3 lines with aligned continuation (was a single `re.sub`-collapsed line; pad widened from 25 to 80 chars). `--project` accepts paths: a needle containing `/` is normalised (lowercased, `/` and `.` → `-`, trailing `-` stripped) and anchored to exact `cwd` equality, so `--project ~/` (= `/Users/michel.daviot/`) matches only the home folder, not its subfolders; bare names without `/` still substring-match the folder name and its decoded form
+
 ## 2026-05-18
 
 - Updated `commands/code-review.md`: replaced the vague "reread relevant principles" step with an explicit **Principle Coverage Checklist** that walks every general principle by category (Clean Code, Architecture, Reliability, language-specific). Reworded step 1 to make clear that all general principles are already loaded via `@`-directives and the `code-review:...` Skill entries are progressive disclosure (selective loading was the failure mode that caused entire categories — SOLID, Parse-Don't-Validate, Separation of Concerns, Idempotency, Resilience, Observability — to be skipped). Require every finding to carry a `[GEN]` / `[<LANG>]` tag
