@@ -72,8 +72,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--since", help="ISO date, 'yesterday', 'today', or 'Nd'")
     p.add_argument("--until", help="ISO date, 'yesterday', 'today', or 'Nd'")
     p.add_argument("--project", help="substring filter on decoded project name")
-    p.add_argument("--limit", type=int, default=10)
-    p.add_argument("--include-active", action="store_true", help="don't skip the current $CLAUDE_CODE_SESSION_ID")
+    p.add_argument("--limit", type=int, default=3)
+    p.add_argument("--exclude-active", action="store_true", help="skip the session this script is running inside ($CLAUDE_CODE_SESSION_ID)")
     return p.parse_args()
 
 
@@ -105,7 +105,7 @@ def parse_date(value: str, end_of_day: bool) -> datetime:
 def collect_candidates(args: argparse.Namespace, since: datetime | None, until: datetime | None) -> list[Path]:
     if not PROJECTS_DIR.exists():
         raise SystemExit(f"no projects dir at {PROJECTS_DIR}")
-    active = None if args.include_active else os.environ.get("CLAUDE_CODE_SESSION_ID")
+    active = os.environ.get("CLAUDE_CODE_SESSION_ID") if args.exclude_active else None
     found: list[Path] = []
     for project_dir in PROJECTS_DIR.glob(PROJECT_INCLUDE_GLOB):
         if not project_dir.is_dir():
@@ -134,8 +134,12 @@ def decode_project(folder_name: str) -> str:
 
 
 def project_matches(folder_name: str, needle: str) -> bool:
-    needle = needle.lower()
-    return needle in folder_name.lower() or needle in decode_project(folder_name).lower()
+    haystack = folder_name.lower()
+    raw = needle.lower().rstrip("/")
+    if "/" in raw:
+        return haystack == re.sub(r"[/.]", "-", raw)
+    encoded = re.sub(r"[/.]", "-", raw).strip("-")
+    return raw in haystack or encoded in haystack or raw in decode_project(folder_name).lower()
 
 
 @dataclass(frozen=True)
@@ -149,7 +153,7 @@ class SessionMatch:
     total_entries: int
     file_counts: Counter = field(default_factory=Counter)
     topic: str | None = None
-    snippet: str | None = None
+    snippet: list[str] = field(default_factory=list)
     token_freq: Counter = field(default_factory=Counter)
 
 
@@ -159,7 +163,8 @@ def search_session(jsonl: Path, tokens: list[str]) -> SessionMatch | None:
         scanner.scan(entry)
     if scanner.entry_hits == 0:
         return None
-    snippet = make_cluster_snippet(scanner.best_text, scanner.best_hits) if scanner.best_text else None
+    snippet = make_cluster_snippet(scanner.best_text, scanner.best_hits) if scanner.best_text else []
+    snippet = snippet or []
     return SessionMatch(
         session_id=jsonl.stem,
         project_folder=jsonl.parent.name,
@@ -252,7 +257,7 @@ class _Window(NamedTuple):
     end: int
 
 
-def make_cluster_snippet(text: str, tokens: list[str], pad: int = 25, max_width: int = 200) -> str | None:
+def make_cluster_snippet(text: str, tokens: list[str], pad: int = 80, max_width: int = 300) -> list[str] | None:
     """Pick the tightest window covering all listed tokens; fall back to first occurrence."""
     if not text or not tokens:
         return None
@@ -299,15 +304,22 @@ def _tightest_cover(positions: list[_Pos], max_width: int) -> _Window | None:
     return best
 
 
-def snippet_window(text: str, start: int, end: int, pad: int) -> str:
+def snippet_window(text: str, start: int, end: int, pad: int, max_lines: int = 3) -> list[str]:
+    """Return up to `max_lines` lines around the match, preserving line breaks."""
     s = max(0, start - pad)
     e = min(len(text), end + pad)
-    body = re.sub(r"\s+", " ", text[s:e]).strip()
-    if not body:
-        return ""
-    prefix = "…" if s > 0 else ""
-    suffix = "…" if e < len(text) else ""
-    return f"{prefix}{body}{suffix}"
+    raw = text[s:e]
+    lines = [re.sub(r"[^\S\n]+", " ", line).strip() for line in raw.split("\n")]
+    lines = [ln for ln in lines if ln]
+    if not lines:
+        return []
+    truncated_lines = len(lines) > max_lines
+    lines = lines[:max_lines]
+    if s > 0:
+        lines[0] = "…" + lines[0]
+    if e < len(text) or truncated_lines:
+        lines[-1] = lines[-1] + "…"
+    return lines
 
 
 def clip(text: str, limit: int) -> str:
@@ -401,7 +413,9 @@ def render_match(rank: int, m: SessionMatch) -> str:
     if m.topic:
         lines.append(f"   Topic: {m.topic}")
     if m.snippet:
-        lines.append(f"   Match: {m.snippet}")
+        lines.append(f"   Match: {m.snippet[0]}")
+        for extra in m.snippet[1:]:
+            lines.append(f"          {extra}")
     if top:
         lines.append(f"   Files: {top}")
     lines.append(f"   {resume}")

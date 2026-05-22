@@ -21,14 +21,14 @@ The user is asking to locate or resume a past Claude Code conversation. Triggers
     [--since DATE] [--until DATE]
     [--project SUBSTR]
     [--limit N]
-    [--include-active]
+    [--exclude-active]
 ```
 
 - `QUERY` — space-separated tokens, all of which must appear (in any order). Each token matches case-insensitively as a substring against messages, tool inputs, tool results, and tool-call file paths. Required.
 - `--since` / `--until` — ISO date (`YYYY-MM-DD`), or shorthand `today`, `yesterday`, `Nd` (last N days). Filters by **last-activity** time (JSONL mtime).
 - `--project` — substring filter on the project folder name.
-- `--limit` — max results (default 10).
-- `--include-active` — don't auto-skip the session this script is running inside.
+- `--limit` — max results (default 3).
+- `--exclude-active` — skip the session this script is running inside. **Always pass this flag when invoking from the skill**, since the user is looking for a *past* session, not the one they're talking to right now.
 
 To search by file path, just pass the filename as a token (e.g. `find_session.py "recommendations.md"`).
 
@@ -51,7 +51,7 @@ User: "find the session where I worked on `common/concepts/recommendations.md`"
 Run:
 
 ```bash
-~/.claude/skills/find-session/scripts/find_session.py "recommendations.md"
+~/.claude/skills/find-session/scripts/find_session.py "recommendations.md" --exclude-active
 ```
 
 Then paste the script's output verbatim in your reply.
