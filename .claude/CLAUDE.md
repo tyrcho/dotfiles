@@ -44,6 +44,9 @@ For details: See auto memory files below.
 ### Development Process
 - @~/.claude/rules/process/dev-process.md
 
+### Approval / Snapshot Tests
+- @~/.claude/rules/process/Approval Tests.md
+
 ### Observer & Memory Writing
 - @~/.claude/rules/process/Observer Memory.md
 
