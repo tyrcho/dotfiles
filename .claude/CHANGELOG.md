@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-05-23
+
+- Added `rules/process/Approval Tests.md`: default to approval (a.k.a. snapshot / golden-file) tests whenever a test verifies multi-line structured text — JSON, Markdown, HTML, source code, ADF, YAML, CLI output. Approval files must keep the real content extension (`.json`, `.md`, `.html`, source-language ext) rather than tool-default opaque blobs (`.snap`, `.ambr`, `.golden`) so reviewers get syntax highlighting in editors and diff viewers. Tool-specific guidance: syrupy `SingleFileSnapshotExtension`, vitest `toMatchFileSnapshot`, goldie `WithNameSuffix`. Wired into `CLAUDE.md` under "Approval / Snapshot Tests"
+
 ## 2026-05-22
 
 - Updated `skills/find-session/scripts/find_session.py` and `skills/find-session/SKILL.md`: flipped the active-session filter so past sessions now include the running session by default; opt-out via `--exclude-active` (the skill itself always passes the flag, since you almost never want the running session back). Default `--limit` lowered from 10 → 3. Match snippet preserves newlines and shows up to 3 lines with aligned continuation (was a single `re.sub`-collapsed line; pad widened from 25 to 80 chars). `--project` accepts paths: a needle containing `/` is normalised (lowercased, `/` and `.` → `-`, trailing `-` stripped) and anchored to exact `cwd` equality, so `--project ~/` (= `/Users/michel.daviot/`) matches only the home folder, not its subfolders; bare names without `/` still substring-match the folder name and its decoded form
