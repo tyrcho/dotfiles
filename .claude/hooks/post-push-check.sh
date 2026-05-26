@@ -23,7 +23,25 @@ FOUND_FILES=$(git -C "$REPO_ROOT" ls-files | grep -iE '(^|/)(TODO|CHANGELOG)(\.m
 
 if [ -z "$FOUND_FILES" ]; then exit 0; fi
 
-MESSAGE="[post-push-check] git push detected. The following tracked files exist in the repo:\n$FOUND_FILES\n\nSpawn a background subagent (run_in_background: true) to verify:\n1. Were these files updated to reflect the code changes included in this push?\n   - Compare the diff of the pushed commits against the last update to each file.\n   - Flag significant code changes (new features, bug fixes, API changes) not reflected.\n2. If any file is outdated, report a concise warning listing what is missing.\nDo NOT block or interrupt the current task — run this check fully in the background."
+MESSAGE=$(cat <<EOF
+[post-push-check] git push detected.
+
+The following tracked files exist in the repo:
+$FOUND_FILES
+
+Spawn a background subagent (run_in_background: true) to verify:
+
+1. Were these files updated to reflect the code changes included in this push?
+   - Compare the diff of the pushed commits against the last update to each file.
+   - Flag significant code changes (new features, bug fixes, API changes) not reflected.
+2. If any file is outdated, report a concise warning listing what is missing.
+3. If a PR exists for the current branch (check with \`gh pr view --json body,title\`), verify the PR description still matches the pushed changes.
+   - Flag missing features, fixes, or implementation notes from the pushed commits.
+   - Suggest a concise update if the description is stale.
+
+Do NOT block or interrupt the current task — run this check fully in the background.
+EOF
+)
 
 jq -n --arg msg "$MESSAGE" '{
   hookSpecificOutput: {
