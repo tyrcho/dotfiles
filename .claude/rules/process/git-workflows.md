@@ -43,6 +43,13 @@ Only these two top-level sections. No intro blurb, no badges section, no contrib
 ### Commit Messages
 - **Never** add `Co-Authored-By` trailers to commit messages
 
+### Pushing to an existing PR branch
+
+After every `git push` to a branch that already has an open PR:
+1. Run `gh pr view --json title,body` to read the current PR title and description.
+2. Review whether the title and body still accurately reflect all commits on the branch.
+3. If anything is stale or missing, update with `gh pr edit --title "..." --body "..."`.
+
 ### Creating PRs
 1. Ensure changes are committed
 2. Push to remote: `git push -u origin branch-name`
