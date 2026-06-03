@@ -38,9 +38,11 @@ https://docs.google.com/document/d/<DOCUMENT_ID>/edit?tab=t.0
 
 Run these three calls simultaneously:
 
-1. `mcp__datadog-google-workspace__get_doc_as_markdown(document_id)` → structured markdown
-2. `mcp__datadog-google-workspace__get_file_content(file_id)` → plain-text export
-3. `mcp__datadog-google-workspace__get_file_metadata(file_id)` → title, owner, timestamps
+| Tool | Returns |
+|---|---|
+| `get_doc_as_markdown(document_id)` | structured markdown (headings, links, tables) |
+| `get_file_content(file_id)` | plain-text export (chip values, dropdowns) |
+| `get_file_metadata(file_id)` | title, owner, timestamps |
 
 ### Step 3 — merge
 
@@ -53,13 +55,13 @@ Use `get_doc_as_markdown` output as the base. Patch every field that is empty or
 - Table cell dropdown values → rendered as plain text (e.g. `In progress`, `Not started`)
 - Inline comment markers → appended at end as `[a]`, `[b]`, … footnotes with full comment text
 
-**Constructing Atlassian URLs from chip text:**
-- Jira chip text follows the pattern `PROJ-NNNN: Title` → URL is `https://datadoghq.atlassian.net/browse/PROJ-NNNN`
-- Confluence chip text → use `mcp__atlassian__search` to resolve if needed
+### Step 3b — enrich chip links (optional)
+
+Jira chip text from `get_file_content` follows the pattern `PROJ-NNNN: Title`. Construct the URL as `https://datadoghq.atlassian.net/browse/PROJ-NNNN`. For Confluence chip text, use `mcp__atlassian__search` to resolve the URL if needed.
 
 ### Step 4 — `read_document` (only when needed)
 
-`read_document` is a large JSON blob (100k–400k chars). Save to disk and query with `jq`.
+`read_document` returns a large JSON blob. Save to disk and query with `jq` rather than processing inline.
 
 Use it only when you need:
 - Exact character indices for `format_text` calls
@@ -70,28 +72,26 @@ Use it only when you need:
 ```bash
 DOC_FILE="/path/to/read_document_output.txt"
 
-# All person chips
 jq -c '
   .tabs[0].documentTab.body.content[].paragraph?.elements[]?
   | select(.person != null)
   | {start: .startIndex, name: .person.personProperties.name}
 ' "$DOC_FILE"
 
-# All date chips
 jq -c '
   .tabs[0].documentTab.body.content[].paragraph?.elements[]?
   | select(.dateElement != null)
   | {start: .startIndex, display: .dateElement.dateElementProperties.displayText, ts: .dateElement.dateElementProperties.timestamp}
 ' "$DOC_FILE"
 
-# All richLinks (smart links, not regular hyperlinks)
+# smart links — distinct from plain hyperlinks stored as textRun link marks
 jq -c '
   .tabs[0].documentTab.body.content[].paragraph?.elements[]?
   | select(.richLink != null)
   | {start: .startIndex, title: .richLink.richLinkProperties.title, uri: .richLink.richLinkProperties.uri}
 ' "$DOC_FILE"
 
-# All text content with headings (first 100 elements — header area)
+# first 100 elements covers the header area for most docs
 jq -c '
   .tabs[0].documentTab.body.content[0:100][]
   | if .paragraph then
@@ -109,14 +109,14 @@ Write the merged content to the output path. Use the document title (from `get_f
 
 ## Output format notes
 
-- Remove CDN image URLs from table header cells (the `get_doc_as_markdown` export renders column-type icons as raw `![image](https://lh7-rt.googleapis...)` noise). Replace with the plain column name from `get_file_content`.
+- Remove CDN image URLs from table header cells (the `get_doc_as_markdown` export renders column-type icons as raw `![image](https://lh7-rt.googleapis...)` noise). Replace with the display name from `get_file_content`.
 - Section dividers (`________________` in plain text) become `---` in markdown.
-- Comment footnotes from `get_file_content` can be appended as a `## Comments` section or dropped — ask the user if the doc has many.
+- Comment footnotes from `get_file_content` can be appended as a `## Comments` section. Append by default; if there are more than 5 comment threads, ask the user whether to include them.
 
 ## Known limitations
 
-- Jira/GitHub connected-app smart chips: chip label text is available via `get_file_content`, but the chip's underlying URL is **not** exposed by any Docs API tool. Construct it from the ticket ID in the label text.
-- Status/dropdown chip values in tables: available via `get_file_content` plain-text export only.
 - Embedded drawings and charts: only available as CDN image URLs; actual drawing content is not accessible.
+- Jira/GitHub connected-app smart chips: chip label text is available via `get_file_content`, but the chip's underlying URL is **not** exposed by any Docs API tool. Construct it from the ticket ID in the label text.
 - Nested list indentation: `get_doc_as_markdown` flattens nested lists to top-level bullets.
+- Status/dropdown chip values in tables: available via `get_file_content` plain-text export only.
 - Tables with merged cells or complex formatting: may be partially garbled; verify against source.
