@@ -93,6 +93,7 @@
     "deny": [],
     "defaultMode": "auto"
   },
+  "model": "sonnet",
   "hooks": {
     "PostToolUse": [
       {
@@ -176,7 +177,8 @@
     "faq@cloud-observability": true,
     "clobs-jira@cloud-observability": true,
     "snapshot@local": true,
-    "clobs-review@cloud-observability": true
+    "clobs-review@cloud-observability": true,
+    "lapdog@lapdog": true
   },
   "extraKnownMarketplaces": {
     "datadog-claude-plugins": {
@@ -201,6 +203,12 @@
       "source": {
         "source": "directory",
         "path": "/Users/michel.daviot/.claude/local-plugins"
+      }
+    },
+    "lapdog": {
+      "source": {
+        "source": "github",
+        "repo": "DataDog/dd-apm-test-agent"
       }
     }
   },
