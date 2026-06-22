@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-06-22
+
+- Updated `.claude/hooks/readme-check.sh`: extended the PostToolUse readme-check hook to also remind about CHANGELOG, TODO, and `doc/` directory updates after file edits (previously only checked for README.md)
+
 ## 2026-05-23
 
 - Added `rules/process/Approval Tests.md`: default to approval (a.k.a. snapshot / golden-file) tests whenever a test verifies multi-line structured text — JSON, Markdown, HTML, source code, ADF, YAML, CLI output. Approval files must keep the real content extension (`.json`, `.md`, `.html`, source-language ext) rather than tool-default opaque blobs (`.snap`, `.ambr`, `.golden`) so reviewers get syntax highlighting in editors and diff viewers. Tool-specific guidance: syrupy `SingleFileSnapshotExtension`, vitest `toMatchFileSnapshot`, goldie `WithNameSuffix`. Wired into `CLAUDE.md` under "Approval / Snapshot Tests"
