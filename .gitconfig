@@ -119,3 +119,5 @@
 	prune = true
 [rebase]
 	autostash = true
+[include]
+	path = /Users/michel.daviot/.config/datadog/git/config

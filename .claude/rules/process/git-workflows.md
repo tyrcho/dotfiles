@@ -43,12 +43,23 @@ Only these two top-level sections. No intro blurb, no badges section, no contrib
 ### Commit Messages
 - **Never** add `Co-Authored-By` trailers to commit messages
 
+### Before every commit
+
+Before creating a commit, verify that the following files are up to date with the changes being committed:
+- **CHANGELOG** (if present): add an entry for the change
+- **TODO** (if present): remove completed items, add new ones if relevant
+- **README.md** (if present): update affected sections
+- **docs/** (if present): update any affected documentation files
+- **Makefile** (if present): update targets if new scripts or workflows were added
+
+If any of these are stale, update them before creating the commit and include them in the same commit.
+
 ### Pushing to an existing PR branch
 
 After every `git push` to a branch that already has an open PR:
-1. Run `gh pr view --json title,body` to read the current PR title and description.
-2. Review whether the title and body still accurately reflect all commits on the branch.
-3. If anything is stale or missing, update with `gh pr edit --title "..." --body "..."`.
+1. Run `gh pr view --json title,body,commits` to read the current PR state and all commits on the branch.
+2. Rewrite the PR description from scratch using the template below, treating the entire branch as one coherent changeset — do not list individual commits or surface commit history in the description.
+3. Update with `gh pr edit --title "..." --body "..."` even if the changes seem minor — the description must always reflect the full current state of the branch.
 
 ### Creating PRs
 1. Ensure changes are committed

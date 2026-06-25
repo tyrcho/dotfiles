@@ -178,7 +178,8 @@
     "clobs-jira@cloud-observability": true,
     "snapshot@local": true,
     "clobs-review@cloud-observability": true,
-    "lapdog@lapdog": true
+    "lapdog@lapdog": true,
+    "gworkspace-export@cloud-observability": true
   },
   "extraKnownMarketplaces": {
     "datadog-claude-plugins": {
@@ -197,7 +198,8 @@
       "source": {
         "source": "directory",
         "path": "/Users/michel.daviot/dd/experimental/teams/cloud-observability/claude-plugin-marketplace"
-      }
+      },
+      "autoUpdate": true
     },
     "local": {
       "source": {
@@ -214,6 +216,7 @@
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "dark-daltonized",
   "verbose": true,
   "preferredNotifChannel": "iterm2",

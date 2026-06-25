@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-06-25
+
+- Updated `rules/process/git-workflows.md`: added "Before every commit" rule requiring CHANGELOG, TODO, README, docs/, and Makefile to be checked and updated before committing; strengthened "Pushing to an existing PR branch" to rewrite the full PR description from scratch on every push, treating the branch as one coherent changeset without surfacing commit history
+
 ## 2026-06-22
 
 - Updated `.claude/hooks/readme-check.sh`: extended the PostToolUse readme-check hook to also remind about CHANGELOG, TODO, and `doc/` directory updates after file edits (previously only checked for README.md)
