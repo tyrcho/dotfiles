@@ -74,7 +74,7 @@ For details: See auto memory files below.
 ### Direct Reports
 - @~/.claude/rules/datadog/direct-reports.md
 
-### AWS Integrations Team
+### AWS Integrations Team + GitHub org split (DataDog ↔ ddoghq)
 - @~/.claude/rules/datadog/team-context.md
 
 ### Datadog Patterns
