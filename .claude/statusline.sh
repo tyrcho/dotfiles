@@ -82,6 +82,8 @@ if [ -n "$ctx_pct" ]; then
     ctx_bar="${bar} ${ctx_pct}%"
 fi
 
+cwd_basename=$(basename "$cwd" 2>/dev/null)
+
 # --- Colors ---
 c_temp=$(printf '\033[38;5;39m')    # cyan
 c_stock=$(printf '\033[38;5;178m')  # gold
@@ -91,6 +93,7 @@ c_model=$(printf '\033[38;5;141m')  # purple
 c_cost=$(printf '\033[38;5;114m')   # green
 c_ctx=$(printf '\033[38;5;223m')    # warm yellow
 c_tokens=$(printf '\033[38;5;147m') # light purple for total tokens
+c_cwd=$(printf '\033[38;5;180m')    # tan/wheat for cwd
 c_current=$(printf '\033[38;5;117m') # light cyan for current turn
 c_sep=$(printf '\033[38;5;243m')    # gray
 reset=$(printf '\033[0m')
@@ -99,6 +102,7 @@ reset=$(printf '\033[0m')
 parts=()
 [ -n "$repo_name" ]      && parts+=("$(printf '%b%s%b' "$c_repo" "$repo_name" "$reset")")
 [ -n "$branch_name" ]    && parts+=("$(printf '%b%s%b' "$c_git" "$branch_name" "$reset")")
+[ -n "$cwd_basename" ]   && parts+=("$(printf '%b%s%b' "$c_cwd" "$cwd_basename" "$reset")")
 [ -n "$model" ]          && parts+=("$(printf '%b%s%b' "$c_model" "$model" "$reset")")
 [ -n "$cost_fmt" ]       && parts+=("$(printf '%b%s%b' "$c_cost" "$cost_fmt" "$reset")")
 [ -n "$ctx_bar" ]        && parts+=("$(printf '%b%s%b' "$c_ctx" "$ctx_bar" "$reset")")
