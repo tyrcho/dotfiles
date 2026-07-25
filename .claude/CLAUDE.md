@@ -41,6 +41,9 @@ For details: See auto memory files below.
 ### Development Tools
 - @~/.claude/rules/tools/dev-tools.md
 
+### Worktree Isolation
+- @~/.claude/rules/tools/Worktree Isolation.md
+
 ### Development Process
 - @~/.claude/rules/process/dev-process.md
 
