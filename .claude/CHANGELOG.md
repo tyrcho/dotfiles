@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-07-25
+
+- Added `rules/tools/Worktree Isolation.md`: guidance for passing `isolation: "worktree"` to Agent/Workflow calls for concurrent agent writes, plus `symlinkDirectories`/`sparsePaths` tips to keep worktree setup cheap. Wired into `CLAUDE.md` under "Tool Guidelines"
+
 ## 2026-06-25
 
 - Updated `rules/process/git-workflows.md`: added "Before every commit" rule requiring CHANGELOG, TODO, README, docs/, and Makefile to be checked and updated before committing; strengthened "Pushing to an existing PR branch" to rewrite the full PR description from scratch on every push, treating the branch as one coherent changeset without surfacing commit history
