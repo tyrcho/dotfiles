@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-07-30
+
+- Added `rules/process/Proactive Improvement Suggestions.md`: flag durable, fixable gaps noticed in passing (missing linters/hooks, upstream library/plugin bugs, repeated manual steps, stale docs, missing guardrails) at the end of a response instead of staying silent, without proactively auditing unrelated code. Wired into `CLAUDE.md` under "Development Process"
+
 ## 2026-07-25
 
 - Added `rules/tools/Worktree Isolation.md`: guidance for passing `isolation: "worktree"` to Agent/Workflow calls for concurrent agent writes, plus `symlinkDirectories`/`sparsePaths` tips to keep worktree setup cheap. Wired into `CLAUDE.md` under "Tool Guidelines"

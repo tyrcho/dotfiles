@@ -50,6 +50,9 @@ For details: See auto memory files below.
 ### Approval / Snapshot Tests
 - @~/.claude/rules/process/Approval Tests.md
 
+### Proactive Improvement Suggestions
+- @~/.claude/rules/process/Proactive Improvement Suggestions.md
+
 ### Observer & Memory Writing
 - @~/.claude/rules/process/Observer Memory.md
 
