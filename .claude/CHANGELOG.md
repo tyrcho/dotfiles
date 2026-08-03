@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-03
+
+- Updated `rules/process/git-workflows.md`: replaced the `gh stack` extension recommendation with `git rebase --update-refs` workflows for stacked PRs (sync after feedback, catch up with base, interactive reorder), plus the one-time `rebase.updateRefs` config and worktree caveat. Also added a "Replying to PR/Issue Comments" rule requiring draft-and-approve before posting
+
 ## 2026-07-30
 
 - Added `rules/process/Proactive Improvement Suggestions.md`: flag durable, fixable gaps noticed in passing (missing linters/hooks, upstream library/plugin bugs, repeated manual steps, stale docs, missing guardrails) at the end of a response instead of staying silent, without proactively auditing unrelated code. Wired into `CLAUDE.md` under "Development Process"

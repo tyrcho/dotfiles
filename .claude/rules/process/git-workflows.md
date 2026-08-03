@@ -34,6 +34,41 @@ The active `gh` account is likely wrong for that repo's org. Apply this protocol
   - `gh issue list`
   - `gh pr create --draft --title "..." --body "..."`
 
+### Replying to PR/Issue Comments
+
+**Never post a reply to a review comment, issue comment, or discussion unsupervised.** Draft the reply and show it to the user for approval first; only post after they confirm. Same principle as draft PRs — visible-to-others actions default to review-before-publish.
+
+### Stacked PRs
+
+Use `git rebase --update-refs` to keep a stack of branches in sync, instead of hand-rolling `git rebase --onto` per branch or reaching for the `gh stack` extension.
+
+Enable it globally once so every rebase updates the whole stack automatically:
+
+```
+git config --global --add --bool rebase.updateRefs true
+```
+
+Common flows:
+
+- **Lower branch in the stack got new commits (e.g. PR feedback):** checkout the top branch and rebase onto the changed one — every branch in between is force-updated in place.
+  ```
+  git checkout <top-branch>
+  git rebase <changed-branch> --update-refs
+  ```
+- **Whole stack needs to catch up with the base branch:** checkout the top branch and rebase onto the base — all local branches pointing at rebased commits move with it.
+  ```
+  git checkout <top-branch>
+  git rebase <base-branch> --update-refs
+  ```
+- **Move/insert a commit into an earlier branch in the stack:** interactive rebase against the base branch. The todo list gets extra `update-ref refs/heads/<branch>` lines marking where each branch's tip should land after reordering — move commits above/below these lines as needed.
+  ```
+  git rebase <base-branch> -i --update-refs
+  ```
+
+After any of these, still checkout and force-push each branch that moved (`--update-refs` only rewrites local refs). Branches currently checked out in another worktree are not updated by `--update-refs` — rebase those separately.
+
+Source: [Working with stacked branches in Git is easier with --update-refs](https://andrewlock.net/working-with-stacked-branches-in-git-is-easier-with-update-refs/)
+
 ## Git Worktrees
 
 - Always verify the current working directory before making edits when a worktree is active.
