@@ -1,2 +1,26 @@
 *
 # add files explicitly with git add -f
+
+# pi custom extensions
+!.pi
+.pi/*
+!.pi/agent
+.pi/agent/*
+!.pi/agent/extensions
+.pi/agent/extensions/*
+!.pi/agent/extensions/*.ts
+
+# signet identity files (markdown only, not the memory database)
+!.agents
+.agents/*
+!.agents/*.md
+!.agents/*.yaml
+!.agents/harnesses
+.agents/harnesses/*
+!.agents/harnesses/**
+!.agents/scripts
+.agents/scripts/*
+!.agents/scripts/**
+!.agents/skills
+.agents/skills/*
+!.agents/skills/**
