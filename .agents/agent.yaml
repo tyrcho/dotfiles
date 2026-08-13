@@ -1,0 +1,51 @@
+configVersion: 2
+version: 1
+schema: signet/v1
+agent:
+  name: Assistant
+  description: Personal AI assistant
+  created: 2026-04-08T11:59:12.040Z
+  updated: 2026-04-08T11:59:12.040Z
+network:
+  mode: localhost
+harnesses:
+  - codex
+install:
+  primary_package_manager: bun
+  source: fallback
+memory:
+  database: memory/memories.db
+  session_budget: 2000
+  decay_rate: 0.95
+  pipelineV2:
+    enabled: true
+    extraction:
+      provider: codex
+      model: gpt-5-codex-mini
+    synthesis:
+      enabled: true
+      provider: codex
+      model: gpt-5-codex-mini
+      timeout: 120000
+    semanticContradictionEnabled: true
+    graph:
+      enabled: true
+    reranker:
+      enabled: true
+    autonomous:
+      enabled: true
+      allowUpdateDelete: true
+      maintenanceMode: execute
+    predictor:
+      enabled: true
+    predictorPipeline:
+      agentFeedback: true
+      trainingTelemetry: false
+search:
+  alpha: 0.7
+  top_k: 20
+  min_score: 0.3
+embedding:
+  provider: native
+  model: nomic-embed-text-v1.5
+  dimensions: 768
