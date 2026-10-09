@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-09
+
+- Removed the PreToolUse Bash hook `hooks/common-mistakes.py` (it blocked bare `cd`) from `settings.json` and deleted the script. `.zshrc` now skips the zoxide `cd` override when `$CLAUDECODE` is set (`[[ -z $CLAUDECODE ]]`)
+
 ## 2026-08-03
 
 - Updated `rules/process/git-workflows.md`: replaced the `gh stack` extension recommendation with `git rebase --update-refs` workflows for stacked PRs (sync after feedback, catch up with base, interactive reorder), plus the one-time `rebase.updateRefs` config and worktree caveat. Also added a "Replying to PR/Issue Comments" rule requiring draft-and-approve before posting
