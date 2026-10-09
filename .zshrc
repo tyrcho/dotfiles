@@ -239,7 +239,7 @@ ulimit -n 32768
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.zsh-copilot/zsh-copilot.plugin.zsh
-eval "$(zoxide init zsh --cmd cd)"
+[[ -z $CLAUDECODE ]] && eval "$(zoxide init zsh --cmd cd)"
 eval "$(starship init zsh)"
 
 # BEGIN SCFW MANAGED BLOCK
