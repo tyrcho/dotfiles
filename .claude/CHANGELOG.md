@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-09
+
+- Laptop migration: dotfiles now also track shell/tool config (`.tmux.conf`, `.vimrc`, zed, cmux, herdr, gh, topgrade, recoll), Claude `agents/`, `commands/`, `mcp.json`, plugin lists and all `com.michel.daviot.*` LaunchAgents. Added `~/migration/` with `Laptop Setup.md`, `Brewfile`, `repos.tsv`, VS Code extensions, iTerm2/AltTab prefs and the user MCP servers extracted from `~/.claude.json`
+
 ## 2026-10-09
 
 - Removed the PreToolUse Bash hook `hooks/common-mistakes.py` (it blocked bare `cd`) from `settings.json` and deleted the script. `.zshrc` now skips the zoxide `cd` override when `$CLAUDECODE` is set (`[[ -z $CLAUDECODE ]]`)
