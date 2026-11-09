@@ -28,6 +28,7 @@ main() {
   (($# >= 1 && $# <= 2)) || usage
   require_setup
   parse_project_url "$1"
+  check_gitlab_token
   migrate_project "$PROJECT_PATH" "${2:-${PROJECT_PATH##*/}}"
 }
 
@@ -53,7 +54,8 @@ migrate_project() {
   fi
   allow_force_push "$(jq -r .id <<<"$project")"
   log "  storing $SECRET_NAME secret"
-  printf '%s' "$GITLAB_MIRROR_TOKEN" | gh secret set "$SECRET_NAME" --repo "$repo"
+  printf '%s' "$GITLAB_MIRROR_TOKEN" | gh secret set "$SECRET_NAME" --repo "$repo" ||
+    die "could not store $(describe_token GITLAB_MIRROR_TOKEN) as a secret in $repo with the 'gh auth' login"
   workflow_installed "$repo" || install_workflow "$path" "$repo" "$branch"
   log "Done: https://github.com/$repo"
 }
@@ -73,7 +75,8 @@ ensure_private_repo() {
     return 0
   fi
   log "  creating private repo $repo"
-  gh repo create "$repo" --private --description "$description" >/dev/null
+  gh repo create "$repo" --private --description "$description" >/dev/null ||
+    die "could not create $repo with the 'gh auth' login (check GITHUB_OWNER and your rights on it)"
 }
 
 copy_repository() {
@@ -81,11 +84,16 @@ copy_repository() {
   work_dir="$(mktemp -d)"
   trap 'rm -rf "$work_dir"' EXIT
   log "  copying branches and tags"
-  git_gitlab clone --quiet --bare "$GITLAB_BASE_URL/$path.git" "$work_dir/repo"
+  git_gitlab clone --quiet --bare "$GITLAB_BASE_URL/$path.git" "$work_dir/repo" ||
+    die "$(request_failure "git clone from GitLab failed" "git clone $GITLAB_BASE_URL/$path.git" GITLAB_TOKEN \
+      "" "the token needs the 'api' or 'read_repository' scope and access to the project")"
   # No --force: an unrelated repo with the same name is rejected, not overwritten.
   git_github -C "$work_dir/repo" push --quiet "https://github.com/$repo.git" \
-    'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*'
-  gh repo edit "$repo" --default-branch "$branch" >/dev/null
+    'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*' ||
+    die "git push to https://github.com/$repo.git failed, using the 'gh auth' login." \
+      "If the repo already has unrelated history, remove it or pass another repo name."
+  gh repo edit "$repo" --default-branch "$branch" >/dev/null ||
+    die "could not set default branch '$branch' on $repo with the 'gh auth' login"
 }
 
 allow_force_push() {
@@ -110,7 +118,9 @@ install_workflow() {
   log "  installing replication workflow"
   gh api --method PUT "repos/$repo/contents/$WORKFLOW_PATH" --silent \
     -f message="Replicate this repository to GitLab" \
-    -f branch="$branch" -f content="$content"
+    -f branch="$branch" -f content="$content" ||
+    die "could not create $WORKFLOW_PATH in $repo with the 'gh auth' login" \
+      "(run 'gh auth refresh -s workflow' to grant the workflow scope)"
 }
 
 require_setup() {
@@ -142,11 +152,34 @@ git_github() {
   git -c credential.helper= -c credential.helper='!gh auth git-credential' "$@"
 }
 
+# Prints the response body. On failure, explains which request failed and with
+# which token, then exits.
 gitlab_api() {
-  local method="$1" route="$2"
-  curl --fail --silent --show-error --request "$method" \
-    --header @<(printf 'PRIVATE-TOKEN: %s\n' "$GITLAB_TOKEN") \
-    "$GITLAB_BASE_URL/api/v4/$route"
+  local method="$1" route="$2" url response status
+  url="$GITLAB_BASE_URL/api/v4/$route"
+  response="$(curl --silent --show-error --request "$method" --write-out '\n%{http_code}' \
+    --header @<(printf 'PRIVATE-TOKEN: %s\n' "$GITLAB_TOKEN") "$url")" ||
+    die "$(request_failure "GitLab API request could not be sent" "$method $url" GITLAB_TOKEN)"
+  status="${response##*$'\n'}"
+  response="${response%$'\n'*}"
+  [[ "$status" == 2* ]] ||
+    die "$(request_failure "GitLab API returned HTTP $status" "$method $url" GITLAB_TOKEN \
+      "$response" "$(gitlab_status_hint "$status")")"
+  printf '%s\n' "$response"
+}
+
+# Fails early with a clear message if GITLAB_TOKEN can't reach the API.
+check_gitlab_token() {
+  local username
+  username="$(gitlab_api GET user | jq -r .username)"
+  log "GitLab user: $username"
+}
+
+request_failure() {
+  local summary="$1" request="$2" token_var="$3" body="${4:-}" hint="${5:-}"
+  printf '%s\n  request: %s\n  token:   %s\n' "$summary" "$request" "$(describe_token "$token_var")"
+  [[ -z "$body" ]] || printf '  GitLab says: %s\n' "$(printf '%s' "$body" | head -c 300)"
+  [[ -z "$hint" ]] || printf '  hint: %s\n' "$hint"
 }
 
 log() { echo "$*" >&2; }
@@ -175,6 +208,26 @@ project_url_parts() {
   path="${path%.git}"
   [[ "$path" == */* ]] || return 1
   echo "$base $path"
+}
+
+# Names a token variable and shows only its last 4 characters.
+describe_token() {
+  local name="$1" value="${!1:-}"
+  if [[ -z "$value" ]]; then
+    echo "$name (empty)"
+  else
+    echo "$name (ending in ...${value: -4})"
+  fi
+}
+
+gitlab_status_hint() {
+  case "$1" in
+    401) echo "the token is invalid, expired or revoked, or was created on another GitLab instance than" \
+      "$GITLAB_BASE_URL" ;;
+    403) echo "the token lacks the 'api' scope, or its user is not Maintainer on this project" ;;
+    404) echo "the project does not exist at this path, or the token's user cannot see it" ;;
+    *) echo "" ;;
+  esac
 }
 
 uri_encode() {

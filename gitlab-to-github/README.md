@@ -77,6 +77,21 @@ Try a single project before running a whole group.
 - **Replication stops when the token expires.** GitLab tokens must have an expiry date. To rotate it, export the new
   `GITLAB_MIRROR_TOKEN` and run the script again for each project, which refreshes the secret.
 
+## Troubleshooting
+
+The script first checks that `GITLAB_TOKEN` works by asking GitLab who it belongs to. When a request fails, the error
+names the request, which token it used (only its last 4 characters are shown), GitLab's reply and a likely cause:
+
+```
+ERROR: GitLab API returned HTTP 401
+  request: GET https://gitlab.com/api/v4/user
+  token:   GITLAB_TOKEN (ending in ...ABCD)
+  GitLab says: {"message":"401 Unauthorized"}
+  hint: the token is invalid, expired or revoked, or was created on another GitLab instance than https://gitlab.com
+```
+
+GitHub steps use your `gh auth` login; their errors say which step failed.
+
 ## Testing status
 
 The script was tested with real git on local repos and stubbed GitHub and GitLab APIs. It has not yet run against the
