@@ -27,6 +27,7 @@ PROJECT_PATH=""
 main() {
   (($# >= 1 && $# <= 2)) || usage
   require_setup
+  check_github_scopes
   parse_project_url "$1"
   check_gitlab_token
   migrate_project "$PROJECT_PATH" "${2:-${PROJECT_PATH##*/}}"
@@ -49,8 +50,8 @@ migrate_project() {
   ((lfs_size == 0)) || require_git_lfs
 
   ensure_private_repo "$repo" "$description"
-  if workflow_installed "$repo"; then
-    log "  already copied, keeping GitHub content"
+  if workflow_installed "$repo" || github_has_branch "$repo" "$branch"; then
+    log "  already copied ($repo has branch $branch), keeping GitHub content"
   else
     copy_repository "$path" "$repo" "$branch" "$lfs_size"
   fi
@@ -99,8 +100,9 @@ copy_repository() {
   ((lfs_size == 0)) || copy_lfs_objects "$path" "$repo" "$lfs_size"
   # No --force: an unrelated repo with the same name is rejected, not overwritten.
   # --no-verify skips a Git LFS pre-push hook: LFS files were already uploaded above.
+  # --atomic: either every ref lands or none, so an existing default branch means the copy is complete.
   log "  pushing branches and tags to GitHub"
-  git_github -C "$work_dir/repo" push --progress --no-verify "https://github.com/$repo.git" \
+  git_github -C "$work_dir/repo" push --progress --no-verify --atomic "https://github.com/$repo.git" \
     'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*' ||
     die "git push to https://github.com/$repo.git failed, using the 'gh auth' login." \
       "If the repo already has unrelated history, remove it or pass another repo name."
@@ -131,6 +133,18 @@ allow_force_push() {
         "projects/$project_id/protected_branches/$(uri_encode "$branch")?allow_force_push=true" \
         >/dev/null
     done
+}
+
+github_has_branch() {
+  gh api "repos/$1/branches/$(uri_encode "$2")" --silent 2>/dev/null
+}
+
+# Classic tokens list their scopes; creating a workflow file needs "workflow".
+check_github_scopes() {
+  local scopes
+  scopes="$(gh auth status --hostname github.com 2>&1 | grep -i 'token scopes' || true)"
+  [[ -z "$scopes" || "$scopes" == *workflow* ]] ||
+    die "the 'gh auth' login lacks the 'workflow' scope: run 'gh auth refresh -s workflow' and run again"
 }
 
 workflow_installed() {

@@ -22,7 +22,7 @@ works on any tier. It also replicates on each push, whereas a pull mirror update
 
 ```bash
 gh auth login
-gh auth refresh -s workflow   # required to create the workflow file
+gh auth refresh -s workflow   # required to create the workflow file; checked at start
 
 export GITHUB_OWNER=your-user-or-org
 export GITLAB_TOKEN=...
@@ -43,8 +43,9 @@ Any of these URL forms work: the project page (`https://gitlab.com/group/project
 (`.../-/tree/main`), the HTTPS clone URL (`.../project.git`) or the SSH clone URL (`git@gitlab.com:group/project.git`,
 which is accessed over HTTPS).
 
-The script stops if the target GitHub repo already exists and isn't private. You can safely run it again: a project
-whose workflow is already installed is not copied twice, but the secret and GitLab branch settings are refreshed.
+The script stops if the target GitHub repo already exists and isn't private. You can safely run it again, for example after fixing an error. Once the GitHub repo has the
+default branch, the copy is skipped (branches are pushed atomically, so that means the copy finished), and only the
+GitLab settings, the secret and the workflow are checked and completed.
 
 On success, the script prints how to point an existing clone at GitHub:
 
