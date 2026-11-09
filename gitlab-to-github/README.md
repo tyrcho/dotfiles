@@ -13,7 +13,7 @@ works on any tier. It also replicates on each push, whereas a pull mirror update
 ## Requirements
 
 - `git`, `gh`, `jq`, `curl` and `base64`
-- [`git-lfs`](https://git-lfs.com), only for projects that use Git LFS
+- [`git-lfs`](https://git-lfs.com), only for projects that use Git LFS or with `--lfs-above` (3.2 or later)
 - Two GitLab tokens, both belonging to a user with the **Maintainer** role on the project:
   - `GITLAB_TOKEN`: scope `api`, used only by the script.
   - `GITLAB_MIRROR_TOKEN`: scope `write_repository`, stored as a secret in the GitHub repo and used by the workflow.
@@ -28,7 +28,7 @@ export GITHUB_OWNER=your-user-or-org
 export GITLAB_TOKEN=...
 export GITLAB_MIRROR_TOKEN=...
 
-./gitlab-to-github.sh <gitlab_project_url> [github_repo_name]
+./gitlab-to-github.sh [--lfs-above SIZE] <gitlab_project_url> [github_repo_name]
 ```
 
 The GitLab host and project path are read from the URL, so self-hosted GitLab works the same way. The GitHub repo name
@@ -102,6 +102,27 @@ Projects that use Git LFS are supported:
   minutes. Check it in your GitHub billing settings before migrating large projects.
 - Git LFS is detected from the repo content on each run, so a project that starts using it later is handled too, as
   long as LFS is enabled on the GitLab project.
+
+### Moving large files to LFS (`--lfs-above`)
+
+```bash
+./gitlab-to-github.sh --lfs-above 5MB https://gitlab.com/my-group/assets
+```
+
+Every file larger than the given size (`5MB`, `500KB`, `1GiB`...) becomes a Git LFS file in all branches and tags,
+before anything is pushed to GitHub. Files that were already in LFS stay there. The converted files get exact-path
+rules in `.gitattributes`, so new versions of those files also go to LFS. A new large file added later is not caught
+automatically: track it with `git lfs track`.
+
+This **rewrites history**. Commits from the first large file onward get new hashes, and the replication force-pushes
+the new history to GitLab too. Everyone has to re-clone from GitHub (or `git fetch` and `git reset --hard` onto
+the new branches) and must not push old branches back.
+
+- Git LFS is enabled on the GitLab project if it was off.
+- If a tag that changes is protected on GitLab, the script stops before pushing anything, because replication could
+  never update it. Unprotect those tags in GitLab first.
+- The option only applies to the first copy. If the GitHub repo already has the default branch, it's ignored with a
+  warning; delete the GitHub repo and run again to convert.
 
 ## Troubleshooting
 

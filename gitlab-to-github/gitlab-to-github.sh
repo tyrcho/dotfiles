@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 # Copy a GitLab project to a private GitHub repo, then replicate GitHub -> GitLab.
 #
-# Usage: ./gitlab-to-github.sh <gitlab_project_url> [github_repo_name]
+# Usage: ./gitlab-to-github.sh [--lfs-above SIZE] <gitlab_project_url> [github_repo_name]
 #
 #   ./gitlab-to-github.sh https://gitlab.com/my-group/my-project
 #   ./gitlab-to-github.sh https://gitlab.example.com/my-group/sub/api my-group-api
+#   ./gitlab-to-github.sh --lfs-above 5MB https://gitlab.com/my-group/assets
 #
 # The GitLab host and project path are taken from the URL. The GitHub repo name
 # defaults to the last part of the project path.
+#
+# --lfs-above SIZE  Move every file larger than SIZE (e.g. 5MB) to Git LFS, in
+#                   all branches and tags, before pushing to GitHub. This
+#                   rewrites history: commit hashes change, on GitLab too.
 #
 # Required environment:
 #   GITHUB_OWNER          GitHub user or organization receiving the repo
@@ -23,23 +28,35 @@ readonly SECRET_NAME="GITLAB_MIRROR_TOKEN"
 
 GITLAB_BASE_URL=""
 PROJECT_PATH=""
+LFS_ABOVE=""
 
 main() {
-  (($# >= 1 && $# <= 2)) || usage
+  local args=()
+  while (($#)); do
+    case "$1" in
+      --lfs-above) (($# >= 2)) || usage; LFS_ABOVE="$2"; shift 2 ;;
+      --lfs-above=*) LFS_ABOVE="${1#*=}"; shift ;;
+      -*) usage ;;
+      *) args+=("$1"); shift ;;
+    esac
+  done
+  ((${#args[@]} >= 1 && ${#args[@]} <= 2)) || usage
+  [[ -z "$LFS_ABOVE" ]] || is_size "$LFS_ABOVE" || die "--lfs-above needs a size such as 5MB, got: $LFS_ABOVE"
   require_setup
+  [[ -z "$LFS_ABOVE" ]] || require_git_lfs
   check_github_scopes
-  parse_project_url "$1"
+  parse_project_url "${args[0]}"
   check_gitlab_token
-  migrate_project "$PROJECT_PATH" "${2:-${PROJECT_PATH##*/}}"
+  migrate_project "$PROJECT_PATH" "${args[1]:-${PROJECT_PATH##*/}}"
 }
 
 usage() {
-  log "Usage: $0 <gitlab_project_url> [github_repo_name]"
+  log "Usage: $0 [--lfs-above SIZE] <gitlab_project_url> [github_repo_name]"
   exit 2
 }
 
 migrate_project() {
-  local path="$1" name="$2" repo project branch description lfs_size
+  local path="$1" name="$2" repo project project_id branch description lfs_size
   repo="$GITHUB_OWNER/$name"
   log "Migrating $GITLAB_BASE_URL/$path to $repo"
   project="$(gitlab_api GET "projects/$(uri_encode "$path")?statistics=true")"
@@ -47,15 +64,19 @@ migrate_project() {
   branch="$(jq -r .default_branch <<<"$project")"
   description="$(short_description "$project")"
   lfs_size="$(jq -r '.statistics.lfs_objects_size // 0' <<<"$project")"
+  project_id="$(jq -r .id <<<"$project")"
   ((lfs_size == 0)) || require_git_lfs
 
   ensure_private_repo "$repo" "$description"
   if workflow_installed "$repo" || github_has_branch "$repo" "$branch"; then
     log "  already copied ($repo has branch $branch), keeping GitHub content"
+    [[ -z "$LFS_ABOVE" ]] ||
+      log "  WARNING: --lfs-above ignored, history was already copied. Delete $repo and run again to convert."
   else
-    copy_repository "$path" "$repo" "$branch" "$lfs_size"
+    [[ -z "$LFS_ABOVE" || "$(jq -r .lfs_enabled <<<"$project")" == true ]] || enable_gitlab_lfs "$project_id"
+    copy_repository "$path" "$repo" "$branch" "$lfs_size" "$project_id"
   fi
-  allow_force_push "$(jq -r .id <<<"$project")"
+  allow_force_push "$project_id"
   log "  storing $SECRET_NAME secret"
   printf '%s' "$GITLAB_MIRROR_TOKEN" | gh secret set "$SECRET_NAME" --repo "$repo" ||
     die "could not store $(describe_token GITLAB_MIRROR_TOKEN) as a secret in $repo with the 'gh auth' login"
@@ -90,14 +111,16 @@ ensure_private_repo() {
 }
 
 copy_repository() {
-  local path="$1" repo="$2" branch="$3" lfs_size="$4"
+  local path="$1" repo="$2" branch="$3" lfs_size="$4" project_id="$5"
   work_dir="$(mktemp -d)"
   trap 'rm -rf "$work_dir"' EXIT
   log "  cloning branches and tags from GitLab"
   git_gitlab clone --progress --bare "$GITLAB_BASE_URL/$path.git" "$work_dir/repo" ||
     die "$(request_failure "git clone from GitLab failed" "git clone $GITLAB_BASE_URL/$path.git" GITLAB_TOKEN \
       "" "the token needs the 'api' or 'read_repository' scope and access to the project")"
-  ((lfs_size == 0)) || copy_lfs_objects "$path" "$repo" "$lfs_size"
+  ((lfs_size == 0)) || fetch_lfs_objects "$path" "$lfs_size"
+  [[ -z "$LFS_ABOVE" ]] || convert_large_files "$project_id"
+  ((lfs_size == 0)) && [[ -z "$LFS_ABOVE" ]] || push_lfs_objects "$repo"
   # No --force: an unrelated repo with the same name is rejected, not overwritten.
   # --no-verify skips a Git LFS pre-push hook: LFS files were already uploaded above.
   # --atomic: either every ref lands or none, so an existing default branch means the copy is complete.
@@ -110,13 +133,45 @@ copy_repository() {
     die "could not set default branch '$branch' on $repo with the 'gh auth' login"
 }
 
-# Pushed before the branches, so GitHub never serves a pointer without its file.
-copy_lfs_objects() {
-  local path="$1" repo="$2" lfs_size="$3"
-  log "  copying Git LFS objects ($(((lfs_size + 1048575) / 1048576)) MiB)"
+fetch_lfs_objects() {
+  local path="$1" lfs_size="$2"
+  log "  downloading Git LFS objects from GitLab ($(((lfs_size + 1048575) / 1048576)) MiB)"
   git_gitlab -C "$work_dir/repo" lfs fetch --all origin ||
     die "$(request_failure "git lfs fetch from GitLab failed" "git lfs fetch --all $GITLAB_BASE_URL/$path.git" \
       GITLAB_TOKEN "" "the token needs the 'api' or 'read_repository' scope and access to the project")"
+}
+
+# Rewrites every branch and tag so that files above LFS_ABOVE become LFS files.
+# Fails before anything is pushed if a rewritten tag is protected on GitLab,
+# since the replication could never update it there.
+convert_large_files() {
+  local project_id="$1" tags_before blocked
+  tags_before="$(tag_list)"
+  log "  moving files above $LFS_ABOVE to Git LFS (rewrites history)"
+  git -C "$work_dir/repo" lfs migrate import --everything --above="$LFS_ABOVE" --yes ||
+    die "git lfs migrate failed (--lfs-above needs git-lfs 3.2 or later: $(git lfs version))"
+  blocked="$(comm -13 <(echo "$tags_before") <(tag_list) | cut -d' ' -f1 |
+    protected_matches "$(gitlab_api GET "projects/$project_id/protected_tags?per_page=100" | jq -r '.[].name')")"
+  [[ -z "$blocked" ]] ||
+    die "these tags change and are protected on GitLab, so replication could not update them: $(echo $blocked)." \
+      "Unprotect them in GitLab (Settings > Repository > Protected tags), or run without --lfs-above."
+  log "  $(git -C "$work_dir/repo" lfs ls-files --all --long | cut -d' ' -f1 | sort -u | wc -l | tr -d ' ')" \
+    "file version(s) now in Git LFS"
+}
+
+tag_list() {
+  git -C "$work_dir/repo" for-each-ref --format='%(refname:short) %(objectname)' refs/tags | sort
+}
+
+enable_gitlab_lfs() {
+  log "  enabling Git LFS on the GitLab project"
+  gitlab_api PUT "projects/$1?lfs_enabled=true" >/dev/null
+}
+
+# Pushed before the branches, so GitHub never serves a pointer without its file.
+push_lfs_objects() {
+  local repo="$1"
+  log "  uploading Git LFS objects to GitHub"
   git -C "$work_dir/repo" remote add github "https://github.com/$repo.git"
   git_github -C "$work_dir/repo" lfs push --all github ||
     die "git lfs push to https://github.com/$repo.git failed, using the 'gh auth' login." \
@@ -267,6 +322,24 @@ gitlab_status_hint() {
     404) echo "the project does not exist at this path, or the token's user cannot see it" ;;
     *) echo "" ;;
   esac
+}
+
+is_size() {
+  [[ "$1" =~ ^[0-9]+[[:space:]]*([kKmMgGtT]i?)?[bB]?$ ]]
+}
+
+# Prints the names on stdin that match one of the GitLab name patterns
+# (one per line, "*" as wildcard) given as $1.
+protected_matches() {
+  local patterns="$1" name pattern
+  while IFS= read -r name; do
+    [[ -n "$name" ]] || continue
+    while IFS= read -r pattern; do
+      # shellcheck disable=SC2053  # pattern match on purpose
+      [[ -n "$pattern" && "$name" == $pattern ]] && { echo "$name"; break; }
+    done <<<"$patterns"
+  done
+  true
 }
 
 uri_encode() {
