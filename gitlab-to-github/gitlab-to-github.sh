@@ -38,19 +38,21 @@ usage() {
 }
 
 migrate_project() {
-  local path="$1" name="$2" repo project branch description
+  local path="$1" name="$2" repo project branch description lfs_size
   repo="$GITHUB_OWNER/$name"
   log "Migrating $GITLAB_BASE_URL/$path to $repo"
   project="$(gitlab_api GET "projects/$(uri_encode "$path")?statistics=true")"
   check_copyable "$project"
   branch="$(jq -r .default_branch <<<"$project")"
   description="$(short_description "$project")"
+  lfs_size="$(jq -r '.statistics.lfs_objects_size // 0' <<<"$project")"
+  ((lfs_size == 0)) || require_git_lfs
 
   ensure_private_repo "$repo" "$description"
   if workflow_installed "$repo"; then
     log "  already copied, keeping GitHub content"
   else
-    copy_repository "$path" "$repo" "$branch"
+    copy_repository "$path" "$repo" "$branch" "$lfs_size"
   fi
   allow_force_push "$(jq -r .id <<<"$project")"
   log "  storing $SECRET_NAME secret"
@@ -64,8 +66,11 @@ check_copyable() {
   local project="$1"
   [[ "$(jq -r .default_branch <<<"$project")" != null ]] ||
     die "  empty repository, nothing to copy"
-  [[ "$(jq -r '.statistics.lfs_objects_size // 0' <<<"$project")" == 0 ]] ||
-    die "  uses Git LFS, which this script does not copy"
+}
+
+require_git_lfs() {
+  git lfs version >/dev/null 2>&1 ||
+    die "this project uses Git LFS: install git-lfs (https://git-lfs.com) and run again"
 }
 
 ensure_private_repo() {
@@ -80,13 +85,14 @@ ensure_private_repo() {
 }
 
 copy_repository() {
-  local path="$1" repo="$2" branch="$3"
+  local path="$1" repo="$2" branch="$3" lfs_size="$4"
   work_dir="$(mktemp -d)"
   trap 'rm -rf "$work_dir"' EXIT
   log "  copying branches and tags"
   git_gitlab clone --quiet --bare "$GITLAB_BASE_URL/$path.git" "$work_dir/repo" ||
     die "$(request_failure "git clone from GitLab failed" "git clone $GITLAB_BASE_URL/$path.git" GITLAB_TOKEN \
       "" "the token needs the 'api' or 'read_repository' scope and access to the project")"
+  ((lfs_size == 0)) || copy_lfs_objects "$path" "$repo" "$lfs_size"
   # No --force: an unrelated repo with the same name is rejected, not overwritten.
   git_github -C "$work_dir/repo" push --quiet "https://github.com/$repo.git" \
     'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*' ||
@@ -94,6 +100,19 @@ copy_repository() {
       "If the repo already has unrelated history, remove it or pass another repo name."
   gh repo edit "$repo" --default-branch "$branch" >/dev/null ||
     die "could not set default branch '$branch' on $repo with the 'gh auth' login"
+}
+
+# Pushed before the branches, so GitHub never serves a pointer without its file.
+copy_lfs_objects() {
+  local path="$1" repo="$2" lfs_size="$3"
+  log "  copying Git LFS objects ($(((lfs_size + 1048575) / 1048576)) MiB)"
+  git_gitlab -C "$work_dir/repo" lfs fetch --all origin ||
+    die "$(request_failure "git lfs fetch from GitLab failed" "git lfs fetch --all $GITLAB_BASE_URL/$path.git" \
+      GITLAB_TOKEN "" "the token needs the 'api' or 'read_repository' scope and access to the project")"
+  git -C "$work_dir/repo" remote add github "https://github.com/$repo.git"
+  git_github -C "$work_dir/repo" lfs push --all github ||
+    die "git lfs push to https://github.com/$repo.git failed, using the 'gh auth' login." \
+      "Check the GitHub LFS storage quota of $GITHUB_OWNER."
 }
 
 allow_force_push() {
@@ -265,17 +284,45 @@ permissions:
 jobs:
   replicate:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITLAB_TOKEN: ${{ secrets.GITLAB_MIRROR_TOKEN }}
+      GITLAB_URL: __GITLAB_URL__
     steps:
-      - name: Push all branches and tags to GitLab
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GITLAB_TOKEN: ${{ secrets.GITLAB_MIRROR_TOKEN }}
-          GITLAB_URL: __GITLAB_URL__
+      - name: Clone this repository
+        id: clone
         run: |
           git -c credential.helper='!f() { echo username=x-access-token; echo "password=$GH_TOKEN"; }; f' \
             clone --quiet --bare "https://github.com/$GITHUB_REPOSITORY.git" repo
-          git -C repo -c credential.helper='!f() { echo username=oauth2; echo "password=$GITLAB_TOKEN"; }; f' \
-            push --quiet --force --prune -o ci.skip "$GITLAB_URL" \
+          git -C repo config credential.https://github.com.helper \
+            '!f() { echo username=x-access-token; echo "password=$GH_TOKEN"; }; f'
+          git -C repo config "credential.$(echo "$GITLAB_URL" | cut -d/ -f1-3).helper" \
+            '!f() { echo username=oauth2; echo "password=$GITLAB_TOKEN"; }; f'
+          git -C repo remote add gitlab "$GITLAB_URL"
+          oids="$(git -C repo lfs ls-files --all --long | cut -d' ' -f1 | sort -u)"
+          if [ -n "$oids" ]; then
+            echo "lfs=$(echo "$oids" | sha256sum | cut -c1-16)" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Keeps LFS objects between runs, so each run only downloads new ones.
+      - name: Restore Git LFS objects
+        if: steps.clone.outputs.lfs
+        uses: actions/cache@v4
+        with:
+          path: repo/lfs/objects
+          key: lfs-${{ steps.clone.outputs.lfs }}
+          restore-keys: lfs-
+
+      # GitLab rejects branches that point to LFS files it doesn't have, so these go first.
+      - name: Push Git LFS objects to GitLab
+        if: steps.clone.outputs.lfs
+        run: |
+          git -C repo lfs fetch --all origin
+          git -C repo lfs push --all gitlab
+
+      - name: Push all branches and tags to GitLab
+        run: |
+          git -C repo push --quiet --force --prune -o ci.skip gitlab \
             'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*'
 YAML
 }

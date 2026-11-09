@@ -2,7 +2,7 @@
 
 `gitlab-to-github.sh` moves a GitLab project to GitHub in two steps:
 
-1. It copies the project's branches and tags into a private GitHub repo.
+1. It copies the project's branches, tags and Git LFS files into a private GitHub repo.
 2. It installs a GitHub Actions workflow in that repo that replicates every push back to GitLab.
 
 GitLab then stays up to date as a read-only replica of GitHub.
@@ -13,6 +13,7 @@ works on any tier. It also replicates on each push, whereas a pull mirror update
 ## Requirements
 
 - `git`, `gh`, `jq`, `curl` and `base64`
+- [`git-lfs`](https://git-lfs.com), only for projects that use Git LFS
 - Two GitLab tokens, both belonging to a user with the **Maintainer** role on the project:
   - `GITLAB_TOKEN`: scope `api`, used only by the script.
   - `GITLAB_MIRROR_TOKEN`: scope `write_repository`, stored as a secret in the GitHub repo and used by the workflow.
@@ -68,14 +69,28 @@ Try a single project before running a whole group.
 - **GitLab CI won't run on replicated pushes** because of `-o ci.skip`. Remove that flag from the workflow if GitLab
   pipelines must still run, such as for deployments.
 - **Only branches and tags are copied.** Issues, merge requests, wikis, releases and CI config don't move.
-- **Projects using Git LFS are refused** with a clear error, rather than copied incompletely. Empty projects are refused
-  too.
+- **Empty projects are refused**, since there is nothing to copy.
 - **Replication has one gap.** A push only triggers the workflow if that branch contains the workflow file. Older
   branches catch up at the daily 03:17 UTC run.
 - **Private repos use Actions minutes.** GitHub Free for personal accounts includes 2,000 minutes per month, and usage is
   rounded up to the minute. The daily run costs about 30 minutes per repo per month, plus about one per push.
 - **Replication stops when the token expires.** GitLab tokens must have an expiry date. To rotate it, export the new
   `GITLAB_MIRROR_TOKEN` and run the script again for each project, which refreshes the secret.
+
+## Git LFS
+
+Projects that use Git LFS are supported:
+
+- The script downloads every LFS file from GitLab and uploads it to GitHub before pushing the branches.
+- The workflow uploads LFS files to GitLab before pushing the branches, because GitLab rejects a push that points to
+  LFS files it doesn't have.
+- The workflow keeps LFS files in the GitHub Actions cache between runs, so each run downloads only new files from
+  GitHub. Without it, every run would download all of them. The cache is limited to 10 GB per repo; past that, runs
+  still work but download more.
+- LFS storage and bandwidth on GitHub count against your account's Git LFS quota, which is separate from Actions
+  minutes. Check it in your GitHub billing settings before migrating large projects.
+- Git LFS is detected from the repo content on each run, so a project that starts using it later is handled too, as
+  long as LFS is enabled on the GitLab project.
 
 ## Troubleshooting
 
