@@ -60,6 +60,10 @@ migrate_project() {
     die "could not store $(describe_token GITLAB_MIRROR_TOKEN) as a secret in $repo with the 'gh auth' login"
   workflow_installed "$repo" || install_workflow "$path" "$repo" "$branch"
   log "Done: https://github.com/$repo"
+  log ""
+  log "GitLab is now a read-only replica. To switch an existing clone to GitHub, run in it:"
+  log "  git remote set-url origin https://github.com/$repo.git   # or git@github.com:$repo.git"
+  log "  git fetch --prune origin"
 }
 
 check_copyable() {

@@ -46,6 +46,16 @@ which is accessed over HTTPS).
 The script stops if the target GitHub repo already exists and isn't private. You can safely run it again: a project
 whose workflow is already installed is not copied twice, but the secret and GitLab branch settings are refreshed.
 
+On success, the script prints how to point an existing clone at GitHub:
+
+```bash
+git remote set-url origin https://github.com/OWNER/REPO.git   # or git@github.com:OWNER/REPO.git
+git fetch --prune origin
+```
+
+Branches keep tracking `origin/<branch>`, so nothing else changes. Do this in every clone, since pushes to GitLab are
+overwritten by the next replication.
+
 ### Migrating a whole group
 
 The script handles one project per run. To migrate a group, list its projects and loop:
