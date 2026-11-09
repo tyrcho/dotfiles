@@ -2,50 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key>
-  <string>com.michel.daviot.work-analyzer-daily</string>
-
-  <key>ProgramArguments</key>
-  <array>
-    <string>/Users/michel.daviot/.claude/scripts/daily-work-analyzer/daily-work-analyzer.sh</string>
-  </array>
-
-  <key>StartCalendarInterval</key>
-  <array>
-    <dict>
-      <key>Weekday</key><integer>1</integer>
-      <key>Hour</key><integer>10</integer>
-      <key>Minute</key><integer>3</integer>
-    </dict>
-    <dict>
-      <key>Weekday</key><integer>2</integer>
-      <key>Hour</key><integer>10</integer>
-      <key>Minute</key><integer>3</integer>
-    </dict>
-    <dict>
-      <key>Weekday</key><integer>3</integer>
-      <key>Hour</key><integer>10</integer>
-      <key>Minute</key><integer>3</integer>
-    </dict>
-    <dict>
-      <key>Weekday</key><integer>4</integer>
-      <key>Hour</key><integer>10</integer>
-      <key>Minute</key><integer>3</integer>
-    </dict>
-    <dict>
-      <key>Weekday</key><integer>5</integer>
-      <key>Hour</key><integer>10</integer>
-      <key>Minute</key><integer>3</integer>
-    </dict>
-  </array>
-
-  <key>RunAtLoad</key>
-  <false/>
-
-  <key>StandardOutPath</key>
-  <string>/tmp/work-analyzer-daily.log</string>
-
-  <key>StandardErrorPath</key>
-  <string>/tmp/work-analyzer-daily.err</string>
+	<key>Label</key>
+	<string>com.michel.daviot.work-analyzer-daily</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/michel.daviot/dd/michel-daviot-notes/routines/_local-runner/run-scheduled-claude-task.sh</string>
+		<string>--name</string>
+		<string>work-analyzer-daily</string>
+		<string>--prompt-file</string>
+		<string>/Users/michel.daviot/dd/michel-daviot-notes/routines/daily-work-analyzer/prompt.md</string>
+		<string>--hours</string>
+		<string>8-19</string>
+		<string>--weekdays</string>
+		<string>1-5</string>
+		<string>--success-marker</string>
+		<string>--check-lid</string>
+	</array>
+	<key>RunAtLoad</key>
+	<false/>
+	<key>StandardErrorPath</key>
+	<string>/tmp/work-analyzer-daily.err</string>
+	<key>StandardOutPath</key>
+	<string>/tmp/work-analyzer-daily.log</string>
+	<key>StartInterval</key>
+	<integer>600</integer>
 </dict>
 </plist>

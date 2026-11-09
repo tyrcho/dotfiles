@@ -20,6 +20,16 @@ Do NOT use this symbol —. Prefer other ponctuation like parenthesis, columns, 
 
 Do NOT write as an agent writing for an agent. Don't be verbose. Don't repeat yourself (DRY).
 
+### AI writing tells
+
+Do not use em-dashes (—) in any written output. Use commas, parentheticals, colons, semicolons, or periods instead.
+
+Do not use "real," "honest," or "genuine" (or variants like "really," "honestly," "in reality") for emphasis. State the point plainly without the emphasis word.
+
+Avoid "real," "honest," and "genuine" as plain adjectives too (e.g. "genuine concern," "honest feedback," "real impact"), not just for emphasis.
+
+Avoid run-on or comma-dense sentences. Prefer shorter sentences over stringing multiple clauses together with commas.
+
 
 ## Datadog Style Guide
 

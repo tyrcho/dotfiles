@@ -69,6 +69,23 @@ def apply_business_logic(data):
     # business logic
 ```
 
+## Makefile Conventions
+
+**Any Makefile with more than one target must default to a `help` target that lists all targets**, not silently run whatever target happens to be first.
+
+```makefile
+.PHONY: help ...
+.DEFAULT_GOAL := help
+
+help: ## Show this list of targets
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
+
+some-target: ## One-line description, including required args like FOLDER=...
+	...
+```
+
+Give every target an inline `## description` comment (not just a comment on the line above) so it's picked up by the `help` target's grep/awk. Bare `make` with no arguments must always show the target list, never attempt to run a parameterized target and fail with a usage error.
+
 ## Script Output - stderr vs stdout
 
 **Log progress to stderr, output data to stdout.**

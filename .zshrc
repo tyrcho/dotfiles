@@ -112,8 +112,6 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 ### Fix slowness of pastes
 
 
-source $ZSH/oh-my-zsh.sh
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -176,6 +174,8 @@ export PATH="/opt/homebrew/opt/awscli@1/bin:$PATH"
 
 # Add datadog devtools binaries to the PATH
 export PATH="${HOME?}/dd/devtools/bin:${PATH?}"
+
+source $ZSH/oh-my-zsh.sh
 
 # Point GOPATH to our go sources
 export GOPATH="${HOME?}/go"
@@ -259,3 +259,7 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 alias claude-mem='/Users/michel.daviot/.bun/bin/bun "/Users/michel.daviot/.claude/plugins/cache/thedotmack-claude-mem/claude-mem/10.6.2/scripts/worker-service.cjs"'
+export PATH="$PATH:/Users/michel.daviot/Library/Application Support/Coursier/bin"
+export ANTHROPIC_MODEL="opus[1m]"
+
+[ -f "/opt/dogbrew/share/etc/dogbrew/init.zsh" ] && . "/opt/dogbrew/share/etc/dogbrew/init.zsh"

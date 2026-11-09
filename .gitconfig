@@ -121,3 +121,12 @@
 	autostash = true
 [include]
 	path = /Users/michel.daviot/.config/datadog/git/config
+
+[includeIf "hasconfig:remote.*.url:git@github.com:ddoghq/**"]
+    path = ~/.gitconfig-ddoghq
+[includeIf "hasconfig:remote.*.url:https://github.com/ddoghq/**"]
+    path = ~/.gitconfig-ddoghq
+[includeIf "hasconfig:remote.*.url:git@github-enterprise:ddoghq/**"]
+    path = ~/.gitconfig-ddoghq
+[includeIf "hasconfig:remote.*.url:git@ddoghq.github.com:ddoghq/**"]
+    path = ~/.gitconfig-ddoghq
