@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "meetings-frontmatter": {
+      "type": "stdio",
+      "command": "/Users/michel.daviot/.local/bin/frontmatter-mcp",
+      "env": {
+        "FRONTMATTER_BASE_DIR": "/Users/michel.daviot/Library/CloudStorage/GoogleDrive-michel.daviot@datadoghq.com/My Drive/Datadog/Private notes/meetings"
+      }
+    },
+    "datadog-gmail": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://gmail-mcp-server-834963730936.us-central1.run.app/mcp"]
+    },
+    "datadog-google-workspace": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://google-workspace-mcp-server-834963730936.us-central1.run.app/mcp"]
+    },
+    "datadog-google-calendar": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["mcp-remote", "https://google-calendar-mcp-server-834963730936.us-central1.run.app/mcp"]
+    },
+    "snowflake": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "uvx --python 3.12 --python-preference=managed --from git+https://github.com/Snowflake-Labs/mcp mcp-server-snowflake --service-config-file ~/.config/mcp/snowflake-config.yaml --authenticator externalbrowser --transport stdio --user \"$(whoami)@datadoghq.com\""
+      ],
+      "env": {
+        "SNOWFLAKE_ACCOUNT": "sza96462.us-east-1",
+        "SNOWFLAKE_DATABASE": "REPORTING"
+      }
+    }
+  }
+}

@@ -1,0 +1,384 @@
+{
+  "version": 2,
+  "plugins": {
+    "appgate@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/appgate/3842906a76fc",
+        "version": "3842906a76fc",
+        "installedAt": "2026-03-16T10:42:48.855Z",
+        "lastUpdated": "2026-11-09T09:44:32.402Z",
+        "gitCommitSha": "3842906a76fca62177e8e96cfd8dd280c7d405c9"
+      }
+    ],
+    "atlassian-remote-mcp@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/atlassian-remote-mcp/1.1.0",
+        "version": "1.1.0",
+        "installedAt": "2025-12-10T08:55:00.836Z",
+        "lastUpdated": "2025-12-12T16:28:11.679Z",
+        "gitCommitSha": "f44447ffd6fdc25b912f9410997b6fdad033d4e0"
+      }
+    ],
+    "claude-mem@thedotmack-claude-mem": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/thedotmack-claude-mem/claude-mem/13.18.0",
+        "version": "13.18.0",
+        "installedAt": "2026-03-23T16:44:55.297Z",
+        "lastUpdated": "2026-09-15T13:56:00.000Z",
+        "gitCommitSha": "fa6a1e9ec12d23f98326a9b26e243acb0819e105"
+      }
+    ],
+    "claude-opus-4-5-migration@claude-code-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-code-plugins/claude-opus-4-5-migration/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-03T08:47:26.316Z",
+        "lastUpdated": "2026-04-03T09:52:47.727Z",
+        "gitCommitSha": "1e03cc7fc40d9bab33f24855a8b5d31ba66205cb"
+      }
+    ],
+    "clobs-jira@cloud-observability": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-jira/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-17T08:27:30.177Z",
+        "lastUpdated": "2026-11-09T09:44:32.652Z"
+      }
+    ],
+    "clobs-reporting@cloud-observability": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-reporting/unknown",
+        "version": "unknown",
+        "installedAt": "2026-10-06T13:23:51.730Z",
+        "lastUpdated": "2026-11-09T09:44:32.484Z"
+      }
+    ],
+    "clobs-review@cloud-observability": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-review/unknown",
+        "version": "unknown",
+        "installedAt": "2026-05-20T12:00:16.442Z",
+        "lastUpdated": "2026-11-09T09:44:32.641Z"
+      }
+    ],
+    "clobs-slis@cloud-observability": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-slis/unknown",
+        "version": "unknown",
+        "installedAt": "2026-10-06T13:24:04.117Z",
+        "lastUpdated": "2026-11-09T09:44:32.575Z"
+      }
+    ],
+    "clobs-vault@cloud-observability": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-vault/unknown",
+        "version": "unknown",
+        "installedAt": "2026-09-10T07:58:57.952Z",
+        "lastUpdated": "2026-11-09T09:44:32.619Z"
+      },
+      {
+        "scope": "project",
+        "projectPath": "/Users/michel.daviot/go/src/github.com/DataDog/experimental/users/michel.daviot/cloud-obs-wiki",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-vault/unknown",
+        "version": "unknown",
+        "installedAt": "2026-09-14T13:09:41.357Z",
+        "lastUpdated": "2026-11-06T14:11:05.106Z"
+      }
+    ],
+    "commit-commands@claude-code-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-code-plugins/commit-commands/1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-04-03T08:47:26.316Z",
+        "lastUpdated": "2026-11-04T12:47:19.449Z",
+        "gitCommitSha": "fa4eb54397ee2faccb6940512a19c017cb1337f3"
+      },
+      {
+        "scope": "project",
+        "projectPath": "/Users/michel.daviot/My Drive (michel.daviot@datadoghq.com)/Datadog",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-code-plugins/commit-commands/1.0.1",
+        "version": "1.0.1",
+        "installedAt": "2026-08-31T06:17:39.641Z",
+        "lastUpdated": "2026-11-04T12:47:22.197Z",
+        "gitCommitSha": "fa4eb54397ee2faccb6940512a19c017cb1337f3"
+      }
+    ],
+    "context7@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-plugins-official/context7/0412be76f50a",
+        "version": "0412be76f50a",
+        "installedAt": "2026-02-05T11:34:05.642Z",
+        "lastUpdated": "2026-11-09T07:22:49.474Z",
+        "gitCommitSha": "0412be76f50ab4f4f8abff3753efa9269fbbca5b"
+      }
+    ],
+    "dd@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/dd/3842906a76fc",
+        "version": "3842906a76fc",
+        "installedAt": "2025-12-10T08:55:00.836Z",
+        "lastUpdated": "2026-11-09T09:44:32.624Z",
+        "gitCommitSha": "3842906a76fca62177e8e96cfd8dd280c7d405c9"
+      }
+    ],
+    "diagrams@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/diagrams/3842906a76fc",
+        "version": "3842906a76fc",
+        "installedAt": "2026-03-17T22:19:41.733Z",
+        "lastUpdated": "2026-11-09T09:44:32.570Z",
+        "gitCommitSha": "3842906a76fca62177e8e96cfd8dd280c7d405c9"
+      }
+    ],
+    "diagrams@datadog-claude-plugins-dev": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins-dev/diagrams/4a1e5703bf02",
+        "version": "4a1e5703bf02",
+        "installedAt": "2026-03-04T20:50:05.298Z",
+        "lastUpdated": "2026-08-31T06:18:56.272Z",
+        "gitCommitSha": "4a1e5703bf02b6658e76d60a2128c38de696d723"
+      }
+    ],
+    "faq@cloud-observability": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/faq/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-17T08:26:57.764Z",
+        "lastUpdated": "2026-11-09T09:44:32.465Z"
+      }
+    ],
+    "frontend-design@claude-code-plugins": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/michel.daviot/repos/conteurs",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-code-plugins/frontend-design/1.1.0",
+        "version": "1.1.0",
+        "installedAt": "2026-05-06T20:43:53.219Z",
+        "lastUpdated": "2026-06-30T07:40:37.218Z",
+        "gitCommitSha": "c80896ca84bd5f45cfe2cd4c1ae91b5d4ba4280b"
+      }
+    ],
+    "fuzzy-resume@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/fuzzy-resume/3842906a76fc",
+        "version": "3842906a76fc",
+        "installedAt": "2026-06-29T11:37:45.854Z",
+        "lastUpdated": "2026-11-09T09:44:32.378Z",
+        "gitCommitSha": "3842906a76fca62177e8e96cfd8dd280c7d405c9"
+      }
+    ],
+    "gopls-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-plugins-official/gopls-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-23T16:53:04.509Z",
+        "lastUpdated": "2026-04-03T09:52:47.727Z",
+        "gitCommitSha": "61c0597779bd2d670dcd4fbbf37c66aa19eb2ce6"
+      }
+    ],
+    "gworkspace-export@cloud-observability": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/gworkspace-export/unknown",
+        "version": "unknown",
+        "installedAt": "2026-06-11T16:10:08.924Z",
+        "lastUpdated": "2026-11-09T09:44:32.434Z"
+      }
+    ],
+    "iterm2-notifications@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/iterm2-notifications/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-05T11:48:47.939Z",
+        "lastUpdated": "2026-04-03T09:52:47.727Z",
+        "gitCommitSha": "1bbb920fc78fb74ddf0479253997fbb0c636f596"
+      }
+    ],
+    "lapdog@lapdog": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/lapdog/lapdog/0.1.0",
+        "version": "0.1.0",
+        "installedAt": "2026-05-22T12:37:38.542Z",
+        "lastUpdated": "2026-05-22T12:37:38.542Z",
+        "gitCommitSha": "a076b9c843db2882449e5c9ac23409bb10eb04fa"
+      }
+    ],
+    "marketplace-auto-update@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/marketplace-auto-update/3842906a76fc",
+        "version": "3842906a76fc",
+        "installedAt": "2025-12-10T08:55:00.836Z",
+        "lastUpdated": "2026-11-09T09:44:32.368Z",
+        "gitCommitSha": "3842906a76fca62177e8e96cfd8dd280c7d405c9"
+      }
+    ],
+    "osx-notifications@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/osx-notifications/3842906a76fc",
+        "version": "3842906a76fc",
+        "installedAt": "2025-12-10T08:55:00.836Z",
+        "lastUpdated": "2026-11-09T09:44:32.409Z",
+        "gitCommitSha": "3842906a76fca62177e8e96cfd8dd280c7d405c9"
+      }
+    ],
+    "pyright-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-plugins-official/pyright-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-23T16:53:09.102Z",
+        "lastUpdated": "2026-04-03T09:52:47.727Z",
+        "gitCommitSha": "61c0597779bd2d670dcd4fbbf37c66aa19eb2ce6"
+      }
+    ],
+    "redblue@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/redblue/3842906a76fc",
+        "version": "3842906a76fc",
+        "installedAt": "2026-04-03T08:47:26.316Z",
+        "lastUpdated": "2026-11-09T09:44:32.395Z",
+        "gitCommitSha": "3842906a76fca62177e8e96cfd8dd280c7d405c9"
+      }
+    ],
+    "security-guidance@claude-code-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-code-plugins/security-guidance/2.0.18",
+        "version": "2.0.18",
+        "installedAt": "2026-04-03T08:47:26.316Z",
+        "lastUpdated": "2026-11-09T07:22:52.990Z",
+        "gitCommitSha": "0412be76f50ab4f4f8abff3753efa9269fbbca5b"
+      }
+    ],
+    "snapshot@local": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/local/snapshot/73c01c5e9729",
+        "version": "73c01c5e9729",
+        "installedAt": "2026-05-15T15:48:06.135Z",
+        "lastUpdated": "2026-05-15T15:48:06.135Z",
+        "gitCommitSha": "73c01c5e9729d47a7c41ebe10ff8f8d1c2e7d1f3"
+      }
+    ],
+    "squire@datadog-claude-plugins": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/michel.daviot/go/src/github.com/DataDog/claude-marketplace",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/squire/eb38c5052128",
+        "version": "eb38c5052128",
+        "installedAt": "2026-06-02T09:48:09.891Z",
+        "lastUpdated": "2026-09-28T08:03:28.114Z",
+        "gitCommitSha": "eb38c5052128df7e179d8542e8cb27f574f3b1f0"
+      }
+    ],
+    "trajectory-security@trajectory": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/trajectory/trajectory-security/0.1.0",
+        "version": "0.1.0",
+        "installedAt": "2026-08-14T09:28:22.862Z",
+        "lastUpdated": "2026-08-14T09:28:22.862Z",
+        "gitCommitSha": "d4d00e0ff253cf2c2d903eedc0df119a3b23e362"
+      }
+    ],
+    "trajectory@trajectory": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/trajectory/trajectory/1.2.27-trajectory-d7faa5ddb000-5",
+        "version": "1.2.27",
+        "installedAt": "2026-07-09T15:54:10.689Z",
+        "lastUpdated": "2026-11-04T15:20:17.672688Z",
+        "gitCommitSha": "39cd65747ff55e37ce245e7ae3106ae9bc6e419a"
+      }
+    ],
+    "typescript-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-plugins-official/typescript-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-05T11:34:26.197Z",
+        "lastUpdated": "2026-04-03T09:52:47.727Z",
+        "gitCommitSha": "27d2b86d72da27c64585150857cee8472ad47abb"
+      }
+    ],
+    "work-analyzer@datadog-claude-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/work-analyzer/3842906a76fc",
+        "version": "3842906a76fc",
+        "installedAt": "2026-04-07T08:57:45.158Z",
+        "lastUpdated": "2026-11-09T09:44:32.579Z",
+        "gitCommitSha": "3842906a76fca62177e8e96cfd8dd280c7d405c9"
+      },
+      {
+        "scope": "local",
+        "projectPath": "/Users/michel.daviot/go/src/github.com/DataDog/claude-marketplace",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/work-analyzer/eb38c5052128",
+        "version": "eb38c5052128",
+        "installedAt": "2026-07-08T12:48:27.288Z",
+        "lastUpdated": "2026-09-28T08:03:28.051Z",
+        "gitCommitSha": "eb38c5052128df7e179d8542e8cb27f574f3b1f0"
+      },
+      {
+        "scope": "local",
+        "projectPath": "/Users/michel.daviot/go/src/github.com/DataDog/claude-marketplace/work-analyzer",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins/work-analyzer/38b342ac1725",
+        "version": "38b342ac1725",
+        "installedAt": "2026-08-27T09:08:54.004Z",
+        "lastUpdated": "2026-09-10T10:27:39.486Z",
+        "gitCommitSha": "38b342ac17259ede976eab130a4f2dcbf1ad9977"
+      }
+    ],
+    "work-analyzer@datadog-claude-plugins-dev": [
+      {
+        "scope": "local",
+        "projectPath": "/Users/michel.daviot/go/src/github.com/DataDog/claude-marketplace",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins-dev/work-analyzer/4364ecbef9a7",
+        "version": "4364ecbef9a7",
+        "installedAt": "2026-04-03T09:52:47.727Z",
+        "lastUpdated": "2026-09-10T15:30:40.634Z",
+        "gitCommitSha": "4364ecbef9a7979f4927fa47a8b3bba280e463ca"
+      },
+      {
+        "scope": "local",
+        "projectPath": "/Users/michel.daviot/go/src/github.com/DataDog/claude-marketplace/work-analyzer",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/datadog-claude-plugins-dev/work-analyzer/2d0dc24ded00",
+        "version": "2d0dc24ded00",
+        "installedAt": "2026-08-27T09:08:54.004Z",
+        "lastUpdated": "2026-08-27T09:08:54.004Z",
+        "gitCommitSha": "2d0dc24ded00288f083c8abfcfe3225a2817fd2b"
+      }
+    ],
+    "slack-relay@dogpark": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/dogpark/slack-relay/2.0.2746324",
+        "version": "2.0.2746324",
+        "installedAt": "2026-11-05T17:54:03.342Z",
+        "lastUpdated": "2026-11-08T13:32:04.823Z"
+      }
+    ]
+  }
+}

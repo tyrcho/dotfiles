@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.michel.daviot.process-transcripts</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/michel.daviot/Library/CloudStorage/GoogleDrive-michel.daviot@datadoghq.com/My Drive/Datadog/Scheduled Tasks/run-scheduled-claude-task/run-scheduled-claude-task.sh</string>
+		<string>--name</string>
+		<string>process-transcripts</string>
+		<string>--prompt-file</string>
+		<string>/Users/michel.daviot/Library/CloudStorage/GoogleDrive-michel.daviot@datadoghq.com/My Drive/Datadog/Scheduled Tasks/process-transcripts/prompt.md</string>
+		<string>--hours</string>
+		<string>8-19</string>
+		<string>--weekdays</string>
+		<string>1-7</string>
+		<string>--unset-env</string>
+		<string>ANTHROPIC_API_KEY</string>
+	</array>
+	<key>RunAtLoad</key>
+	<false/>
+	<key>StandardErrorPath</key>
+	<string>/tmp/process-transcripts.err</string>
+	<key>StandardOutPath</key>
+	<string>/tmp/process-transcripts.log</string>
+	<key>StartInterval</key>
+	<integer>600</integer>
+</dict>
+</plist>
