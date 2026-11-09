@@ -98,8 +98,9 @@ copy_repository() {
       "" "the token needs the 'api' or 'read_repository' scope and access to the project")"
   ((lfs_size == 0)) || copy_lfs_objects "$path" "$repo" "$lfs_size"
   # No --force: an unrelated repo with the same name is rejected, not overwritten.
+  # --no-verify skips a Git LFS pre-push hook: LFS files were already uploaded above.
   log "  pushing branches and tags to GitHub"
-  git_github -C "$work_dir/repo" push --progress "https://github.com/$repo.git" \
+  git_github -C "$work_dir/repo" push --progress --no-verify "https://github.com/$repo.git" \
     'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*' ||
     die "git push to https://github.com/$repo.git failed, using the 'gh auth' login." \
       "If the repo already has unrelated history, remove it or pass another repo name."
