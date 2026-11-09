@@ -88,13 +88,14 @@ copy_repository() {
   local path="$1" repo="$2" branch="$3" lfs_size="$4"
   work_dir="$(mktemp -d)"
   trap 'rm -rf "$work_dir"' EXIT
-  log "  copying branches and tags"
-  git_gitlab clone --quiet --bare "$GITLAB_BASE_URL/$path.git" "$work_dir/repo" ||
+  log "  cloning branches and tags from GitLab"
+  git_gitlab clone --progress --bare "$GITLAB_BASE_URL/$path.git" "$work_dir/repo" ||
     die "$(request_failure "git clone from GitLab failed" "git clone $GITLAB_BASE_URL/$path.git" GITLAB_TOKEN \
       "" "the token needs the 'api' or 'read_repository' scope and access to the project")"
   ((lfs_size == 0)) || copy_lfs_objects "$path" "$repo" "$lfs_size"
   # No --force: an unrelated repo with the same name is rejected, not overwritten.
-  git_github -C "$work_dir/repo" push --quiet "https://github.com/$repo.git" \
+  log "  pushing branches and tags to GitHub"
+  git_github -C "$work_dir/repo" push --progress "https://github.com/$repo.git" \
     'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*' ||
     die "git push to https://github.com/$repo.git failed, using the 'gh auth' login." \
       "If the repo already has unrelated history, remove it or pass another repo name."
