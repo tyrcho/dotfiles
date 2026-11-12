@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-12
+
+- Added `~/.local/bin/load-creds.sh` and the `creds` alias: sourcing it exports `JIRA_API_TOKEN` and `GITLAB_TOKEN` from 1Password on demand (not at shell startup), so agents started afterwards get them with no delay
+
 ## 2026-11-09
 
 - Laptop migration: dotfiles now also track shell/tool config (`.tmux.conf`, `.vimrc`, zed, cmux, herdr, gh, topgrade, recoll), Claude `agents/`, `commands/`, `mcp.json`, plugin lists and all `com.michel.daviot.*` LaunchAgents. Added `~/migration/` with `Laptop Setup.md`, `Brewfile`, `repos.tsv`, VS Code extensions, iTerm2/AltTab prefs and the user MCP servers extracted from `~/.claude.json`
