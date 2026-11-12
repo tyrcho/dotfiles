@@ -63,6 +63,7 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 HIST_STAMPS="yyyy-mm-dd"
 HISTSIZE=50000
 HISTFILESIZE=50000
+SAVEHIST=50000
 setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 
@@ -149,10 +150,8 @@ alias lt='ls --tree'
 
 
 # BEGIN ANSIBLE MANAGED BLOCK
-# Add homebrew binaries to the path.
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:${PATH?}"
-export PATH="$HOME/.local/bin:$PATH"
-
+# Load homebrew shell variables
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Force certain more-secure behaviours from homebrew
 export HOMEBREW_NO_INSECURE_REDIRECT=1
@@ -160,36 +159,37 @@ export HOMEBREW_CASK_OPTS=--require-sha
 export HOMEBREW_DIR=/opt/homebrew
 export HOMEBREW_BIN=/opt/homebrew/bin
 
-# Load python shims
-eval "$(pyenv init -)"
+# Load python shims. --no-rehash skips the shim-directory rescan that
+# pyenv otherwise runs on every shell startup (a noticeable per-shell
+# cost); shims are still added to PATH. Run `pyenv rehash` manually after
+# installing a package that adds a new executable (e.g. a pip console
+# script).
+eval "$(pyenv init - --no-rehash)"
 
-# Load ruby shims
-eval "$(rbenv init -)"
+# Load ruby shims. --no-rehash for the same reason; run `rbenv rehash`
+# after installing a gem that adds an executable.
+eval "$(rbenv init - --no-rehash)"
+
+# Load direnv hook
+eval "$(direnv hook zsh)"
+
+# Load git-dd completions for zsh
+autoload -Uz _git_dd
 
 # Prefer GNU binaries to Macintosh binaries.
-export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:${PATH}"
-
-# Add AWS CLI to PATH
-export PATH="/opt/homebrew/opt/awscli@1/bin:$PATH"
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 # Add datadog devtools binaries to the PATH
-export PATH="${HOME?}/dd/devtools/bin:${PATH?}"
-
-source $ZSH/oh-my-zsh.sh
+export PATH="$HOME/dd/devtools/bin:$PATH"
 
 # Point GOPATH to our go sources
-export GOPATH="${HOME?}/go"
+export GOPATH="$HOME/go"
 
 # Add binaries that are go install-ed to PATH
-export PATH="${GOPATH?}/bin:${PATH?}"
+export PATH="$GOPATH/bin:$PATH"
 
-export PATH="/Applications/Recoll.app/Contents/MacOS:$PATH"
-
-# Point DATADOG_ROOT to ~/dd symlink
-export DATADOG_ROOT="${HOME?}/dd"
-
-# Tell the devenv vm to mount $GOPATH/src rather than just dd-go
-export MOUNT_ALL_GO_SRC=1
+# Point DATADOG_ROOT to where Datadog repositories are cloned
+export DATADOG_ROOT="$HOME/dd"
 
 # store key in the login keychain instead of aws-vault managing a hidden keychain
 export AWS_VAULT_KEYCHAIN_NAME=login
@@ -206,22 +206,24 @@ export HELM_DRIVER=configmap
 # remove it in Go 1.18, which breaks projects using the dep tool.
 # https://blog.golang.org/go116-module-changes
 export GO111MODULE=auto
-export GOPRIVATE=github.com/DataDog
-export GOPROXY=binaries.ddbuild.io,https://proxy.golang.org,direct
-export GONOSUMDB=github.com/DataDog,go.ddbuild.io
-
 # Configure Go to pull go.ddbuild.io packages.
-export GOPROXY="binaries.ddbuild.io,proxy.golang.org,direct"
-export GONOSUMDB="github.com/DataDog,go.ddbuild.io"
+export GONOSUMDB=github.com/DataDog,go.ddbuild.io
+export GOPRIVATE=
+export GOPROXY="https://depot-read-api-go.us1.ddbuild.io/magicmirror/magicmirror/@current/|https://depot-read-api-go.us1.ddbuild.io/magicmirror/magicmirror/@current/|https://depot-read-api-go.us1.ddbuild.io/magicmirror/testing/@current/"
 # END ANSIBLE MANAGED BLOCK
+
+# --- personal additions previously kept inside the managed block ---
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/Applications/Recoll.app/Contents/MacOS:$PATH"
+source $ZSH/oh-my-zsh.sh
 
 
 export OPENAI_API_URL="openai-api-proxy.us1.staging.dog"
 export OPENAI_API_KEY="michel.daviot@datadog.com"
 
 # google-cloud-sdk brew caveat
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+source "/opt/homebrew/share/google-cloud-sdk/path.zsh.inc"
+source "/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc"
 
 [ -f ~/z.sh ] && source ~/z.sh
 source ~/F-Sy-H/F-Sy-H.plugin.zsh
@@ -231,7 +233,7 @@ source ~/fzf-git.sh # https://github.com/junegunn/fzf-git.sh
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 alias code="/Applications/Visual\ Studio\ Code.app/contents/Resources/app/bin/code"
-source ~/.secrets-env.sh
+[ -f ~/.secrets-env.sh ] && source ~/.secrets-env.sh
 source "$(brew --prefix)/share/zsh/site-functions/_ddtool"
 
 
@@ -262,4 +264,7 @@ alias claude-mem='/Users/michel.daviot/.bun/bin/bun "/Users/michel.daviot/.claud
 export PATH="$PATH:/Users/michel.daviot/Library/Application Support/Coursier/bin"
 export ANTHROPIC_MODEL="opus[1m]"
 
+alias creds="source ~/.local/bin/load-creds.sh"
+
+# dogbrew shell-hooks: if you don't want this to be called, comment it out and dogbrew will honour that on subsequent updates.  See also the more dangerous `dogbrew self setup --disable-shell-hooks`.
 [ -f "/opt/dogbrew/share/etc/dogbrew/init.zsh" ] && . "/opt/dogbrew/share/etc/dogbrew/init.zsh"
