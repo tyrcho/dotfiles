@@ -61,6 +61,12 @@ For details: See auto memory files below.
 ### Jira / Confluence API Token
 - @~/.claude/rules/tools/Jira API Token.md
 
+### Datadog Workspace (Linux only)
+- @~/.claude/rules/tools/Datadog Workspace.md
+
+### DORA Metrics (Cloud Observability)
+- @~/.claude/rules/datadog/DORA Metrics.md
+
 ## User Lookup & Identity Resolution
 
 - @~/.claude/rules/tools/user-lookup.md

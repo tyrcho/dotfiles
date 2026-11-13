@@ -6,6 +6,7 @@
 
 ## 2026-11-13
 
+- Added `rules/tools/Datadog Workspace.md` (workspace-only: `gh` token from ddtool, Chonk host, single-file bundles on Node 22, ask before pushing to `main`) and `rules/datadog/DORA Metrics.md` (DORA team handles and pitfalls for Cloud Observability), wired into `CLAUDE.md`. `rules/tools/mcp-integrations.md`: decode Confluence short links offline
 - Added `.agents/scripts/install-agent-links.sh`: symlinks `CLAUDE.md`, `rules/`, `skills/`, `agents/` and `commands/` into `~/.claude`, `.agents/skills` into `~/.agents/skills` and `CLAUDE.md` as `~/.codex/AGENTS.md`; on macOS only also `settings.json`, `statusline.sh` and `hooks/`. Idempotent, backs up anything it replaces to `<target>.bak.<timestamp>`, `--dry-run` to preview. Setup steps for a Linux workspace in `migration/Workspace Setup.md`
 - Added `rules/tools/Jira API Token.md` (where the Jira / Confluence token comes from on the Mac and on a workspace), wired into `CLAUDE.md`
 - `settings.json`: hook commands use `$HOME` instead of `/Users/michel.daviot`
