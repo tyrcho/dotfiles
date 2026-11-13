@@ -1,0 +1,164 @@
+{
+  "model": "opus",
+  "theme": "dark-daltonized",
+  "verbose": true,
+  "alwaysThinkingEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(brew:*)",
+      "Bash(jira:*)",
+      "Bash(dd-auth:*)",
+      "Bash(docker context:*)",
+      "Bash(npm config:*)",
+      "Bash(npm info:*)",
+      "Bash(npm install:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm search:*)",
+      "Bash(npm test:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm view:*)",
+      "Bash(npm whoami:*)",
+      "Bash(npx eslint:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(wc:*)",
+      "Bash(file:*)",
+      "Bash(which:*)",
+      "Bash(lsof:*)",
+      "Bash(mkdir:*)",
+      "Bash(echo:*)",
+      "Bash(printf:*)",
+      "Bash(pwd:*)",
+      "Bash(test:*)",
+      "Bash(unset:*)",
+      "Bash(jq:*)",
+      "Bash(curl:*)",
+      "Bash(date:*)",
+      "Bash(grep:*)",
+      "Bash(mv:*)",
+      "Bash(rmdir:*)",
+      "Bash(touch:*)",
+      "Bash(builtin cd:*)",
+      "Bash(./*)",
+      "Bash($CLAUDE_PLUGIN_ROOT/*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Edit(~/.claude/hooks/**)",
+      "Glob",
+      "Grep",
+      "mcp__datadog-google-calendar__*",
+      "mcp__datadog-google-workspace__*",
+      "mcp__google-workspace__*",
+      "mcp__datadog-mcp__*",
+      "mcp__slack__*",
+      "mcp__atlassian__*",
+      "mcp__snowflake__*",
+      "mcp__plugin_claude-mem_mcp-search__*",
+      "WebSearch",
+      "WebFetch",
+      "mcp__atlassian__atlassianUserInfo",
+      "mcp__atlassian__fetchAtlassian",
+      "mcp__atlassian__getAccessibleAtlassianResources",
+      "mcp__atlassian__getConfluencePage",
+      "mcp__atlassian__getConfluencePageDescendants",
+      "mcp__atlassian__getConfluencePageFooterComments",
+      "mcp__atlassian__getConfluencePageInlineComments",
+      "mcp__atlassian__getConfluenceSpaces",
+      "mcp__atlassian__getJiraIssue",
+      "mcp__atlassian__getJiraIssueRemoteIssueLinks",
+      "mcp__atlassian__getJiraIssueTypeMetaWithFields",
+      "mcp__atlassian__getJiraProjectIssueTypesMetadata",
+      "mcp__atlassian__getPagesInConfluenceSpace",
+      "mcp__atlassian__getTransitionsForJiraIssue",
+      "mcp__atlassian__getVisibleJiraProjects",
+      "mcp__atlassian__lookupJiraAccountId",
+      "mcp__atlassian__searchAtlassian",
+      "mcp__atlassian__searchConfluenceUsingCql",
+      "mcp__atlassian__searchJiraIssuesUsingJql",
+      "mcp__datadog-mcp__search_datadog_dashboards"
+    ],
+    "deny": [],
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/readme-check.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/compile-check.sh",
+            "timeout": 20
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/post-push-check.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "mcp__chrome-devtools__take_screenshot",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/screenshot-filepath-check.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__chrome-devtools__take_snapshot",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/snapshot-filepath-check.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '{id: .session_id, cwd: .cwd, transcript: .transcript_path, event: \"end\", reason: .reason, ts: (now | todate)}' >> ~/.claude/sessions-state.jsonl"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '{id: .session_id, cwd: .cwd, transcript: .transcript_path, event: \"start\", source: .source, ts: (now | todate)}' >> ~/.claude/sessions-state.jsonl"
+          }
+        ]
+      }
+    ]
+  }
+}
