@@ -5,6 +5,13 @@
 - Added `.agents/scripts/install-agent-links.sh`: symlinks `CLAUDE.md`, `rules/`, `skills/`, `agents/` and `commands/` into `~/.claude`, `.agents/skills` into `~/.agents/skills` and `CLAUDE.md` as `~/.codex/AGENTS.md`; on macOS only also `settings.json`, `statusline.sh` and `hooks/`. Idempotent, backs up anything it replaces to `<target>.bak.<timestamp>`, `--dry-run` to preview. Setup steps for a Linux workspace in `migration/Workspace Setup.md`
 - Added `rules/tools/Jira API Token.md` (where the Jira / Confluence token comes from on the Mac and on a workspace), wired into `CLAUDE.md`
 - `settings.json`: hook commands use `$HOME` instead of `/Users/michel.daviot`
+- Split `settings.json` into `.claude/settings/shared.json`, `mac.json` (iTerm2 `cc-status` hooks, status line, plugins and marketplaces, auto mode, `EDITOR`) and `linux.json`. `install-agent-links.sh` now generates `~/.claude/settings.json` with `.agents/scripts/merge-settings.jq` (Mac: shared + mac; Linux: workspace file + shared + linux, lists joined without duplicates) and links `hooks/` on Linux too. `settings.json`, `settings.local.json` and `plugins/*.json` are no longer tracked
+- `settings`: removed the `md-link-check.sh` and `herdr-agent-state.sh` hooks (scripts were never committed)
+- `CLAUDE.md`: removed imports of rule files that were never committed (Obsidian Vault Git Races, Open Markdown in Obsidian, Markdown Link Verification, Observer Memory, Confluence Writing, Jira Writing, direct-reports) and the `graphify` / `search-context` skill pointers (skills not installed)
+- `rules/process/git-workflows.md`: added the `ddoghq-sandbox/experimental` push-to-main exception (was a Mac-only memory)
+- `mcp.json`: `meetings-frontmatter` points at the notes vault (`${HOME}/dd/michel-daviot-notes/notes`) and runs `frontmatter-mcp` from the `PATH`
+- `.codex/config.toml`: dropped the per-machine `[projects.*]` trust entries
+- `SIGNET-ARCHITECTURE.md`, `web-search` skill: no hardcoded Mac paths
 
 ## 2026-11-12
 

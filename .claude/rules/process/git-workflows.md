@@ -65,6 +65,11 @@ If collisions slow the task noticeably (about 3 or more waits in one task), sugg
 ### Branch Naming
 - Branch names must start with `michel.daviot/` (e.g. `michel.daviot/my-feature`)
 
+### Sandbox repo exception: `ddoghq-sandbox/experimental`
+- Commit and push straight to `main`, no branch or PR. Always `git pull --rebase` before pushing.
+- Only this repo. Every other repo keeps the branch and draft PR rules.
+- Still update CHANGELOG/README of the touched folder before committing.
+
 ### GitHub Integration
 - Always use `gh` CLI for GitHub operations
 - Always create PRs as **draft** (`gh pr create --draft`)
