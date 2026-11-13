@@ -15,8 +15,15 @@
 #                                      <- .claude/{rules,skills,agents,commands}/<entry>
 #   ~/.agents/skills/<entry>           <- .agents/skills/<entry>  (Codex user skills)
 #   ~/.codex/AGENTS.md                 <- .claude/CLAUDE.md       (Codex global instructions)
-# macOS only (their commands and paths only exist on the Mac):
-#   ~/.claude/settings.json, ~/.claude/statusline.sh, ~/.claude/hooks/<entry>
+#   ~/.claude/hooks/<entry>            <- .claude/hooks/<entry>   (used by the shared settings)
+# macOS only (its command only exists on the Mac):
+#   ~/.claude/statusline.sh
+#
+# ~/.claude/settings.json is generated, not linked (needs jq):
+#   macOS:  .claude/settings/shared.json + mac.json
+#   Linux:  the existing (workspace-managed) settings.json + shared.json + linux.json,
+#           so keys the workspace sets (plugins, status line) stay.
+# The diff is printed before writing, and the old file is backed up.
 #
 # Directories are linked entry by entry, so skills or rules installed locally
 # (by plugins or by hand) stay next to the shared ones.
@@ -74,6 +81,29 @@ link_entries() {
   done
 }
 
+# install_settings: build ~/.claude/settings.json from the split files in .claude/settings/.
+install_settings() {
+  local dst="$HOME/.claude/settings.json" dir="$REPO/.claude/settings" os=linux base=() tmp
+  [ "$(uname -s)" = Darwin ] && os=mac
+  [ "$os" = linux ] && [ -f "$dst" ] && base=("$dst")
+  tmp="$(mktemp)"
+  jq -s -f "$REPO/.agents/scripts/merge-settings.jq" ${base[@]+"${base[@]}"} "$dir/shared.json" "$dir/$os.json" >"$tmp"
+  if [ -f "$dst" ] && diff -q <(jq -S . "$dst") <(jq -S . "$tmp") >/dev/null; then
+    echo "ok      $dst"; rm -f "$tmp"; return
+  fi
+  [ -f "$dst" ] && diff -u <(jq -S . "$dst") <(jq -S . "$tmp") || true
+  if [ -e "$dst" ] || [ -L "$dst" ]; then
+    local bak
+    bak="$(backup_path "$dst")"
+    echo "backup  $dst -> $bak"
+    run cp -P "$dst" "$bak"
+    run rm -f "$dst"
+  fi
+  echo "write   $dst ($os)"
+  run mv "$tmp" "$dst"
+  rm -f "$tmp"
+}
+
 echo "Linking agent config from $REPO into $HOME"
 
 link "$REPO/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
@@ -82,11 +112,11 @@ for dir in rules skills agents commands; do
 done
 link_entries "$REPO/.agents/skills" "$HOME/.agents/skills"
 link "$REPO/.claude/CLAUDE.md" "$HOME/.codex/AGENTS.md"
+link_entries "$REPO/.claude/hooks" "$HOME/.claude/hooks"
 
 if [ "$(uname -s)" = Darwin ]; then
-  link "$REPO/.claude/settings.json" "$HOME/.claude/settings.json"
   link "$REPO/.claude/statusline.sh" "$HOME/.claude/statusline.sh"
-  link_entries "$REPO/.claude/hooks" "$HOME/.claude/hooks"
 fi
+install_settings
 
 echo "Done."

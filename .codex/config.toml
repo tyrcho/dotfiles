@@ -1,8 +1,5 @@
 model = "gpt-5.4"
 
-[projects."/Users/michel.daviot"]
-trust_level = "trusted"
-
 [mcp_servers.datadog-ddstaging]
 url = "http://127.0.0.1:43118/wmux/mcp/datadog/datadog-ddstaging/v1/mcp?toolsets=all,incidents"
 

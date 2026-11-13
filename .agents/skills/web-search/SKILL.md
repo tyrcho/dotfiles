@@ -160,9 +160,8 @@ agent-browser close
 ## Important Notes
 
 - SearXNG runs at `http://localhost:8888`. If it's down, check: `docker ps | grep searxng` and restart with `docker start searxng`
-- Lightpanda is at `/opt/homebrew/bin/lightpanda`
-- Agent-Browser is at `/opt/homebrew/bin/agent-browser` (v0.21.1)
-- The `web-search` CLI is at `~/.agents/tools/web-search` and symlinked to `/opt/homebrew/bin/web-search`
+- Lightpanda and Agent-Browser (v0.21.1) are on the `PATH` (`command -v lightpanda agent-browser`). On the Mac they live in `/opt/homebrew/bin`
+- The `web-search` CLI is at `~/.agents/tools/web-search`. On the Mac it is symlinked to `/opt/homebrew/bin/web-search`
 - When SearXNG returns results, the `content` field has a snippet — often enough to answer simple factual questions without fetching the full page
 - For URL encoding in curl, use python: `python3 -c "import urllib.parse; print(urllib.parse.quote('my query'))"`
 

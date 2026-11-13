@@ -41,9 +41,9 @@ Checklist to rebuild this laptop from the `tyrcho/dotfiles` repo (branch `datado
   ```
 
 ### 5. Claude Code
-- [ ] Install Claude Code. `~/.claude/{CLAUDE.md,settings.json,rules,hooks,skills,agents,commands}` come from the dotfiles.
-- [ ] Run `~/.agents/scripts/install-agent-links.sh` to add the links the home checkout does not give (`~/.codex/AGENTS.md`). See `Workspace Setup.md` for a Linux workspace.
-- [ ] Add the marketplaces listed in `~/.claude/plugins/known_marketplaces.json`, then install the plugins listed in `installed_plugins.json`.
+- [ ] Install Claude Code. `~/.claude/{CLAUDE.md,rules,hooks,skills,agents,commands}` come from the dotfiles.
+- [ ] Run `~/.agents/scripts/install-agent-links.sh` (needs `jq`). It builds `~/.claude/settings.json` from `.claude/settings/shared.json` + `mac.json` and adds the links the home checkout does not give. See `Workspace Setup.md` for a Linux workspace.
+- [ ] Start Claude Code: it installs the plugins and marketplaces declared in `enabledPlugins` / `extraKnownMarketplaces` (`mac.json`).
 - [ ] Merge `claude-mcp-servers.json` into `~/.claude.json` (`jq -s '.[0] * .[1]' ~/.claude.json claude-mcp-servers.json`) and re-auth each MCP server on first use.
 - [ ] Restore `~/.claude/projects` and `~/.claude-mem`.
 
