@@ -93,7 +93,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -103,7 +103,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -114,17 +114,17 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.claude/hooks/readme-check.sh",
+            "command": "$HOME/.claude/hooks/readme-check.sh",
             "timeout": 5
           },
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.claude/hooks/compile-check.sh",
+            "command": "$HOME/.claude/hooks/compile-check.sh",
             "timeout": 20
           },
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.claude/hooks/md-link-check.sh",
+            "command": "$HOME/.claude/hooks/md-link-check.sh",
             "timeout": 15
           }
         ]
@@ -134,7 +134,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.claude/hooks/post-push-check.sh",
+            "command": "$HOME/.claude/hooks/post-push-check.sh",
             "timeout": 5
           }
         ]
@@ -143,7 +143,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -173,7 +173,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -191,7 +191,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -210,7 +210,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/michel.daviot/.claude/hooks/herdr-agent-state.sh' session",
+            "command": "bash \"$HOME/.claude/hooks/herdr-agent-state.sh\" session",
             "timeout": 10
           }
         ]
@@ -219,7 +219,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -229,7 +229,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -239,7 +239,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -249,7 +249,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -259,7 +259,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/michel.daviot/.config/iterm2/cc-status"
+            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -267,7 +267,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "/Users/michel.daviot/.local/share/aigw-openweights/app/.venv/bin/aigw-openweights-statusline --delegate '~/.claude/statusline.sh'"
+    "command": "$HOME/.local/share/aigw-openweights/app/.venv/bin/aigw-openweights-statusline --delegate '~/.claude/statusline.sh'"
   },
   "enabledPlugins": {
     "appgate@datadog-claude-plugins": true,
