@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-13
+
+- Added `.agents/scripts/install-agent-links.sh`: symlinks `CLAUDE.md`, `rules/`, `skills/`, `agents/` and `commands/` into `~/.claude`, `.agents/skills` into `~/.agents/skills` and `CLAUDE.md` as `~/.codex/AGENTS.md`; on macOS only also `settings.json`, `statusline.sh` and `hooks/`. Idempotent, backs up anything it replaces to `<target>.bak.<timestamp>`, `--dry-run` to preview. Setup steps for a Linux workspace in `migration/Workspace Setup.md`
+- Added `rules/tools/Jira API Token.md` (where the Jira / Confluence token comes from on the Mac and on a workspace), wired into `CLAUDE.md`
+- `settings.json`: hook commands use `$HOME` instead of `/Users/michel.daviot`
+
 ## 2026-11-12
 
 - Added `~/.local/bin/load-creds.sh` and the `creds` alias: sourcing it exports `JIRA_API_TOKEN` and `GITLAB_TOKEN` from 1Password on demand (not at shell startup), so agents started afterwards get them with no delay

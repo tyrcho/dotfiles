@@ -76,6 +76,9 @@ For details: See auto memory files below.
 ### Jira Descriptions
 - @~/.claude/rules/tools/Jira Writing.md
 
+### Jira / Confluence API Token
+- @~/.claude/rules/tools/Jira API Token.md
+
 ## User Lookup & Identity Resolution
 
 - @~/.claude/rules/tools/user-lookup.md
