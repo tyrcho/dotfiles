@@ -191,3 +191,13 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 export PATH="$PATH:$HOME/Library/Application Support/Coursier/bin"
 export ANTHROPIC_MODEL="opus[1m]"
+
+# obsidian <path>: open a vault folder or note in Obsidian; anything else goes to the Obsidian CLI
+obsidian() {
+  if [[ $# -eq 1 && -e "$1" ]]; then
+    local p="${1:A}"
+    open "obsidian://open?path=$(printf %s "$p" | jq -sRr @uri)"
+  else
+    command obsidian "$@"
+  fi
+}
