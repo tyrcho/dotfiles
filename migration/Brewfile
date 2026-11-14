@@ -77,6 +77,8 @@ brew "libavif"
 brew "gdk-pixbuf"
 # GitHub command-line tool
 brew "gh"
+# Git extension for versioning large files
+brew "git-lfs"
 # Framework for layout and rendering of i18n text
 brew "pango"
 # Shell script to install any Go version

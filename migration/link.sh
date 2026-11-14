@@ -26,5 +26,7 @@ done
 [ -x /Applications/Zed.app/Contents/MacOS/cli ] && mkdir -p "$HOME/.local/bin" && ln -sf /Applications/Zed.app/Contents/MacOS/cli "$HOME/.local/bin/zed"
 # Obsidian CLI on PATH (enable it in Obsidian: Settings > General > Advanced)
 [ -x /Applications/Obsidian.app/Contents/MacOS/obsidian-cli ] && ln -sf /Applications/Obsidian.app/Contents/MacOS/obsidian-cli "$HOME/.local/bin/obsidian"
+# gitlab-to-github migration script on PATH
+mkdir -p "$HOME/.local/bin" && ln -sf "$REPO/gitlab-to-github/gitlab-to-github.sh" "$HOME/.local/bin/gitlab-to-github"
 command -v duti >/dev/null && duti "$REPO/.config/duti/zed.duti" 2>/dev/null || true
 chmod 700 "$HOME/.ssh" 2>/dev/null || true
