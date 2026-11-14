@@ -1,6 +1,6 @@
 ---
 name: github
-description: Interact with GitHub using the gh CLI tool. Use for viewing, creating, updating issues and PRs, repository operations, workflow management, advanced searches with date ranges and filters, analyzing engineer contributions, bulk operations, and cross-platform work analysis integrating with Jira, Confluence, or Datadog. Handles org-level searches, pagination, JSON output formatting, and large dataset analysis.
+description: Interact with GitHub using the gh CLI tool. Use for viewing, creating, updating issues and PRs, repository operations, workflow management, advanced searches with date ranges and filters, analyzing engineer contributions, bulk operations, and cross-platform work analysis integrating with Jira, Confluence. Handles org-level searches, pagination, JSON output formatting, and large dataset analysis.
 allowed-tools: Bash, Read, Write, Grep, Glob
 ---
 
@@ -19,7 +19,7 @@ Activate this skill when the user wants to:
 - Manage branches, releases, and workflows
 - View or trigger GitHub Actions workflows
 - Perform bulk operations or data exports
-- Correlate GitHub activity with other systems (Jira, Confluence, Datadog)
+- Correlate GitHub activity with other systems (Jira, Confluence)
 - Handle large result sets with pagination
 - Any GitHub-related operation or analysis
 
@@ -85,13 +85,13 @@ gh search prs --author="username" --updated=">=YYYY-MM-DD" --updated="<=YYYY-MM-
 gh search prs --reviewed-by="username" --updated=">=YYYY-MM-DD" --updated="<=YYYY-MM-DD" --json title,url,repository,createdAt,state,number -- -author:"username"
 
 # With org filter using query string
-gh search prs --author="username" --updated=">=2025-06-24" --updated="<=2025-11-24" --json title,url,repository,createdAt,state,number "org:DataDog"
+gh search prs --author="username" --updated=">=2025-06-24" --updated="<=2025-11-24" --json title,url,repository,createdAt,state,number
 ```
 
 **Pattern 2: Use QUERY STRING (for complex filters, but can be flaky)**
 ```bash
 # Organization-level search with date range (alternative syntax)
-gh search prs "author:username updated:YYYY-MM-DD..YYYY-MM-DD org:DataDog"
+gh search prs "author:username updated:YYYY-MM-DD..YYYY-MM-DD"
 
 # Repository-scoped search
 gh search prs "is:merged author:username repo:owner/repo"
@@ -200,15 +200,15 @@ gh search prs --author="username" --updated=">=$START_DATE" --updated="<=$END_DA
 gh search prs --reviewed-by="username" --updated=">=$START_DATE" --updated="<=$END_DATE" --json title,url,repository,createdAt,state,number -- -author:"username"
 
 # Optional: filter by org (add as query string)
-gh search prs --author="username" --updated=">=$START_DATE" --updated="<=$END_DATE" --json title,url,repository,createdAt,state,number "org:DataDog"
+gh search prs --author="username" --updated=">=$START_DATE" --updated="<=$END_DATE" --json title,url,repository,createdAt,state,number
 ```
 
 #### Organization-Level PR Search with Links
 ```bash
 # Generate searchable PR link
-# https://github.com/pulls?q=is:pr+author:username+merged:2025-05-01..2025-11-01+org:DataDog
+# https://github.com/pulls?q=is:pr+author:username+merged:2025-05-01..2025-11-01
 
-gh search prs "is:pr author:username merged:2025-05-01..2025-11-01 org:DataDog"
+gh search prs "is:pr author:username merged:2025-05-01..2025-11-01"
 ```
 
 #### Count PRs by Repository
@@ -237,7 +237,7 @@ gh search issues "is:open updated:<2025-01-01"
 #### Search Repositories with JSON
 ```bash
 # Search repos with correct JSON fields (fullName and stargazersCount)
-gh search repos "datadog" --limit 10 --json name,fullName,stargazersCount,description
+gh search repos "claude" --limit 10 --json name,fullName,stargazersCount,description
 
 # Filter and format with jq
 gh search repos "machine-learning stars:>1000" --limit 20 --json fullName,stargazersCount | \
@@ -257,32 +257,10 @@ gh search prs --author="username" --json title,url | \
 When generating reports or summaries:
 - **Format**: `[descriptive count](full-url)`
 - **Examples**:
-  - `[40 authored PRs](https://github.com/pulls?q=is:pr+author:username+merged:2025-05-01..2025-11-01+org:DataDog)`
-  - `[30 reviewed PRs](https://github.com/pulls?q=is:pr+reviewed-by:username+-author:username+merged:2025-05-01..2025-11-01+org:DataDog)`
+  - `[40 authored PRs](https://github.com/pulls?q=is:pr+author:username+merged:2025-05-01..2025-11-01)`
+  - `[30 reviewed PRs](https://github.com/pulls?q=is:pr+reviewed-by:username+-author:username+merged:2025-05-01..2025-11-01)`
 - Always include org-level or repo-specific search URLs for user reference
 
-## Datadog dual-org search
-
-Datadog has two GitHub orgs. Check the migration table in `team-context.md` to know which org a repo belongs to today.
-
-**EMU handle derivation** (for any Datadog employee): take their email local-part (before `@`), replace dots with hyphens, append `_ddog`. Example: `minglian.pan` → `minglian-pan_ddog`. Always derive from the email — never guess from the display name.
-
-**Dual-handle search pattern** for any engineer activity query:
-
-```bash
-# Step 1: legacy handle in DataDog org
-gh search prs --author="<legacy-handle>" --updated=">=DATE" --updated="<=DATE" \
-  --json title,url,repository,createdAt,state,number "org:DataDog"
-
-# Step 2: EMU handle in ddoghq org
-gh search prs --author="<emu-handle>" --updated=">=DATE" --updated="<=DATE" \
-  --json title,url,repository,createdAt,state,number "org:ddoghq"
-
-# Step 3: union both results, dedup by (repository.nameWithOwner + number)
-# If ddoghq returns 0 results: flag "EMU handle may be mis-derived — verify"
-```
-
-**Auth-switch trigger:** if any `gh` command returns `HTTP 404`, `403`, `Bad credentials`, `SAML enforcement`, or `Not Found` on a known repo, apply the recovery protocol from `git-workflows.md` before retrying.
 
 ## Tips
 

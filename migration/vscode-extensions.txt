@@ -6,7 +6,6 @@ bierner.markdown-mermaid
 bmaupin.theme-solarized-dark-high-contrast
 codeium.codeium
 cucumberopen.cucumber-official
-datadog.datadog-vscode
 docker.docker
 editorconfig.editorconfig
 fcrespo82.markdown-table-formatter

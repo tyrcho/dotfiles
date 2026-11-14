@@ -228,17 +228,7 @@ disable = ["git_repos", "containers", "node", "yarn", "helm", "colima", "uv", "b
 # max_concurrency = 5
 
 # Additional git repositories to pull
-repos = [
-    "~/dd/aws-metadata",
-    "~/dd/dd-go",
-    "~/dd/dd-source",
-    "~/dd/infrastructure-resources",
-    "~/dd/datadog-serverless-functions",
-    "~/dd/logs-backend",
-    "~/dd/dogweb",
-    "~/dd/web-ui",
-    "~/dd/cloudformation-template"
-]
+repos = []
 
 # Don't pull the predefined git repos
 # pull_predefined = false

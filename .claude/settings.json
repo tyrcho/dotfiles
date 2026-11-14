@@ -7,8 +7,6 @@
       "Bash(git:*)",
       "Bash(gh:*)",
       "Bash(brew:*)",
-      "Bash(jira:*)",
-      "Bash(dd-auth:*)",
       "Bash(docker context:*)",
       "Bash(npm config:*)",
       "Bash(npm info:*)",
@@ -52,62 +50,14 @@
       "Edit(~/.claude/hooks/**)",
       "Glob",
       "Grep",
-      "mcp__datadog-google-calendar__*",
-      "mcp__datadog-google-workspace__*",
-      "mcp__google-workspace__*",
-      "mcp__datadog-mcp__*",
-      "mcp__slack__*",
-      "mcp__atlassian__*",
-      "mcp__snowflake__*",
-      "mcp__plugin_claude-mem_mcp-search__*",
       "WebSearch",
-      "WebFetch",
-      "mcp__atlassian__atlassianUserInfo",
-      "mcp__atlassian__fetchAtlassian",
-      "mcp__atlassian__getAccessibleAtlassianResources",
-      "mcp__atlassian__getConfluencePage",
-      "mcp__atlassian__getConfluencePageDescendants",
-      "mcp__atlassian__getConfluencePageFooterComments",
-      "mcp__atlassian__getConfluencePageInlineComments",
-      "mcp__atlassian__getConfluenceSpaces",
-      "mcp__atlassian__getJiraIssue",
-      "mcp__atlassian__getJiraIssueRemoteIssueLinks",
-      "mcp__atlassian__getJiraIssueTypeMetaWithFields",
-      "mcp__atlassian__getJiraProjectIssueTypesMetadata",
-      "mcp__atlassian__getPagesInConfluenceSpace",
-      "mcp__atlassian__getTransitionsForJiraIssue",
-      "mcp__atlassian__getVisibleJiraProjects",
-      "mcp__atlassian__lookupJiraAccountId",
-      "mcp__atlassian__searchAtlassian",
-      "mcp__atlassian__searchConfluenceUsingCql",
-      "mcp__atlassian__searchJiraIssuesUsingJql",
-      "mcp__datadog-mcp__search_datadog_dashboards"
+      "WebFetch"
     ],
     "deny": [],
     "defaultMode": "auto"
   },
   "model": "opus",
   "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -121,11 +71,6 @@
             "type": "command",
             "command": "$HOME/.claude/hooks/compile-check.sh",
             "timeout": 20
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/md-link-check.sh",
-            "timeout": 15
           }
         ]
       },
@@ -136,14 +81,6 @@
             "type": "command",
             "command": "$HOME/.claude/hooks/post-push-check.sh",
             "timeout": 5
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -168,14 +105,6 @@
             "timeout": 5
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
-          }
-        ]
       }
     ],
     "SessionEnd": [
@@ -184,14 +113,6 @@
           {
             "type": "command",
             "command": "jq -c '{id: .session_id, cwd: .cwd, transcript: .transcript_path, event: \"end\", reason: .reason, ts: (now | todate)}' >> ~/.claude/sessions-state.jsonl"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
           }
         ]
       }
@@ -204,190 +125,31 @@
             "command": "jq -c '{id: .session_id, cwd: .cwd, transcript: .transcript_path, event: \"start\", source: .source, ts: (now | todate)}' >> ~/.claude/sessions-state.jsonl"
           }
         ]
-      },
-      {
-        "matcher": "^(startup|resume|clear|compact|fork)$",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/herdr-agent-state.sh\" session",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
-          }
-        ]
-      }
-    ],
-    "StopFailure": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/iterm2/cc-status"
-          }
-        ]
       }
     ]
   },
   "statusLine": {
     "type": "command",
-    "command": "$HOME/.local/share/aigw-openweights/app/.venv/bin/aigw-openweights-statusline --delegate '~/.claude/statusline.sh'"
+    "command": "~/.claude/statusline.sh"
   },
   "enabledPlugins": {
-    "appgate@datadog-claude-plugins": true,
-    "claude-mem@thedotmack-claude-mem": true,
     "claude-opus-4-5-migration@claude-code-plugins": false,
-    "clobs-jira@cloud-observability": true,
-    "clobs-reporting@cloud-observability": true,
-    "clobs-review@cloud-observability": true,
-    "clobs-slis@cloud-observability": true,
-    "clobs-vault@cloud-observability": true,
     "commit-commands@claude-code-plugins": true,
     "context7@claude-plugins-official": true,
-    "diagrams@datadog-claude-plugins": true,
-    "faq@cloud-observability": false,
-    "fuzzy-resume@datadog-claude-plugins": true,
     "gopls-lsp@claude-plugins-official": false,
-    "gworkspace-export@cloud-observability": true,
-    "iterm2-notifications@datadog-claude-plugins": false,
-    "lapdog@lapdog": true,
     "pyright-lsp@claude-plugins-official": false,
-    "redblue@datadog-claude-plugins": true,
     "security-guidance@claude-code-plugins": true,
-    "snapshot@local": true,
-    "trajectory-security@trajectory": true,
-    "trajectory@trajectory": true,
-    "typescript-lsp@claude-plugins-official": false,
-    "work-analyzer@datadog-claude-plugins": true,
-    "work-analyzer@datadog-claude-plugins-dev": false,
-    "slack-relay@dogpark": true
-  },
-  "extraKnownMarketplaces": {
-    "cloud-observability": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/michel.daviot/dd/experimental/teams/cloud-observability/claude-plugin-marketplace"
-      },
-      "autoUpdate": true
-    },
-    "datadog-claude-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "ddoghq/claude-marketplace"
-      }
-    },
-    "datadog-claude-plugins-dev": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/michel.daviot/dd/claude-marketplace/dev"
-      }
-    },
-    "lapdog": {
-      "source": {
-        "source": "github",
-        "repo": "DataDog/dd-apm-test-agent"
-      }
-    },
-    "local": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/michel.daviot/.claude/local-plugins"
-      }
-    },
-    "trajectory": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/michel.daviot/.trajectory/claude-marketplace"
-      }
-    },
-    "dogpark": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/michel.daviot/.local/share/dogpark/claude-marketplace"
-      }
-    }
+    "typescript-lsp@claude-plugins-official": false
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
   "skipWorkflowUsageWarning": true,
   "theme": "dark-daltonized",
   "verbose": true,
-  "preferredNotifChannel": "iterm2",
   "skipAutoPermissionPrompt": true,
   "autoMode": {
     "allow": [
-      "$defaults",
-      "Bulk read-only aggregation (jq/cat/xargs/find/sort/uniq/awk) over ~/.claude/projects/**/*.jsonl session transcripts for local self-audit/reporting purposes (e.g. /adoption-audit) is allowed — nothing leaves the machine."
-    ],
-    "environment": [
-      "### Org-wide",
-      "**Organization**: Datadog (DataDog GitHub org; repo at DataDog/experimental)",
-      "**Cloud provider(s)**: None configured",
-      "**Repository visibility**: Private (DataDog/experimental, verified via gh)",
-      "**Internal sharing / snippet hosting**: go/ links (go/clobs/okrs-treemap, go/clobs/okrs/score/...) used for publishing treemap/scoring output — treat as internal Datadog short-link space",
-      "**Secrets management**: JIRA_API_TOKEN via environment variable; .env / .env.* gitignored (with .env.example tracked)",
-      "**Default / protected branches**: main (default); rulesets active — \"incompatible file paths on windows\" and \"require-signatures-github\" (classic protected-branch list not queryable, but active rulesets indicate protection in place)",
-      "**CI/CD deploy targets**: None configured",
-      "**Network posture**: None configured",
-      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine with open internet",
-      "**Source control**: DataDog/experimental (this repo) and its origin remote only",
-      "**Trusted internal domains**: datadoghq.atlassian.net (Jira, contacted in this project's transcripts)",
-      "**Trusted cloud buckets**: None configured",
-      "**Key internal services**: Jira (datadoghq.atlassian.net); Chonk (internal publish target referenced in README for treemap/scoring uploads, config-derived — not a confirmed upload destination; uploads of local data still require confirmation)",
-      "**Internal package registry**: None configured",
-      "**Sensitive data locations & audiences**: src/main/viewer/credential_gate.ts, src/main/viewer/credential_notice.ts, src/main/viewer/jira_credentials_ui.ts, tests/unit/credential_gate.test.ts, tests/unit/credential_notice.test.ts — credential-handling code, share only with cleared engineering audience; JIRA_API_TOKEN and .env files",
-      "**Data retention / declassification**: None configured",
-      "**Sensitive remote targets**: any namespace/host/container with 'prod' or 'production' as a whole word/segment (no repo-specific matches found)",
-      "**Protected deployment namespaces / environments**: None configured",
-      "**Protected IaC scopes**: IAM, RBAC, networking, quota, node-pool resources; anything tagged prod/production",
-      "### User-specific",
-      "**Primary use of Claude Code**: software development (Jira OKR treemap tooling for AWS/GCP/Azure Integrations at Datadog)",
-      "**Trusted repo**: DataDog/experimental (working directory: users/michel.daviot/jira-okr-treemap), private, origin remote only",
-      "**Org-specific CLIs**: ddtool, ddauth, dd-auth (seen in project transcript and shell history) — Datadog-internal tooling",
-      "routine under users/michel.daviot/ prefix within DataDog/experimental is this user's own work area"
+      "$defaults"
     ]
-  },
-  "pluginConfigs": {
-    "slack-relay@dogpark": {
-      "options": {
-        "auto_allow": true
-      }
-    }
   }
 }

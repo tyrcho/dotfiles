@@ -19,15 +19,6 @@ preferences
 - technical level: senior engineer / engineering manager
 - scholarly interests: philosophy, cosmology, technical topics
 
-work
----
-
-- employer: Datadog
-- role: Senior Engineering Manager, Cloud Hyperscalers Integrations
-- manages 3 sub-teams: AWS, GCP, Azure Integrations)
-- GitHub handles: `tyrcho` (DataDog/*), `michel-daviot_ddog` (ddoghq/*)
-- tools: gh CLI, Makefile-first, ~/dd/ local checkouts, recollq
-
 projects
 ---
 
@@ -40,4 +31,3 @@ context
 ---
 
 - Coding, git, and writing style preferences are stored as tagged memories in the Signet database. Use `signet recall "query"` to retrieve them.
-- Direct reports notes live in Google Drive under Datadog/Private notes/Management/People/.

@@ -81,7 +81,6 @@ export HISTCONTROL=ignoredups:erasedups
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   alias-tips
-  aws
   docker
   docker-compose
   fzf-tab
@@ -139,7 +138,6 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias aws="aws-vault exec sso-sandbox-account-admin -- aws "
 alias vi="nvim"
 alias vim="nvim"
 alias ls='lsd'
@@ -148,123 +146,47 @@ alias la='ls -a'
 alias lla='ls -la'
 alias lt='ls --tree'
 
-
-# BEGIN ANSIBLE MANAGED BLOCK
-# Load homebrew shell variables
+# Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Force certain more-secure behaviours from homebrew
 export HOMEBREW_NO_INSECURE_REDIRECT=1
-export HOMEBREW_CASK_OPTS=--require-sha
-export HOMEBREW_DIR=/opt/homebrew
-export HOMEBREW_BIN=/opt/homebrew/bin
 
-# Load python shims. --no-rehash skips the shim-directory rescan that
-# pyenv otherwise runs on every shell startup (a noticeable per-shell
-# cost); shims are still added to PATH. Run `pyenv rehash` manually after
-# installing a package that adds a new executable (e.g. a pip console
-# script).
-eval "$(pyenv init - --no-rehash)"
-
-# Load ruby shims. --no-rehash for the same reason; run `rbenv rehash`
-# after installing a gem that adds an executable.
-eval "$(rbenv init - --no-rehash)"
-
-# Load direnv hook
-eval "$(direnv hook zsh)"
-
-# Load git-dd completions for zsh
-autoload -Uz _git_dd
+# Language managers (only if installed)
+command -v pyenv >/dev/null && eval "$(pyenv init - --no-rehash)"
+command -v rbenv >/dev/null && eval "$(rbenv init - --no-rehash)"
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
 # Prefer GNU binaries to Macintosh binaries.
-export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+[ -d /opt/homebrew/opt/coreutils/libexec/gnubin ] && export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
-# Add datadog devtools binaries to the PATH
-export PATH="$HOME/dd/devtools/bin:$PATH"
-
-# Point GOPATH to our go sources
 export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$HOME/.local/bin:$PATH"
 
-# Add binaries that are go install-ed to PATH
-export PATH="$GOPATH/bin:$PATH"
-
-# Point DATADOG_ROOT to where Datadog repositories are cloned
-export DATADOG_ROOT="$HOME/dd"
-
-# store key in the login keychain instead of aws-vault managing a hidden keychain
-export AWS_VAULT_KEYCHAIN_NAME=login
-
-# tweak session times so you don't have to re-enter passwords every 5min
-export AWS_SESSION_TTL=24h
-export AWS_ASSUME_ROLE_TTL=1h
-
-# Helm switch from storing objects in kubernetes configmaps to
-# secrets by default, but we still use the old default.
-export HELM_DRIVER=configmap
-
-# Go 1.16+ sets GO111MODULE to off by default with the intention to
-# remove it in Go 1.18, which breaks projects using the dep tool.
-# https://blog.golang.org/go116-module-changes
-export GO111MODULE=auto
-# Configure Go to pull go.ddbuild.io packages.
-export GONOSUMDB=github.com/DataDog,go.ddbuild.io
-export GOPRIVATE=
-export GOPROXY="https://depot-read-api-go.us1.ddbuild.io/magicmirror/magicmirror/@current/|https://depot-read-api-go.us1.ddbuild.io/magicmirror/magicmirror/@current/|https://depot-read-api-go.us1.ddbuild.io/magicmirror/testing/@current/"
-# END ANSIBLE MANAGED BLOCK
-
-# --- personal additions previously kept inside the managed block ---
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="/Applications/Recoll.app/Contents/MacOS:$PATH"
 source $ZSH/oh-my-zsh.sh
 
-
-export OPENAI_API_URL="openai-api-proxy.us1.staging.dog"
-export OPENAI_API_KEY="michel.daviot@datadog.com"
-
 # google-cloud-sdk brew caveat
-source "/opt/homebrew/share/google-cloud-sdk/path.zsh.inc"
-source "/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc"
+[ -f /opt/homebrew/share/google-cloud-sdk/path.zsh.inc ] && source /opt/homebrew/share/google-cloud-sdk/path.zsh.inc
+[ -f /opt/homebrew/share/google-cloud-sdk/completion.zsh.inc ] && source /opt/homebrew/share/google-cloud-sdk/completion.zsh.inc
 
 [ -f ~/z.sh ] && source ~/z.sh
-source ~/F-Sy-H/F-Sy-H.plugin.zsh
-source ~/fzf-git.sh # https://github.com/junegunn/fzf-git.sh
+[ -f ~/F-Sy-H/F-Sy-H.plugin.zsh ] && source ~/F-Sy-H/F-Sy-H.plugin.zsh
+[ -f ~/fzf-git.sh ] && source ~/fzf-git.sh # https://github.com/junegunn/fzf-git.sh
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 alias code="/Applications/Visual\ Studio\ Code.app/contents/Resources/app/bin/code"
 [ -f ~/.secrets-env.sh ] && source ~/.secrets-env.sh
-source "$(brew --prefix)/share/zsh/site-functions/_ddtool"
-
 
 ulimit -n 32768
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source ~/.zsh-copilot/zsh-copilot.plugin.zsh
-[[ -z $CLAUDECODE ]] && eval "$(zoxide init zsh --cmd cd)"
-eval "$(starship init zsh)"
-
-# BEGIN SCFW MANAGED BLOCK
-alias npm="scfw run npm"
-alias pip="scfw run pip"
-alias poetry="scfw run poetry"
-export SCFW_DD_AGENT_LOG_PORT="10365"
-export SCFW_DD_LOG_LEVEL="ALLOW"
-export SCFW_HOME="/Users/michel.daviot/.scfw"
-# END SCFW MANAGED BLOCK
-
-# bun completions
-[ -s "/Users/michel.daviot/.bun/_bun" ] && source "/Users/michel.daviot/.bun/_bun"
+[ -f ~/.zsh-copilot/zsh-copilot.plugin.zsh ] && source ~/.zsh-copilot/zsh-copilot.plugin.zsh
+command -v zoxide >/dev/null && [[ -z $CLAUDECODE ]] && eval "$(zoxide init zsh --cmd cd)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
+[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-alias claude-mem='/Users/michel.daviot/.bun/bin/bun "/Users/michel.daviot/.claude/plugins/cache/thedotmack-claude-mem/claude-mem/10.6.2/scripts/worker-service.cjs"'
-export PATH="$PATH:/Users/michel.daviot/Library/Application Support/Coursier/bin"
+export PATH="$PATH:$HOME/Library/Application Support/Coursier/bin"
 export ANTHROPIC_MODEL="opus[1m]"
-
-alias creds="source ~/.local/bin/load-creds.sh"
-
-# dogbrew shell-hooks: if you don't want this to be called, comment it out and dogbrew will honour that on subsequent updates.  See also the more dangerous `dogbrew self setup --disable-shell-hooks`.
-[ -f "/opt/dogbrew/share/etc/dogbrew/init.zsh" ] && . "/opt/dogbrew/share/etc/dogbrew/init.zsh"

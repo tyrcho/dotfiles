@@ -31,7 +31,7 @@ Avoid "real," "honest," and "genuine" as plain adjectives too (e.g. "genuine con
 Avoid run-on or comma-dense sentences. Prefer shorter sentences over stringing multiple clauses together with commas.
 
 
-## Datadog Style Guide
+## Plain Language
 
 ### Words to Avoid - Quick Reference
 
@@ -77,22 +77,6 @@ Avoid run-on or comma-dense sentences. Prefer shorter sentences over stringing m
 - master/slave → (use only when referencing unchangeable technical terms)
 
 
-## Slack Links
-
-Link to the specific thread or message, not the channel, whenever possible.
-
-- Thread link: `https://dd.slack.com/archives/CXXXXXXX/pNNNNNNNNNNNNNN` (preferred)
-- Channel link: `https://dd.slack.com/archives/CXXXXXXX` (only when no specific thread is relevant)
-
-## Datadog Incident References
-
-Always link incidents using the format: `SEV-X [Incident name](https://app.datadoghq.com/incidents/NNNNN)`
-
-Example: SEV-2 [AWS me-south-1 and me-central-1 outages](https://app.datadoghq.com/incidents/50263)
-
-- `IR-NNNNN` references are always Datadog incidents, never Jira tickets
-- Apply this to any mention by incident number, name, or IR prefix
-
 ## Documentation Workflow
 
 Before writing documentation:
@@ -110,7 +94,6 @@ Before writing documentation:
 **Sources:**
 - [description of the code](GitHub permalink with line numbers)
 - [Web link with title](url)
-- [Confluence/Jira full URL]
 ```
 
 ### GitHub Permalinks

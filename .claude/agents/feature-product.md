@@ -58,7 +58,7 @@ Before any design work, write down — in your own working notes for this run �
 
 - `Bash` commands you will run (with expected stdout / exit code).
 - Files you will read (with expected substring or structural match).
-- MCP tool calls you will make (e.g. `chrome-devtools` for browser, `datadog-mcp` for dashboards, etc.).
+- MCP tool calls you will make (e.g. `chrome-devtools` for browser, etc.).
 - Manual checks you cannot automate — flag these explicitly so the user knows they will be asked at demo time.
 
 This plan must be locked in before you delegate. Forward it **verbatim** in the prompt to `feature-design` so the integration tests can be derived from it.
@@ -93,7 +93,7 @@ This phase is non-optional. **You may not move past it without producing a demo 
 
 When `feature-design` returns:
 
-- Execute the verification plan from Phase 3 yourself, item by item. Run the `Bash` commands. Read the files. Drive the MCP tools (`chrome-devtools` for browsers, `datadog-mcp` for dashboards, etc.).
+- Execute the verification plan from Phase 3 yourself, item by item. Run the `Bash` commands. Read the files. Drive the MCP tools (`chrome-devtools` for browsers, etc.).
 - For each item, record observed output vs expected. Build a demo log with one line per item: `N. <interaction> — PASS|FAIL — <observed>`.
 - If an interaction cannot be automated (e.g. a visual judgment), drive it manually as far as possible (take a screenshot via `chrome-devtools`, etc.) and ask the user to confirm that one item via `AskUserQuestion`.
 - The full demo log must appear in your final report.

@@ -1,14 +1,7 @@
 [user]
 	name = Michel Daviot
-	email = michel.daviot@datadoghq.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFbW3ZSUv29nsQMxLfG9U31UTsL+a2cm6h4u7HDUvZ/x
+	# email set in ~/.gitconfig.local (untracked)
 
-[gpg]
-	format = ssh
-[commit]
-	gpgsign = true
-[gpg "ssh"]
-  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 
 [url "git@gitlab.com:"]
@@ -39,7 +32,6 @@
 	fsmonitor = false
     untrackedCache = true
 	autocrlf = input
-	hooksPath = /usr/local/dd/global_hooks
 [alias]
     fco = "! git switch \"$(git branch -vv --all | fzf --height 20 --ansi --select-1 --reverse --query=\"remotes/${1:-}\" | awk '{printf(\"%s\", $1)}' | sed 's|^remotes/origin/||')\" #"
 
@@ -62,17 +54,7 @@
 [push]
 	default = current
 
-#[merge "git-hires-merge"]
-        #name = An interactive merge driver for resolving conflicts on individual or adjacent lines
-        #driver = /Users/michel.daviot/git-hires-merge %O %A %B %L %P
-        #recursive = binary
 
-[maintenance]
-	repo = /Users/michel.daviot/go/src/github.com/DataDog/dd-source
-	repo = /Users/michel.daviot/go/src/github.com/DataDog/experimental
-	repo = /Users/michel.daviot/go/src/github.com/DataDog/dd-go
-	repo = /Users/michel.daviot/go/src/github.com/DataDog/dogweb
-	repo = /Users/michel.daviot/go/src/github.com/DataDog/datadog-serverless-functions
 
 [init]
 	defaultBranch = main
@@ -119,14 +101,6 @@
 	prune = true
 [rebase]
 	autostash = true
-[include]
-	path = /Users/michel.daviot/.config/datadog/git/config
 
-[includeIf "hasconfig:remote.*.url:git@github.com:ddoghq/**"]
-    path = ~/.gitconfig-ddoghq
-[includeIf "hasconfig:remote.*.url:https://github.com/ddoghq/**"]
-    path = ~/.gitconfig-ddoghq
-[includeIf "hasconfig:remote.*.url:git@github-enterprise:ddoghq/**"]
-    path = ~/.gitconfig-ddoghq
-[includeIf "hasconfig:remote.*.url:git@ddoghq.github.com:ddoghq/**"]
-    path = ~/.gitconfig-ddoghq
+[include]
+	path = ~/.gitconfig.local

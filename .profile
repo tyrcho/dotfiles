@@ -1,3 +1,0 @@
-. "$HOME/.cargo/env"
-
-__dogbrew_r=${PATH-}; __dogbrew_p=; if [ -n "$__dogbrew_r" ]; then __dogbrew_r=$__dogbrew_r:; while [ -n "$__dogbrew_r" ]; do __dogbrew_d=${__dogbrew_r%%:*}; __dogbrew_r=${__dogbrew_r#*:}; case "$__dogbrew_d" in '/opt/dogbrew/shims/bin'|'/opt/dogbrew/bin') continue ;; esac; __dogbrew_p=$__dogbrew_p:$__dogbrew_d; done; fi; PATH='/opt/dogbrew/shims/bin':'/opt/dogbrew/bin'"$__dogbrew_p"; export PATH; unset __dogbrew_r __dogbrew_p __dogbrew_d; case ":${MANPATH-}:" in *:'/opt/dogbrew/share/man':*) ;; *) export MANPATH='/opt/dogbrew/share/man':${MANPATH-} ;; esac # dogbrew shell setup

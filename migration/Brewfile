@@ -1,8 +1,4 @@
 tap "1jehuang/jcode", trusted: true
-tap "ankitpokhrel/jira-cli"
-tap "atlassian/acli"
-tap "datadog/lapdog"
-tap "datadog/tap", "git@github.com:DataDog/homebrew-tap.git", trusted: true
 tap "domt4/autoupdate"
 tap "ebullient/tap"
 tap "gastownhall/beads", "https://github.com/gastownhall/homebrew-beads.git"
@@ -207,60 +203,14 @@ brew "yq"
 brew "zoxide"
 # AI coding agent powered by Claude and ChatGPT
 brew "1jehuang/jcode/jcode"
-# devkube provisions and manages devkubes for isolated k8s development
-brew "datadog/tap/devkube"
-# docker-local-dev creates a local Docker container with the repository sources, using the CI image
-brew "datadog/tap/docker-local-dev"
-# kubectl-analyse extracts info from running Kubernetes Objects
-brew "datadog/tap/kubectl-analyse"
-# kubectl-iscale allows to safely scale Kubernetes workloads
-brew "datadog/tap/kubectl-iscale"
-# kubectl-multiexec allows run parallel commands on Kubernetes workloads
-brew "datadog/tap/kubectl-multiexec"
-# kubectl-template render helm charts.
-brew "datadog/tap/kubectl-template"
-# latest-artifact is a tool for finding the latest version of an image with a given tag in a given environment.
-brew "datadog/tap/latest-artifact"
-# latest-chart is a tool for finding the latest version of a deployment's chart with a given tag in a given environment.
-brew "datadog/tap/latest-chart"
-# latest-datacenter-config is a tool to look up the most recently pushed datacenter-config version in storage.
-brew "datadog/tap/latest-datacenter-config"
-# latest-image is a tool for finding the latest version of an image with a given tag in a given environment.
-brew "datadog/tap/latest-image"
-# The OrgStore CLI tool is designed to facilitate common OrgStore operations
-brew "datadog/tap/orgstore"
-# s22-checker is a command line tool for determining if secrets have been added to repos.
-brew "datadog/tap/s22-checker"
-# Safe Change Executor (SCE) enables review of any manual change to running production services
-brew "datadog/tap/sce"
-# to-prod deploys a particular branch or tag to production environments
-brew "datadog/tap/to-prod"
-# to-staging deploys a particular branch or tag to staging environments
-brew "datadog/tap/to-staging"
-# trigger-ci runs a CI pipeline based on the current branch
-brew "datadog/tap/trigger-ci"
-# Vault
-brew "datadog/tap/vault"
 # Command-line interface for 1Password
 cask "1password-cli"
 # Time tracker
 cask "activitywatch"
-# The Atlas CLI is a tool for interacting with the Atlas Platform
-cask "datadog/tap/atlas"
-# Securely stores and accesses AWS credentials in a development environment
-cask "aws-vault-binary"
-# Bazel wrapper
-cask "datadog/tap/bzl"
 # Ghostty-based terminal with vertical tabs and notifications for AI coding agents
 cask "cmux"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
-# The ddauth CLI is a tool for interacting with the authN-methods APIs
-cask "datadog/tap/ddauth"
-# Create Datadog application releases with ease, supporting multiple branching schemes and builders (Rake, CNAB-CI)
-cask "datadog/tap/ddr"
-# ddtool is a command line tool for interacting with internal infrastructure at Datadog.
-cask "datadog/tap/ddtool"
 # Utility for customizing which browser to start
 cask "finicky"
 cask "font-fira-code"
@@ -279,8 +229,6 @@ cask "mactex-no-gui"
 cask "meetingbar"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
-# Create, manage, and operate a  service. Learn more at https://dtdg.co/
-cask "datadog/tap/rapid"
 # Control your tools with a few keystrokes
 cask "raycast"
 cask "recoll"
@@ -294,7 +242,6 @@ vscode "bierner.markdown-mermaid"
 vscode "bmaupin.theme-solarized-dark-high-contrast"
 vscode "codeium.codeium"
 vscode "cucumberopen.cucumber-official"
-vscode "datadog.datadog-vscode"
 vscode "docker.docker"
 vscode "editorconfig.editorconfig"
 vscode "fcrespo82.markdown-table-formatter"
@@ -350,7 +297,6 @@ go "github.com/fatih/gomodifytags"
 go "github.com/haya14busa/goplay/cmd/goplay"
 go "golang.org/x/tools/gopls"
 go "github.com/x-motemen/gore/cmd/gore"
-go "github.com/DataDog/dd-source/domains/hotdog/apps/hotdog-cli"
 go "github.com/josharian/impl"
 go "github.com/wkhere/lz4/cmd/lz4c"
 go "go.uber.org/mock/mockgen"
@@ -360,7 +306,6 @@ go "github.com/giantswarm/schemadocs"
 go "honnef.co/go/tools/cmd/staticcheck"
 go "golang.org/x/tools/cmd/stringer"
 go "golang.org/x/website/tour"
-uv "antibody-pilot", source: "git+https://github.com/ddoghq-sandbox/antibody@8c229cd56bf1ef8661943c1edbfdfeb6b90822c7"
 uv "mistral-vibe"
 npm "@adobe/jsonschema2md"
 npm "@earendil-works/pi-coding-agent"

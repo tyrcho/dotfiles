@@ -1,26 +1,5 @@
 # Git & GitHub Workflows
 
-## GitHub org-split auth recovery
-
-When a `gh` or `git` command fails with any of these errors:
-- `Could not resolve to a Repository`
-- `HTTP 404` / `gh: Not Found` on a repo that exists
-- `Bad credentials` / `SAML enforcement` / SSO error
-- `remote: Repository not found`
-- `403 Forbidden`
-
-The active `gh` account is likely wrong for that repo's org. Apply this protocol automatically:
-
-1. `gh auth status` — see which accounts are logged in and which is active.
-2. `gh auth switch` (toggles if two accounts; or `--user <handle>`) to the account matching the repo's org:
-   - `ddoghq/*` repos → EMU account (`michel-daviot_ddog`)
-   - `DataDog/*` repos → personal account (`tyrcho`)
-   - For migrated mega-repos, check the cutover table in `team-context.md` to know which org owns the repo today.
-3. Retry the failed command **once**.
-4. Still failing → token expired: run `gh auth login` (web/OAuth, never a PAT) for that org, then **stop** (do not loop).
-
-**Note:** `gh auth switch` changes the globally-active `gh` account (affects other terminals). This is acceptable — switching between already-logged-in accounts adds no new credentials.
-
 ## Git `index.lock` collisions are expected
 
 Several agents often run in the same folder, so this error is normal:
@@ -61,9 +40,6 @@ Only for something unexpected:
 If collisions slow the task noticeably (about 3 or more waits in one task), suggest once, in one line, moving the work to a worktree (`EnterWorktree`). Do not move the work without the user's agreement.
 
 ## Critical Rules
-
-### Branch Naming
-- Branch names must start with `michel.daviot/` (e.g. `michel.daviot/my-feature`)
 
 ### GitHub Integration
 - Always use `gh` CLI for GitHub operations
