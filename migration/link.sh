@@ -24,5 +24,7 @@ for p in "${paths[@]}"; do
 done
 # Zed CLI on PATH, Zed as default for text/code files
 [ -x /Applications/Zed.app/Contents/MacOS/cli ] && mkdir -p "$HOME/.local/bin" && ln -sf /Applications/Zed.app/Contents/MacOS/cli "$HOME/.local/bin/zed"
+# Obsidian CLI on PATH (enable it in Obsidian: Settings > General > Advanced)
+[ -x /Applications/Obsidian.app/Contents/MacOS/obsidian-cli ] && ln -sf /Applications/Obsidian.app/Contents/MacOS/obsidian-cli "$HOME/.local/bin/obsidian"
 command -v duti >/dev/null && duti "$REPO/.config/duti/zed.duti" 2>/dev/null || true
 chmod 700 "$HOME/.ssh" 2>/dev/null || true
