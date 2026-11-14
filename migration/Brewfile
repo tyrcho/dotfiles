@@ -203,8 +203,6 @@ brew "yq"
 brew "zoxide"
 # AI coding agent powered by Claude and ChatGPT
 brew "1jehuang/jcode/jcode"
-# Command-line interface for 1Password
-cask "1password-cli"
 # Time tracker
 cask "activitywatch"
 # Ghostty-based terminal with vertical tabs and notifications for AI coding agents

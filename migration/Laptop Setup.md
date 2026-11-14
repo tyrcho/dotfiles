@@ -3,7 +3,7 @@ Checklist to set up a personal Mac from the `tyrcho/dotfiles` repo (branch `pers
 The repo is cloned at `~/dotfiles`; config files are symlinked into `~` by `migration/link.sh`.
 
 ## 1. Base
-- [ ] Install Homebrew, sign in to 1Password (enables the 1Password SSH agent used by `~/.ssh/config`).
+- [ ] Install Homebrew. Restore SSH keys into `~/.ssh/` (chmod 600).
 - [ ] `git clone -b personal-laptop https://github.com/tyrcho/dotfiles ~/dotfiles && ~/dotfiles/migration/link.sh`
 - [ ] Put your git email in `~/.gitconfig.local` (untracked): `git config -f ~/.gitconfig.local user.email you@example.com`
 
