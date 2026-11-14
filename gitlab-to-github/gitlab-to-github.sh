@@ -42,6 +42,7 @@ main() {
   done
   ((${#args[@]} >= 1 && ${#args[@]} <= 2)) || usage
   [[ -z "$LFS_ABOVE" ]] || is_size "$LFS_ABOVE" || die "--lfs-above needs a size such as 5MB, got: $LFS_ABOVE"
+  LFS_ABOVE="$(lfs_size_arg "$LFS_ABOVE")"
   require_setup
   [[ -z "$LFS_ABOVE" ]] || require_git_lfs
   check_github_scopes
@@ -149,7 +150,7 @@ convert_large_files() {
   tags_before="$(tag_list)"
   log "  moving files above $LFS_ABOVE to Git LFS (rewrites history)"
   git -C "$work_dir/repo" lfs migrate import --everything --above="$LFS_ABOVE" --yes ||
-    die "git lfs migrate failed (--lfs-above needs git-lfs 3.2 or later: $(git lfs version))"
+    die "git lfs migrate failed, see the error above ($(git lfs version))"
   blocked="$(comm -13 <(echo "$tags_before") <(tag_list) | cut -d' ' -f1 |
     protected_matches "$(gitlab_api GET "projects/$project_id/protected_tags?per_page=100" | jq -r '.[].name')")"
   [[ -z "$blocked" ]] ||
@@ -326,6 +327,13 @@ gitlab_status_hint() {
 
 is_size() {
   [[ "$1" =~ ^[0-9]+[[:space:]]*([kKmMgGtT]i?)?[bB]?$ ]]
+}
+
+# git lfs migrate --above rejects a unit without "B" (5M, 2Gi): adds it, and drops spaces.
+lfs_size_arg() {
+  local size="${1//[[:space:]]/}"
+  [[ "$size" =~ [kKmMgGtTi]$ ]] && size="${size}B"
+  echo "$size"
 }
 
 # Prints the names on stdin that match one of the GitLab name patterns
