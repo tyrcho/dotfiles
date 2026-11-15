@@ -24,3 +24,7 @@
 !.agents/skills
 .agents/skills/*
 !.agents/skills/**
+
+# gitlab-to-github migration script
+!gitlab-to-github
+!gitlab-to-github/**
