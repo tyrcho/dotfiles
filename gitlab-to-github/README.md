@@ -126,8 +126,14 @@ the new branches) and must not push old branches back.
 
 ## Troubleshooting
 
-The script first checks that `GITLAB_TOKEN` works by asking GitLab who it belongs to. When a request fails, the error
-names the request, which token it used (only its last 4 characters are shown), GitLab's reply and a likely cause:
+The script checks both tokens before copying anything:
+
+- `GITLAB_TOKEN`: GitLab must recognize it and it must have the `api` scope.
+- `GITLAB_MIRROR_TOKEN`: it must be allowed to push to the project (tested on git's push endpoint, so a wrong token
+  fails even on a public project).
+
+The clone is retried 3 times, since large repos sometimes lose the connection mid-transfer. When a request fails, the
+error names the request, which token it used (only its last 4 characters are shown), GitLab's reply and a likely cause:
 
 ```
 ERROR: GitLab API returned HTTP 401

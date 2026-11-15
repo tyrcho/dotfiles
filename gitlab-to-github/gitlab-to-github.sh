@@ -62,6 +62,7 @@ migrate_project() {
   log "Migrating $GITLAB_BASE_URL/$path to $repo"
   project="$(gitlab_api GET "projects/$(uri_encode "$path")?statistics=true")"
   check_copyable "$project"
+  check_mirror_token "$path"
   branch="$(jq -r .default_branch <<<"$project")"
   description="$(short_description "$project")"
   lfs_size="$(jq -r '.statistics.lfs_objects_size // 0' <<<"$project")"
@@ -115,10 +116,7 @@ copy_repository() {
   local path="$1" repo="$2" branch="$3" lfs_size="$4" project_id="$5"
   work_dir="$(mktemp -d)"
   trap 'rm -rf "$work_dir"' EXIT
-  log "  cloning branches and tags from GitLab"
-  git_gitlab clone --progress --bare "$GITLAB_BASE_URL/$path.git" "$work_dir/repo" ||
-    die "$(request_failure "git clone from GitLab failed" "git clone $GITLAB_BASE_URL/$path.git" GITLAB_TOKEN \
-      "" "the token needs the 'api' or 'read_repository' scope and access to the project")"
+  clone_from_gitlab "$path"
   ((lfs_size == 0)) || fetch_lfs_objects "$path" "$lfs_size"
   [[ -z "$LFS_ABOVE" ]] || convert_large_files "$project_id"
   ((lfs_size == 0)) && [[ -z "$LFS_ABOVE" ]] || push_lfs_objects "$repo"
@@ -132,6 +130,20 @@ copy_repository() {
       "If the repo already has unrelated history, remove it or pass another repo name."
   gh repo edit "$repo" --default-branch "$branch" >/dev/null ||
     die "could not set default branch '$branch' on $repo with the 'gh auth' login"
+}
+
+# Large repos sometimes lose the connection mid-transfer, so the clone is retried.
+# The token was checked before, so a failure here is a network or server issue.
+clone_from_gitlab() {
+  local path="$1" attempt
+  for attempt in 1 2 3; do
+    log "  cloning branches and tags from GitLab (attempt $attempt/3)"
+    rm -rf "$work_dir/repo"
+    git_gitlab -c http.version=HTTP/1.1 clone --progress --bare "$GITLAB_BASE_URL/$path.git" "$work_dir/repo" &&
+      return 0
+  done
+  die "$(request_failure "git clone from GitLab failed 3 times" "git clone $GITLAB_BASE_URL/$path.git" GITLAB_TOKEN \
+    "" "the token was verified, so the connection most likely dropped during the transfer: run again")"
 }
 
 fetch_lfs_objects() {
@@ -154,7 +166,7 @@ convert_large_files() {
   blocked="$(comm -13 <(echo "$tags_before") <(tag_list) | cut -d' ' -f1 |
     protected_matches "$(gitlab_api GET "projects/$project_id/protected_tags?per_page=100" | jq -r '.[].name')")"
   [[ -z "$blocked" ]] ||
-    die "these tags change and are protected on GitLab, so replication could not update them: $(echo $blocked)." \
+    die "these tags change and are protected on GitLab, so replication could not update them: ${blocked//$'\n'/ }." \
       "Unprotect them in GitLab (Settings > Repository > Protected tags), or run without --lfs-above."
   log "  $(git -C "$work_dir/repo" lfs ls-files --all --long | cut -d' ' -f1 | sort -u | wc -l | tr -d ' ')" \
     "file version(s) now in Git LFS"
@@ -263,11 +275,27 @@ gitlab_api() {
   printf '%s\n' "$response"
 }
 
-# Fails early with a clear message if GITLAB_TOKEN can't reach the API.
+# Fails early with a clear message if GITLAB_TOKEN can't reach the API or lacks the "api" scope.
 check_gitlab_token() {
-  local username
+  local username token
   username="$(gitlab_api GET user | jq -r .username)"
-  log "GitLab user: $username"
+  token="$(gitlab_api GET personal_access_tokens/self)"
+  jq -e '.scopes | index("api")' <<<"$token" >/dev/null ||
+    die "$(describe_token GITLAB_TOKEN) lacks the 'api' scope, it has: $(jq -r '.scopes | join(", ")' <<<"$token")"
+  log "GitLab user: $username, GITLAB_TOKEN expires $(jq -r '.expires_at // "never"' <<<"$token")"
+}
+
+# GITLAB_MIRROR_TOKEN has no API scope, so it is checked against git's push
+# endpoint, which always requires a login and write access (even on public projects).
+check_mirror_token() {
+  local path="$1" url status
+  url="$GITLAB_BASE_URL/$path.git/info/refs?service=git-receive-pack"
+  status="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+    --config <(printf 'user = "oauth2:%s"\n' "$GITLAB_MIRROR_TOKEN") "$url")" || status="no response"
+  [[ "$status" == 200 ]] ||
+    die "$(request_failure "GITLAB_MIRROR_TOKEN cannot push to the repository (HTTP $status)" "GET $url" \
+      GITLAB_MIRROR_TOKEN "" "it must be a GitLab token with the 'write_repository' scope, from a Maintainer of the project")"
+  log "  GITLAB_MIRROR_TOKEN can push to the repository"
 }
 
 request_failure() {
