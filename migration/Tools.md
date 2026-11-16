@@ -51,7 +51,7 @@ Everything below marked **Brewfile** comes from that command.
 
 | Tool | Install | Config |
 |---|---|---|
-| Claude Code | `~/.local/bin/claude` installer | `~/.claude/` dotfiles (rules, hooks, skills, agents, commands, settings); plugins from `plugins/known_marketplaces.json`; MCP servers from `~/migration/claude-mcp-servers.json`; copy `~/.claude/projects` (memory) |
+| Claude Code | `~/.local/bin/claude` installer | `~/.claude/` dotfiles (rules, hooks, skills, agents, commands); `settings.json` generated from `.claude/settings/` by `install-agent-links.sh`; plugins declared in `.claude/settings/mac.json`; MCP servers from `~/migration/claude-mcp-servers.json`; copy `~/.claude/projects` (memory) |
 | claude-mem | Claude plugin | copy `~/.claude-mem` (1.4 GB) or cloud sync |
 | Claude Desktop, ChatGPT | download | sign in |
 | Codex | Brewfile (cask) | `.codex/config.toml` dotfiles; `codex login` |
