@@ -48,7 +48,7 @@ Checklist to rebuild this laptop from the `tyrcho/dotfiles` repo (branch `datado
 - [ ] Restore `~/.claude/projects` and `~/.claude-mem`.
 
 ### 6. Scheduled jobs
-- [ ] `launchctl load ~/Library/LaunchAgents/com.michel.daviot.*.plist` (skip the `.disabled` ones). Check paths inside still match.
+- [ ] Nothing to load by default. The two `com.michel.daviot.*work-analyzer*.plist` are a laptop fallback for routines that run on the Dogpark workspace (see `michel-daviot-notes/routines/README.md`); load them only if the workspace can't run them.
 
 ### 7. Apps
 - [ ] VS Code: turn on Settings Sync, or `xargs -n1 code --install-extension < vscode-extensions.txt`

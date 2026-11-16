@@ -111,4 +111,4 @@ Everything below marked **Brewfile** comes from that command.
 
 ## Scheduled jobs
 
-`Library/LaunchAgents/com.michel.daviot.*.plist` dotfiles. Load with `launchctl load`, after checking the script paths inside still exist.
+`Library/LaunchAgents/` holds only the two work-analyzer plists, a laptop fallback for routines that normally run from cron on the Dogpark workspace. Load them with `launchctl load` only if the workspace can't run them.
