@@ -22,6 +22,7 @@ works on any tier. It also replicates on each push, whereas a pull mirror update
 
 ```bash
 gh auth login
+gh auth switch --user your-github-login   # if several accounts are logged in
 gh auth refresh -s workflow   # required to create the workflow file; checked at start
 
 export GITHUB_OWNER=your-user-or-org
@@ -30,6 +31,10 @@ export GITLAB_MIRROR_TOKEN=...
 
 ./gitlab-to-github.sh [--lfs-above SIZE] <gitlab_project_url> [github_repo_name]
 ```
+
+**Note:** every GitHub step uses the *active* `gh` account (`gh auth status` shows it). With several accounts logged
+in, switch to one that owns `GITHUB_OWNER` first. Otherwise a private repo of `GITHUB_OWNER` is invisible to it, and
+checks such as `gh repo view OWNER/REPO` report the repo as missing even though it exists.
 
 The GitLab host and project path are read from the URL, so self-hosted GitLab works the same way. The GitHub repo name
 defaults to the last part of the project path; pass a second argument to choose another one.
