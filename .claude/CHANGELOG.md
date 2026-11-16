@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-16
+
+- Removed 7 dead `com.michel.daviot.*` LaunchAgents: the August one-shot reminders (`resume-scheduled-tasks`, `reminder-work-analyzer-workflow`), the two whose scripts no longer exist (`claude-mem-health-check`, `session-resume-reminder`) and the three `.disabled` ones (`process-transcripts`, `weekly-report`, `weekly-report-retry`). Only the two work-analyzer plists remain, as a laptop fallback; they are not loaded by default since those routines now run on the Dogpark workspace
+
 ## 2026-11-13
 
 - Added `.agents/scripts/install-agent-links.sh`: symlinks `CLAUDE.md`, `rules/`, `skills/`, `agents/` and `commands/` into `~/.claude`, `.agents/skills` into `~/.agents/skills` and `CLAUDE.md` as `~/.codex/AGENTS.md`; on macOS only also `settings.json`, `statusline.sh` and `hooks/`. Idempotent, backs up anything it replaces to `<target>.bak.<timestamp>`, `--dry-run` to preview. Setup steps for a Linux workspace in `migration/Workspace Setup.md`
