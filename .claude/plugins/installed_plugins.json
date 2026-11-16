@@ -46,8 +46,8 @@
         "scope": "user",
         "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-jira/unknown",
         "version": "unknown",
-        "installedAt": "2026-04-17T08:27:30.177Z",
-        "lastUpdated": "2026-11-09T09:44:32.652Z"
+        "installedAt": "2026-11-12T13:17:26.027Z",
+        "lastUpdated": "2026-11-12T13:17:26.027Z"
       }
     ],
     "clobs-reporting@cloud-observability": [
@@ -55,8 +55,8 @@
         "scope": "user",
         "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-reporting/unknown",
         "version": "unknown",
-        "installedAt": "2026-10-06T13:23:51.730Z",
-        "lastUpdated": "2026-11-09T09:44:32.484Z"
+        "installedAt": "2026-11-12T13:17:27.740Z",
+        "lastUpdated": "2026-11-12T13:17:27.740Z"
       }
     ],
     "clobs-review@cloud-observability": [
@@ -64,8 +64,8 @@
         "scope": "user",
         "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-review/unknown",
         "version": "unknown",
-        "installedAt": "2026-05-20T12:00:16.442Z",
-        "lastUpdated": "2026-11-09T09:44:32.641Z"
+        "installedAt": "2026-11-12T13:17:28.624Z",
+        "lastUpdated": "2026-11-12T13:17:28.624Z"
       }
     ],
     "clobs-slis@cloud-observability": [
@@ -73,8 +73,8 @@
         "scope": "user",
         "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-slis/unknown",
         "version": "unknown",
-        "installedAt": "2026-10-06T13:24:04.117Z",
-        "lastUpdated": "2026-11-09T09:44:32.575Z"
+        "installedAt": "2026-11-12T13:17:29.552Z",
+        "lastUpdated": "2026-11-12T13:17:29.552Z"
       }
     ],
     "clobs-vault@cloud-observability": [
@@ -82,8 +82,8 @@
         "scope": "user",
         "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-vault/unknown",
         "version": "unknown",
-        "installedAt": "2026-09-10T07:58:57.952Z",
-        "lastUpdated": "2026-11-09T09:44:32.619Z"
+        "installedAt": "2026-11-12T13:17:30.475Z",
+        "lastUpdated": "2026-11-12T13:17:30.475Z"
       },
       {
         "scope": "project",
@@ -116,11 +116,11 @@
     "context7@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-plugins-official/context7/0412be76f50a",
-        "version": "0412be76f50a",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/claude-plugins-official/context7/b5b01ac4f889",
+        "version": "b5b01ac4f889",
         "installedAt": "2026-02-05T11:34:05.642Z",
-        "lastUpdated": "2026-11-09T07:22:49.474Z",
-        "gitCommitSha": "0412be76f50ab4f4f8abff3753efa9269fbbca5b"
+        "lastUpdated": "2026-11-16T08:03:00.370Z",
+        "gitCommitSha": "b5b01ac4f889fec0c4c6bb89f27ca7c8574473f6"
       }
     ],
     "dd@datadog-claude-plugins": [
@@ -158,8 +158,8 @@
         "scope": "user",
         "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/faq/unknown",
         "version": "unknown",
-        "installedAt": "2026-04-17T08:26:57.764Z",
-        "lastUpdated": "2026-11-09T09:44:32.465Z"
+        "installedAt": "2026-11-12T13:17:31.323Z",
+        "lastUpdated": "2026-11-12T13:17:31.323Z"
       }
     ],
     "frontend-design@claude-code-plugins": [
@@ -198,8 +198,8 @@
         "scope": "user",
         "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/gworkspace-export/unknown",
         "version": "unknown",
-        "installedAt": "2026-06-11T16:10:08.924Z",
-        "lastUpdated": "2026-11-09T09:44:32.434Z"
+        "installedAt": "2026-11-12T13:17:32.233Z",
+        "lastUpdated": "2026-11-12T13:17:32.233Z"
       }
     ],
     "iterm2-notifications@datadog-claude-plugins": [
@@ -374,10 +374,19 @@
     "slack-relay@dogpark": [
       {
         "scope": "user",
-        "installPath": "/Users/michel.daviot/.claude/plugins/cache/dogpark/slack-relay/2.0.2746324",
-        "version": "2.0.2746324",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/dogpark/slack-relay/2.0.13657402",
+        "version": "2.0.13657402",
         "installedAt": "2026-11-05T17:54:03.342Z",
-        "lastUpdated": "2026-11-08T13:32:04.823Z"
+        "lastUpdated": "2026-11-13T11:02:35.689Z"
+      }
+    ],
+    "clobs-monitors@cloud-observability": [
+      {
+        "scope": "user",
+        "installPath": "/Users/michel.daviot/.claude/plugins/cache/cloud-observability/clobs-monitors/unknown",
+        "version": "unknown",
+        "installedAt": "2026-11-12T13:17:26.950Z",
+        "lastUpdated": "2026-11-12T13:17:26.950Z"
       }
     ]
   }

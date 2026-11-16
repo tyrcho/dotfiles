@@ -38,14 +38,8 @@ For details: See auto memory files below.
 ### Git & GitHub
 - @~/.claude/rules/process/git-workflows.md
 
-### Obsidian Vault Git Races
-- @~/.claude/rules/process/Obsidian Vault Git Races.md
-
 ### Development Tools
 - @~/.claude/rules/tools/dev-tools.md
-
-### Opening Markdown Files
-- @~/.claude/rules/tools/Open Markdown in Obsidian.md
 
 ### Worktree Isolation
 - @~/.claude/rules/tools/Worktree Isolation.md
@@ -56,25 +50,13 @@ For details: See auto memory files below.
 ### Approval / Snapshot Tests
 - @~/.claude/rules/process/Approval Tests.md
 
-### Markdown Link Verification
-- @~/.claude/rules/process/Markdown Link Verification.md
-
 ### Proactive Improvement Suggestions
 - @~/.claude/rules/process/Proactive Improvement Suggestions.md
-
-### Observer & Memory Writing
-- @~/.claude/rules/process/Observer Memory.md
 
 ## Writing & Communication
 
 ### Datadog Style Guide
 - @~/.claude/rules/writing-style.md
-
-### Confluence Pages
-- @~/.claude/rules/process/Confluence Writing.md
-
-### Jira Descriptions
-- @~/.claude/rules/tools/Jira Writing.md
 
 ### Jira / Confluence API Token
 - @~/.claude/rules/tools/Jira API Token.md
@@ -89,18 +71,8 @@ For details: See auto memory files below.
 
 ## Team & Codebase Context
 
-### Direct Reports
-- @~/.claude/rules/datadog/direct-reports.md
-
 ### AWS Integrations Team + GitHub org split (DataDog ↔ ddoghq)
 - @~/.claude/rules/datadog/team-context.md
 
 ### Datadog Patterns
 - @~/.claude/rules/datadog/datadog-patterns.md
-# graphify
-- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
-When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
-
-# search-context
-- **search-context** (`~/.claude/skills/search-context/SKILL.md`) - cross-source search over past session memory + knowledge vaults. Trigger: `/search-context`
-When the user types `/search-context`, invoke the Skill tool with `skill: "search-context"` before doing anything else.

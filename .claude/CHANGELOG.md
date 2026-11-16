@@ -9,6 +9,8 @@
 - Added `.agents/scripts/install-agent-links.sh`: symlinks `CLAUDE.md`, `rules/`, `skills/`, `agents/` and `commands/` into `~/.claude`, `.agents/skills` into `~/.agents/skills` and `CLAUDE.md` as `~/.codex/AGENTS.md`; on macOS only also `settings.json`, `statusline.sh` and `hooks/`. Idempotent, backs up anything it replaces to `<target>.bak.<timestamp>`, `--dry-run` to preview. Setup steps for a Linux workspace in `migration/Workspace Setup.md`
 - Added `rules/tools/Jira API Token.md` (where the Jira / Confluence token comes from on the Mac and on a workspace), wired into `CLAUDE.md`
 - `settings.json`: hook commands use `$HOME` instead of `/Users/michel.daviot`
+- `CLAUDE.md`: removed imports of rule files that were never committed (Obsidian Vault Git Races, Open Markdown in Obsidian, Markdown Link Verification, Observer Memory, Confluence Writing, Jira Writing, direct-reports) and the `graphify` / `search-context` skill pointers (skills not installed)
+- `rules/process/git-workflows.md`: added the `ddoghq-sandbox/experimental` push-to-main exception (was a Mac-only memory)
 
 ## 2026-11-12
 

@@ -1,14 +1,7 @@
 [user]
 	name = Michel Daviot
 	email = michel.daviot@datadoghq.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFbW3ZSUv29nsQMxLfG9U31UTsL+a2cm6h4u7HDUvZ/x
 
-[gpg]
-	format = ssh
-[commit]
-	gpgsign = true
-[gpg "ssh"]
-  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 
 [url "git@gitlab.com:"]
@@ -121,12 +114,4 @@
 	autostash = true
 [include]
 	path = /Users/michel.daviot/.config/datadog/git/config
-
-[includeIf "hasconfig:remote.*.url:git@github.com:ddoghq/**"]
-    path = ~/.gitconfig-ddoghq
-[includeIf "hasconfig:remote.*.url:https://github.com/ddoghq/**"]
-    path = ~/.gitconfig-ddoghq
-[includeIf "hasconfig:remote.*.url:git@github-enterprise:ddoghq/**"]
-    path = ~/.gitconfig-ddoghq
-[includeIf "hasconfig:remote.*.url:git@ddoghq.github.com:ddoghq/**"]
-    path = ~/.gitconfig-ddoghq
+# signing keys and ddoghq identity come from git-config-tool (include above)
