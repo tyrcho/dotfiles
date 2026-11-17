@@ -18,7 +18,7 @@ const microsoftHostnames = [
 
 
 const ChromeProfiles = {
-    Datadog: "Datadog",
+    Datadog: "Default",
     Personal: "Michel",
 }
 
