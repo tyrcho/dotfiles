@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-24
+
+- `rules/tools/Datadog Workspace.md`: how to share a workspace file with the laptop (`publish_page` to This Mac by default, Chonk, `dogpark serve`, `xdg-open` for URLs)
+
 ## 2026-11-16
 
 - Removed 7 dead `com.michel.daviot.*` LaunchAgents: the August one-shot reminders (`resume-scheduled-tasks`, `reminder-work-analyzer-workflow`), the two whose scripts no longer exist (`claude-mem-health-check`, `session-resume-reminder`) and the three `.disabled` ones (`process-transcripts`, `weekly-report`, `weekly-report-retry`). Only the two work-analyzer plists remain, as a laptop fallback; they are not loaded by default since those routines now run on the Dogpark workspace
