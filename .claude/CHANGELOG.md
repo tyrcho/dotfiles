@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-25
+
+- Added `rules/datadog/Repos and Vaults.md` (where to write reports, drafts and findings: notes vault, `cloud-obs-wiki`, experimental; workspace checkouts; published go links) and `rules/tools/Skill Routing.md` (which clobs, work-analyzer and other skill fits each usual ask), wired into `CLAUDE.md`. Built from Michel's prompts in 95 workspace sessions
+- `rules/process/git-workflows.md`: the notes vault also works on `main`; merge PRs with `gh pr merge --merge` only; re-read files Michel edits by hand (PR descriptions, dashboards, Google Docs, Obsidian vault notes) before changing them
+- `rules/tools/Datadog Workspace.md`: Michel's standing go to push to `main` covers the repos that work on `main`
+- `rules/datadog/team-context.md`: mega-repo cutovers are done (repos listed under `ddoghq/`); EMU account is in use
+- `rules/tools/dev-tools.md`: `recollq` is Mac-only
+- `CLAUDE.md`: dropped the dangling "See auto memory files below" line
+
 ## 2026-11-24
 
 - `rules/tools/Datadog Workspace.md`: how to share a workspace file with the laptop (`publish_page` to This Mac by default, Chonk, `dogpark serve`, `xdg-open` for URLs)

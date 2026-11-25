@@ -20,8 +20,6 @@
 3. **Surgical Changes**: Touch only what's necessary, match existing style
 4. **Goal-Driven**: Define success criteria, verify each step
 
-For details: See auto memory files below.
-
 ## Code Quality
 
 ### Coding Style
@@ -82,3 +80,9 @@ For details: See auto memory files below.
 
 ### Datadog Patterns
 - @~/.claude/rules/datadog/datadog-patterns.md
+
+### Repos and Vaults (where to write)
+- @~/.claude/rules/datadog/Repos and Vaults.md
+
+### Skill Routing
+- @~/.claude/rules/tools/Skill Routing.md

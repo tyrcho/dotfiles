@@ -11,4 +11,4 @@ Applies only on a Linux Datadog workspace (`IN_WORKSPACE=1`). On the Mac, ignore
   - *Folder or live app:* `dogpark serve FOLDER` (or `dogpark serve FOLDER -- <cmd> --port {port}`). It shows the site beside the sessions on the Dogpark page.
   - *Open a URL in the laptop browser:* `xdg-open <url>` (also `$BROWSER`). It forwards http(s) URLs only, not file paths.
   - *Any other file (CSV, image, PDF):* put it in the session's working folder and give its path, or commit it to a repo.
-- **Pushing to `main`** of a repo, even a personal one, is blocked by the auto-mode classifier until Michel says go in the session: ask before pushing.
+- **Pushing to `main`:** the auto-mode classifier blocks it until Michel says go in the session. For the repos in "Repos that work on `main`" (`git-workflows.md`), Michel's standing go applies: push, and if blocked, retry once so he is asked in Slack. For any other repo, ask before pushing.

@@ -31,7 +31,7 @@ When a memory or wiki page cites a specific commit SHA, run `git -C ~/dd/<repo> 
 ## Search Tools
 
 ### Recollq (Priority #1)
-Use `recollq` BEFORE Grep/Glob for documentation/architecture questions.
+On the Mac, use `recollq` BEFORE Grep/Glob for documentation/architecture questions. It is not installed on the Linux workspace: skip to the next tool there.
 
 **Common patterns:**
 ```bash

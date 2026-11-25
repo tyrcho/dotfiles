@@ -24,7 +24,7 @@
 - DataDog/terraform-provider-datadog
 
 ### Integration Development
-- DataDog/dogweb
+- ddoghq/dogweb
 - DataDog/integrations-internal-core
 - DataDog/documentation
 - DataDog/oracle-cloud-integration
@@ -38,11 +38,11 @@
 ### Operations & Tooling
 - DataDog/consul-config
 - DataDog/devtools
-- DataDog/dd-go
-- DataDog/dd-source
+- ddoghq/dd-go
+- ddoghq/dd-source
 - DataDog/enclave
 - ddoghq-sandbox/experimental (moved from DataDog/experimental, which is archived)
-- DataDog/logs-backend
+- ddoghq/logs-backend
 - DataDog/logs-ops
 - DataDog/on-call
 
@@ -54,7 +54,7 @@
 - DataDog/clobs-mini-repo
 - DataDog/datadog-api-spec
 - DataDog/eclair-scripts
-- DataDog/web-ui
+- ddoghq/web-ui
 
 ### Repos we contribute to but do not own
 
@@ -88,9 +88,9 @@ Datadog has three GitHub orgs we use:
 
 Seen once on 2026-11-04: `gh api` returned 404 for `ddoghq-sandbox/experimental` right after the move, while git over SSH worked. It cleared within hours. The cause was not confirmed.
 
-### Mega-repo migration — earliest cutover dates
+### Mega-repo migration
 
-A repo lives on `ddoghq` on/after its cutover date. Compare against today before choosing the org.
+All five cutovers have passed (last: 23 Jul 2026). These repos live on `ddoghq` now.
 
 | Repo | Earliest cutover | New path |
 |------|-----------------|----------|
@@ -110,7 +110,7 @@ The local-part is NOT always `first.last` (compound/accented surnames may differ
 ### My handles
 
 - Personal: **`tyrcho`** — use for `DataDog/*`
-- EMU: **`michel-daviot_ddog`** — use for `ddoghq/*` (not yet logged in as of Jun 2026; run `gh auth login` for ddoghq org)
+- EMU: **`michel-daviot_ddog`**: use for `ddoghq/*` and `ddoghq-sandbox/*`. On a workspace, through `GH_TOKEN` (see `Datadog Workspace.md`)
 
 ### Teammate rule
 
