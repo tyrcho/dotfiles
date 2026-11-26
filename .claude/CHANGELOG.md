@@ -2,6 +2,11 @@
 
 ## 2026-11-26
 
+- `CLAUDE.md`: when a rule already allows an action, do it and say so instead of asking (from the 48 h agent friction report: 3 avoidable questions)
+- Added the `create-and-push-commit` skill, restored from `ddoghq/claude-marketplace` where it was removed on 2026-11-18. The workspace's managed SessionStart hook still points at it, so 4 sessions in 48 h failed with "Unknown skill". `rules/tools/Datadog Workspace.md` says to call it without the `workspaces:` prefix
+
+## 2026-11-26
+
 - Dropped Recoll everywhere: the `recollq` search rule in `rules/tools/dev-tools.md` (the Explore agent now covers documentation and architecture questions), plus the Mac setup: the `Recoll.app` PATH line in `.zshrc`, the cask and tap in `migration/Brewfile`, the tracked `.recoll/recoll.conf`, and the Recoll mentions in `migration/Laptop Setup.md`, `migration/Tools.md` and `.agents/USER.md`
 - `README.md` at the repo root: what the repo holds and how the Mac and the workspace use it
 - `rules/datadog/Repos and Vaults.md`: `~/dd/experimental` is a sparse checkout (`users/michel.daviot`, `teams/cloud-observability`), not a full one
