@@ -30,21 +30,9 @@ When a memory or wiki page cites a specific commit SHA, run `git -C ~/dd/<repo> 
 
 ## Search Tools
 
-### Recollq (Priority #1)
-Use `recollq` BEFORE Grep/Glob for documentation/architecture questions.
-
-**Common patterns:**
-```bash
-recollq <search terms>                    # Basic search
-recollq -n 5 -A <terms>                  # Top 5 with abstracts
-recollq mime:application/pdf <terms>     # PDFs only
-recollq dir:"<path>" <terms>             # Specific directory
-```
-
 ### When to use each tool
-1. **recollq**: Documentation, architecture, "where is X handled?"
-2. **Explore agent**: Codebase structure, non-needle queries
-3. **Grep/Glob**: Specific class/function names after narrowing scope
+1. **Explore agent**: Documentation, architecture, codebase structure, non-needle queries
+2. **Grep/Glob**: Specific class/function names after narrowing scope
 
 ## MCP Servers
 

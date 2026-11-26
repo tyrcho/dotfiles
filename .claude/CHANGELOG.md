@@ -2,8 +2,20 @@
 
 ## 2026-11-26
 
-- Dropped Recoll from the Mac setup: removed the `Recoll.app` PATH line from `.zshrc`, the cask and tap from `migration/Brewfile`, the tracked `.recoll/recoll.conf`, and the Recoll mentions in `migration/Laptop Setup.md`, `migration/Tools.md` and `.agents/USER.md`. The `recollq` rule in `rules/tools/dev-tools.md` is being dropped in #8
+- Dropped Recoll everywhere: the `recollq` search rule in `rules/tools/dev-tools.md` (the Explore agent now covers documentation and architecture questions), plus the Mac setup: the `Recoll.app` PATH line in `.zshrc`, the cask and tap in `migration/Brewfile`, the tracked `.recoll/recoll.conf`, and the Recoll mentions in `migration/Laptop Setup.md`, `migration/Tools.md` and `.agents/USER.md`
+- `README.md` at the repo root: what the repo holds and how the Mac and the workspace use it
+- `rules/datadog/Repos and Vaults.md`: `~/dd/experimental` is a sparse checkout (`users/michel.daviot`, `teams/cloud-observability`), not a full one
+- `CLAUDE.md`: every answer that reports work done links to its evidence (dashboard, doc, PR, commit, notebook, query)
+- Review fixes on the new rules: `Repos and Vaults.md` keeps locations only and points to `git-workflows.md` for git, and names each project's publish target; `git-workflows.md` maps `ddoghq-sandbox/*` and `tyrcho/*` to accounts, drops the cutover-table pointer, and keeps work with an open PR on that PR; `Skill Routing.md` names the gworkspace-export skills, uses one command style, and drops the chonk-share row (now in Repos and Vaults)
 - `migration/repos.tsv`: `architecture` and `devtools` now point at `ddoghq`, where they live now
+
+## 2026-11-25
+
+- Added `rules/datadog/Repos and Vaults.md` (where to write reports, drafts and findings: notes vault, `cloud-obs-wiki`, experimental; workspace checkouts; published go links) and `rules/tools/Skill Routing.md` (which clobs, work-analyzer and other skill fits each usual ask), wired into `CLAUDE.md`. Built from Michel's prompts in 95 workspace sessions
+- `rules/process/git-workflows.md`: the notes vault also works on `main`; merge PRs with `gh pr merge --merge` only; re-read files Michel edits by hand (PR descriptions, dashboards, Google Docs, Obsidian vault notes) before changing them
+- `rules/tools/Datadog Workspace.md`: Michel's standing go to push to `main` covers the repos that work on `main`
+- `rules/datadog/team-context.md`: mega-repo cutovers are done (repos listed under `ddoghq/`); EMU account is in use
+- `CLAUDE.md`: dropped the dangling "See auto memory files below" line
 
 ## 2026-11-24
 

@@ -5,6 +5,7 @@
 ## General Guidelines
 
 - Always complete the full scope of requested changes before stopping. If a task has multiple parts, confirm all are done before reporting completion.
+- Every answer that reports work done links to its evidence: the dashboard, doc, PR, commit, notebook or query that changed. Example: "the dashboard now has a person filter" links that dashboard; "Pushed as 9108893d0c" links the commit. Michel should never have to search past messages for the link.
 
 ## MCP & Integrations
 
@@ -19,8 +20,6 @@
 2. **Simplicity First**: Minimum code that solves the problem - no speculative features
 3. **Surgical Changes**: Touch only what's necessary, match existing style
 4. **Goal-Driven**: Define success criteria, verify each step
-
-For details: See auto memory files below.
 
 ## Code Quality
 
@@ -82,3 +81,9 @@ For details: See auto memory files below.
 
 ### Datadog Patterns
 - @~/.claude/rules/datadog/datadog-patterns.md
+
+### Repos and Vaults (where to write)
+- @~/.claude/rules/datadog/Repos and Vaults.md
+
+### Skill Routing
+- @~/.claude/rules/tools/Skill Routing.md

@@ -13,9 +13,9 @@ The active `gh` account is likely wrong for that repo's org. Apply this protocol
 
 1. `gh auth status` — see which accounts are logged in and which is active.
 2. `gh auth switch` (toggles if two accounts; or `--user <handle>`) to the account matching the repo's org:
-   - `ddoghq/*` repos → EMU account (`michel-daviot_ddog`)
-   - `DataDog/*` repos → personal account (`tyrcho`)
-   - For migrated mega-repos, check the cutover table in `team-context.md` to know which org owns the repo today.
+   - `ddoghq/*` and `ddoghq-sandbox/*` repos → EMU account (`michel-daviot_ddog`)
+   - `DataDog/*` and `tyrcho/*` repos → personal account (`tyrcho`)
+   - The mega-repos (dd-source, dd-go, dogweb, web-ui, logs-backend) are on `ddoghq` now.
 3. Retry the failed command **once**.
 4. Still failing → token expired: run `gh auth login` (web/OAuth, never a PAT) for that org, then **stop** (do not loop).
 
@@ -65,10 +65,19 @@ If collisions slow the task noticeably (about 3 or more waits in one task), sugg
 ### Branch Naming
 - Branch names must start with `michel.daviot/` (e.g. `michel.daviot/my-feature`)
 
-### Sandbox repo exception: `ddoghq-sandbox/experimental`
+### Repos that work on `main`
+- `ddoghq-sandbox/experimental` (except the shared plugins under `teams/cloud-observability/claude-plugin-marketplace/`) and the notes vault `ddoghq-sandbox/michel-daviot-notes`.
 - Commit and push straight to `main`, no branch or PR. Always `git pull --rebase` before pushing.
-- Only this repo. Every other repo keeps the branch and draft PR rules.
+- Once a PR exists for the work, finish it through that PR (see Merging a PR).
+- Every other repo keeps the branch and draft PR rules.
 - Still update CHANGELOG/README of the touched folder before committing.
+
+### Merging a PR
+- Use `gh pr merge <n> --merge`. Never squash, rebase-merge, or push a PR's commits to `main`: GitHub then closes the PR with an empty diff.
+- If it can't merge (conflict, missing approval), say so.
+
+### Files Michel edits by hand
+Michel edits these between requests: PR descriptions, Datadog dashboards, Google Docs, and Markdown files in his Obsidian vaults (the notes vault, `cloud-obs-wiki`). Re-read the live version right before each change and edit that, never a copy from earlier in the session. Keep his wording and structure.
 
 ### GitHub Integration
 - Always use `gh` CLI for GitHub operations
