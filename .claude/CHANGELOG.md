@@ -2,11 +2,12 @@
 
 ## 2026-11-26
 
-- Dropped recoll everywhere: the `recollq` search rule (`rules/tools/dev-tools.md`), `.recoll/recoll.conf`, the `.zshrc` PATH line, the Brewfile tap and cask, and the migration docs. The Explore agent now covers documentation and architecture questions
+- Dropped Recoll everywhere: the `recollq` search rule in `rules/tools/dev-tools.md` (the Explore agent now covers documentation and architecture questions), plus the Mac setup: the `Recoll.app` PATH line in `.zshrc`, the cask and tap in `migration/Brewfile`, the tracked `.recoll/recoll.conf`, and the Recoll mentions in `migration/Laptop Setup.md`, `migration/Tools.md` and `.agents/USER.md`
 - `README.md` at the repo root: what the repo holds and how the Mac and the workspace use it
 - `rules/datadog/Repos and Vaults.md`: `~/dd/experimental` is a sparse checkout (`users/michel.daviot`, `teams/cloud-observability`), not a full one
 - `CLAUDE.md`: every answer that reports work done links to its evidence (dashboard, doc, PR, commit, notebook, query)
 - Review fixes on the new rules: `Repos and Vaults.md` keeps locations only and points to `git-workflows.md` for git, and names each project's publish target; `git-workflows.md` maps `ddoghq-sandbox/*` and `tyrcho/*` to accounts, drops the cutover-table pointer, and keeps work with an open PR on that PR; `Skill Routing.md` names the gworkspace-export skills, uses one command style, and drops the chonk-share row (now in Repos and Vaults)
+- `migration/repos.tsv`: `architecture` and `devtools` now point at `ddoghq`, where they live now
 
 ## 2026-11-25
 
