@@ -2,6 +2,7 @@
 
 ## 2026-11-26
 
+- `rules/tools/Datadog Workspace.md`: on the workspace, push `tyrcho/*` repos over SSH with the `github-tyrcho` host alias; on a 403, ask for `! gh auth login` in one line instead of trying workarounds
 - Dropped Recoll everywhere: the `recollq` search rule in `rules/tools/dev-tools.md` (the Explore agent now covers documentation and architecture questions), plus the Mac setup: the `Recoll.app` PATH line in `.zshrc`, the cask and tap in `migration/Brewfile`, the tracked `.recoll/recoll.conf`, and the Recoll mentions in `migration/Laptop Setup.md`, `migration/Tools.md` and `.agents/USER.md`
 - `README.md` at the repo root: what the repo holds and how the Mac and the workspace use it
 - `rules/datadog/Repos and Vaults.md`: `~/dd/experimental` is a sparse checkout (`users/michel.daviot`, `teams/cloud-observability`), not a full one
