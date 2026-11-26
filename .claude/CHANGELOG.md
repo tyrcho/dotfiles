@@ -3,7 +3,6 @@
 ## 2026-11-26
 
 - `CLAUDE.md`: when a rule already allows an action, do it and say so instead of asking (from the 48 h agent friction report: 3 avoidable questions)
-- Added the `create-and-push-commit` skill, restored from `ddoghq/claude-marketplace` where it was removed on 2026-11-18. The workspace's managed SessionStart hook still points at it, so 4 sessions in 48 h failed with "Unknown skill". `rules/tools/Datadog Workspace.md` says to call it without the `workspaces:` prefix
 
 ## 2026-11-26
 

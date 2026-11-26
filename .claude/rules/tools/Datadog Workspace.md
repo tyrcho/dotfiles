@@ -12,4 +12,3 @@ Applies only on a Linux Datadog workspace (`IN_WORKSPACE=1`). On the Mac, ignore
   - *Open a URL in the laptop browser:* `xdg-open <url>` (also `$BROWSER`). It forwards http(s) URLs only, not file paths.
   - *Any other file (CSV, image, PDF):* put it in the session's working folder and give its path, or commit it to a repo.
 - **Pushing to `main`:** the auto-mode classifier blocks it until Michel says go in the session. For the repos in "Repos that work on `main`" (`git-workflows.md`), Michel's standing go applies: push, and if blocked, retry once so he is asked in Slack. For any other repo, ask before pushing.
-- **Commit and push skill:** the managed SessionStart hook says to use `create-and-push-commit` "from the `workspaces` plugin". That plugin skill was removed upstream; the same skill is installed as a user skill. Call it as `create-and-push-commit`, not `workspaces:create-and-push-commit`.
