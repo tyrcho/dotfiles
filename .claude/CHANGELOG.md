@@ -6,6 +6,7 @@
 - `README.md` at the repo root: what the repo holds and how the Mac and the workspace use it
 - `rules/datadog/Repos and Vaults.md`: `~/dd/experimental` is a sparse checkout (`users/michel.daviot`, `teams/cloud-observability`), not a full one
 - `CLAUDE.md`: every answer that reports work done links to its evidence (dashboard, doc, PR, commit, notebook, query)
+- Review fixes on the new rules: `Repos and Vaults.md` keeps locations only and points to `git-workflows.md` for git, and names each project's publish target; `git-workflows.md` maps `ddoghq-sandbox/*` and `tyrcho/*` to accounts, drops the cutover-table pointer, and keeps work with an open PR on that PR; `Skill Routing.md` names the gworkspace-export skills, uses one command style, and drops the chonk-share row (now in Repos and Vaults)
 
 ## 2026-11-25
 
