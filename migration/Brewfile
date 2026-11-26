@@ -10,7 +10,6 @@ tap "hmarr/tap"
 # tap "homebrew/bundle"  # deprecated, built into brew
 tap "kardolus/chatgpt-cli"
 tap "manaflow-ai/cmux"
-tap "nailuogg/recoll", "https://github.com/nailuoGG/homebrew-recoll"
 tap "noborus/tap"
 tap "sourcemeta/apps", "https://github.com/sourcemeta/homebrew-apps.git"
 tap "virtuslab/scala-cli"
@@ -283,7 +282,6 @@ cask "ngrok"
 cask "datadog/tap/rapid"
 # Control your tools with a few keystrokes
 cask "raycast"
-cask "recoll"
 # Multimedia player
 cask "vlc"
 # vscode "alefragnani.project-manager"

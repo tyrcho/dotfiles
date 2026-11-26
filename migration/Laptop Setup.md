@@ -55,4 +55,4 @@ Checklist to rebuild this laptop from the `tyrcho/dotfiles` repo (branch `datado
 - [ ] iTerm2: `defaults import com.googlecode.iterm2 iterm2.plist` (iTerm closed)
 - [ ] AltTab: `defaults import com.lwouis.alt-tab-macos alt-tab.plist`
 - [ ] Raycast: import the `.rayconfig`
-- [ ] JetBrains Toolbox + IDE Settings Sync; Obsidian vaults (git / Google Drive); Google Drive app; Recoll (`~/.recoll/recoll.conf` is tracked, rebuild the index)
+- [ ] JetBrains Toolbox + IDE Settings Sync; Obsidian vaults (git / Google Drive); Google Drive app

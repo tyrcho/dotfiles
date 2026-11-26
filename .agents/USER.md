@@ -26,7 +26,7 @@ work
 - role: Senior Engineering Manager, Cloud Hyperscalers Integrations
 - manages 3 sub-teams: AWS, GCP, Azure Integrations)
 - GitHub handles: `tyrcho` (DataDog/*), `michel-daviot_ddog` (ddoghq/*)
-- tools: gh CLI, Makefile-first, ~/dd/ local checkouts, recollq
+- tools: gh CLI, Makefile-first, ~/dd/ local checkouts
 
 projects
 ---

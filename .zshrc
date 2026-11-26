@@ -214,7 +214,6 @@ export GOPROXY="https://depot-read-api-go.us1.ddbuild.io/magicmirror/magicmirror
 
 # --- personal additions previously kept inside the managed block ---
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/Applications/Recoll.app/Contents/MacOS:$PATH"
 source $ZSH/oh-my-zsh.sh
 
 

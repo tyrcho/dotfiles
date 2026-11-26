@@ -93,7 +93,6 @@ Everything below marked **Brewfile** comes from that command.
 
 | Tool | Install | Config |
 |---|---|---|
-| Recoll | Brewfile | `.recoll/recoll.conf` dotfiles; rebuild index (`recollindex`) |
 | ripgrep, fd, bat, duckdb, pandoc, jq/yq | Brewfile | none |
 | Google Drive | download | sign in, re-sync |
 | gmailctl | Brewfile | `~/.gmailctl/` is empty locally, filters live in Gmail |

@@ -23,7 +23,7 @@ Both vaults are Obsidian vaults that Michel edits by hand: re-read a file before
 
 - `~/dd` is a symlink to `~/go/src/github.com/DataDog`. The remotes are on `ddoghq` or `ddoghq-sandbox`, whatever the path says.
 - Notes vault: `~/dd/michel-daviot-notes`. Obsidian Git on the laptop auto-commits (`vault backup:`): pull before reading, and check `git log` before redoing a commit.
-- experimental: `~/dd/experimental` (full) and `~/experimental` (sparse: `git sparse-checkout add <folder>`). Make worktrees under `~/.cache/worktrees/`.
+- experimental: `~/dd/experimental` (sparse: `users/michel.daviot`, `teams/cloud-observability`) and `~/experimental` (sparse, other folders). Add a folder with `git sparse-checkout add <folder>`. Make worktrees under `~/.cache/worktrees/`.
 - Also checked out: `dd-source`, `claude-marketplace`, `datadog-pi-packages`, `devtools`, `workspaces-dotfiles`.
 
 ## Published pages
