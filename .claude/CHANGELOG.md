@@ -3,6 +3,7 @@
 ## 2026-11-26
 
 - `CLAUDE.md`: when a rule already allows an action, do it and say so instead of asking (from the 48 h agent friction report: 3 avoidable questions)
+- `rules/tools/Datadog Workspace.md`: the `tyrcho/*` 403 comes from wmux rewriting the `tyrcho` entry of `~/.config/gh/hosts.yml` with a `ddtool-cli` app token at each auth refresh. Use `gh` for personal repos through a token from its own config folder `~/.config/gh-tyrcho`, and log in there, never into `~/.config/gh`
 - `rules/tools/Datadog Workspace.md`: on the workspace, push `tyrcho/*` repos over SSH with the `github-tyrcho` host alias; on a 403, ask for `! gh auth login` in one line instead of trying workarounds
 - Dropped Recoll everywhere: the `recollq` search rule in `rules/tools/dev-tools.md` (the Explore agent now covers documentation and architecture questions), plus the Mac setup: the `Recoll.app` PATH line in `.zshrc`, the cask and tap in `migration/Brewfile`, the tracked `.recoll/recoll.conf`, and the Recoll mentions in `migration/Laptop Setup.md`, `migration/Tools.md` and `.agents/USER.md`
 - `README.md` at the repo root: what the repo holds and how the Mac and the workspace use it
