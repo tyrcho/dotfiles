@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-26
+
+- Dropped Recoll from the Mac setup: removed the `Recoll.app` PATH line from `.zshrc`, the cask and tap from `migration/Brewfile`, the tracked `.recoll/recoll.conf`, and the Recoll mentions in `migration/Laptop Setup.md`, `migration/Tools.md` and `.agents/USER.md`. The `recollq` rule in `rules/tools/dev-tools.md` is being dropped in #8
+- `migration/repos.tsv`: `architecture` and `devtools` now point at `ddoghq`, where they live now
+
 ## 2026-11-24
 
 - `rules/tools/Datadog Workspace.md`: how to share a workspace file with the laptop (`publish_page` to This Mac by default, Chonk, `dogpark serve`, `xdg-open` for URLs)

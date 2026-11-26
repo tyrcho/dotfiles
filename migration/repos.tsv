@@ -1,5 +1,5 @@
 dd/ai-devx-scripts	git@github.com:DataDog/ai-devx-scripts
-dd/architecture	git@github.com:DataDog/architecture
+dd/architecture	git@ddoghq.github.com:ddoghq/architecture.git
 dd/aws-metadata	git@ddoghq.github.com:ddoghq/aws-metadata.git
 dd/azure-log-forwarding-orchestration	git@github.com:DataDog/azure-log-forwarding-orchestration/
 dd/azure-proxy	git@ddoghq.github.com:ddoghq/azure-proxy.git
@@ -26,7 +26,7 @@ dd/dd-go	git@ddoghq.github.com:ddoghq/dd-go.git
 dd/dd-source	git@ddoghq.github.com:ddoghq/dd-source.git
 dd/devc	git@github.com:DataDog/devc.git
 dd/devops	git@github.com:DataDog/devops
-dd/devtools	git@github.com:DataDog/devtools
+dd/devtools	git@ddoghq.github.com:ddoghq/devtools.git
 dd/dogweb	git@ddoghq.github.com:ddoghq/dogweb.git
 dd/eclair-scripts	git@github.com:DataDog/eclair-scripts.git
 dd/enclave	git@github.com:DataDog/enclave.git
