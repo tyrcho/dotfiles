@@ -5,6 +5,7 @@
 - Dropped recoll everywhere: the `recollq` search rule (`rules/tools/dev-tools.md`), `.recoll/recoll.conf`, the `.zshrc` PATH line, the Brewfile tap and cask, and the migration docs. The Explore agent now covers documentation and architecture questions
 - `README.md` at the repo root: what the repo holds and how the Mac and the workspace use it
 - `rules/datadog/Repos and Vaults.md`: `~/dd/experimental` is a sparse checkout (`users/michel.daviot`, `teams/cloud-observability`), not a full one
+- `CLAUDE.md`: every answer that reports work done links to its evidence (dashboard, doc, PR, commit, notebook, query)
 
 ## 2026-11-25
 
